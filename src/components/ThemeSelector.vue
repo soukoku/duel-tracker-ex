@@ -6,7 +6,9 @@
       class="flex items-center gap-2 px-3 py-2 rounded-xl bg-themed-secondary hover:bg-themed-hover transition-colors"
       title="Change Theme"
     >
-      <span class="text-xl">{{ currentTheme.icon }}</span>
+      <svg class="w-5 h-5 text-themed-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+      </svg>
       <span class="hidden sm:inline text-sm font-medium text-themed">{{ currentTheme.name }}</span>
       <svg 
         class="w-4 h-4 text-themed-muted transition-transform" 
@@ -51,7 +53,9 @@
                 : 'hover:bg-themed-hover'
             ]"
           >
-            <span class="text-2xl">{{ theme.icon }}</span>
+            <div class="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-themed-primary">
+              <span class="text-xs font-bold">{{ theme.name.charAt(0) }}</span>
+            </div>
             <div class="flex-1">
               <div class="font-medium text-themed">{{ theme.name }}</div>
               <div class="text-xs text-themed-muted">{{ theme.description }}</div>
@@ -103,13 +107,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Theme } from '../composables/useTheme'
+import type { ThemeInfo } from '../composables/useTheme'
 
 const props = defineProps<{
   currentThemeId: string
-  currentTheme: Theme
+  currentTheme: ThemeInfo
   isDark: boolean
-  availableThemes: Theme[]
+  availableThemes: ThemeInfo[]
 }>()
 
 const emit = defineEmits<{
