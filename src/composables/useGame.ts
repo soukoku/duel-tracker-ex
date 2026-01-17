@@ -215,6 +215,10 @@ export function useGameState() {
     gameEnded.value = false
     winner.value = null
     turnCount.value = 1
+
+    // Play duel start sound effect
+    const duelStartSfx = new Audio('/assets/sfx/duel-start.ogg')
+    duelStartSfx.play().catch(() => {})
   }
 
   function updatePlayerLP(playerId: number, amount: number): void {
