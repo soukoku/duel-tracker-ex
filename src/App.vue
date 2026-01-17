@@ -60,7 +60,7 @@
     <!-- Footer -->
     <footer class="text-center text-sm text-themed-muted pt-4">
       <div class="flex items-center justify-center gap-2">
-        <p>Yu-Gi-Oh! Duel Tracker • Track your duels with ease</p>
+        <p>Track your duels with ease</p>
         <a 
           href="https://github.com/soukoku/duel-tracker-ex" 
           target="_blank" 
