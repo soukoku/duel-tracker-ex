@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* Dark mode using class selector */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Custom theme colors */
+@theme {
+  --color-yugioh-gold: #D4AF37;
+  --color-yugioh-purple: #7C3AED;
+  --color-yugioh-blue: #3B82F6;
+  --color-yugioh-red: #EF4444;
+}
+
+/* Base styles */
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  min-height: 100vh;
+}
+
+#app {
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* Component styles */
+.btn {
+  @apply px-4 py-2 rounded-lg font-semibold transition-all duration-200 
+         focus:outline-none focus:ring-2 focus:ring-offset-2
+         active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-purple-600 to-pink-600 text-white
+         hover:from-purple-700 hover:to-pink-700
+         focus:ring-purple-500;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 text-gray-800 hover:bg-gray-300
+         dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600
+         focus:ring-gray-500;
+}
+
+.btn-danger {
+  @apply bg-red-500 text-white hover:bg-red-600
+         focus:ring-red-500;
+}
+
+.btn-success {
+  @apply bg-green-500 text-white hover:bg-green-600
+         focus:ring-green-500;
+}
+
+.card {
+  @apply bg-white dark:bg-gray-800 rounded-2xl shadow-lg 
+         border border-gray-200 dark:border-gray-700
+         transition-all duration-300;
+}
+
+.input {
+  @apply w-full px-4 py-2 rounded-lg border border-gray-300 
+         dark:border-gray-600 bg-white dark:bg-gray-700
+         text-gray-900 dark:text-gray-100
+         focus:outline-none focus:ring-2 focus:ring-purple-500
+         transition-colors duration-200;
+}
+
+.life-points {
+  @apply text-4xl sm:text-5xl md:text-6xl font-bold 
+         bg-gradient-to-r from-purple-600 to-pink-600 
+         bg-clip-text text-transparent;
+}
+
+.player-card {
+  @apply bg-white dark:bg-gray-800 rounded-2xl shadow-lg 
+         border border-gray-200 dark:border-gray-700
+         transition-all duration-300
+         p-4 sm:p-6 flex flex-col items-center gap-4;
+}
+
+/* Utility styles */
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 2px;
+  z-index: -1;
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
