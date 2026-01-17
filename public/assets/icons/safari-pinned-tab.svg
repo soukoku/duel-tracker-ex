@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="16.000000pt" height="16.000000pt" viewBox="0 0 118 152"
+ preserveAspectRatio="xMidYMid meet">
+
+  <rect width="118" height="152" fill="#E4AA47" rx="3" ry="3" />
+  <rect width="108" height="142" x="5" y="5" fill="#873B2B" rx="2" ry="2" />
+  <ellipse cx="59" cy="76" rx="20" ry="40" fill="#070F11" />
+ 
+</svg>
