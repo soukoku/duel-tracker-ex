@@ -3,9 +3,11 @@
     <!-- Header -->
     <header class="flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 sm:w-12 sm:h-12 gradient-primary-br rounded-xl flex items-center justify-center shadow-lg">
-          <span class="text-white font-bold text-lg sm:text-xl">LP</span>
-        </div>
+        <img 
+          src="/assets/icons/android-chrome-192x192.png" 
+          alt="Duel Tracker Logo" 
+          class="w-12 h-12 sm:w-14 sm:h-14"
+        />
         <div>
           <h1 class="text-xl sm:text-2xl font-bold text-themed">
             Duel Tracker
