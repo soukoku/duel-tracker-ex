@@ -199,9 +199,9 @@ const egyptianTheme: Theme = {
     border: '#454560',         // Brighter border
     borderHover: '#E5C158',
     
-    success: '#5DD99A',        // Brighter green
-    danger: '#FF8A8A',         // Brighter red
-    warning: '#FFB84D',        // Brighter orange
+    success: '#22C55E',        // Vivid green - good contrast with white
+    danger: '#EF4444',         // Vivid red - good contrast with white
+    warning: '#F59E0B',        // Vivid amber
     
     player1: '#7DC4FF',        // Brighter light blue
     player2: '#FF8A8A',        // Brighter light red
