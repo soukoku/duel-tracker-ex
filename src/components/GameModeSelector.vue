@@ -10,9 +10,18 @@
           v-for="mode in gameModes"
           :key="mode.id"
           @click="selectMode(mode)"
-          class="card p-4 text-left hover:shadow-xl hover:scale-[1.02] transition-all duration-200 cursor-pointer group"
+          class="card p-4 text-left hover:shadow-xl hover:scale-[1.02] transition-all duration-200 cursor-pointer group relative"
           :class="{ 'ring-2 ring-primary': selectedModeId === mode.id }"
         >
+          <!-- Saved Progress Badge -->
+          <div 
+            v-if="hasSavedGame(mode.id)" 
+            class="absolute top-2 right-2 px-2 py-1 text-xs font-bold rounded-full bg-success text-white shadow-md"
+            :title="t('game.savedProgress')"
+          >
+            💾
+          </div>
+          
           <div class="flex items-start justify-between">
             <div>
               <h3 class="font-bold text-themed group-hover:text-themed-primary transition-colors">
@@ -111,6 +120,7 @@ const props = defineProps<{
   gameModes: GameMode[]
   selectedModeId: string | null
   customSettings: CustomSettings
+  savedGames?: string[]
 }>()
 
 const emit = defineEmits<{
@@ -125,6 +135,10 @@ function selectMode(mode: GameMode): void {
 
 function updateCustomSetting(key: keyof CustomSettings, value: number | boolean): void {
   emit('update-custom-setting', key, value)
+}
+
+function hasSavedGame(modeId: string): boolean {
+  return props.savedGames?.includes(modeId) ?? false
 }
 
 function getModeIcon(modeId: string): string {

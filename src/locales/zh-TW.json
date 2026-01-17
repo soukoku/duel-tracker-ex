@@ -19,7 +19,8 @@
     "winner": "{name} 獲勝！",
     "endedOnTurn": "遊戲在第 {turn} 回合結束",
     "selectMode": "選擇遊戲模式",
-    "customSettings": "自訂設定"
+    "customSettings": "自訂設定",
+    "savedProgress": "已儲存進度"
   },
   "modes": {
     "standard": {

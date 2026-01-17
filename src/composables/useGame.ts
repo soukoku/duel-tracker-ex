@@ -107,8 +107,8 @@ function createPlayer(id: number, name: string, startingLP: number, team: number
   }
 }
 
-// Storage key for persisted game state
-const STORAGE_KEY = 'duel-tracker-game-state'
+// Storage key prefix for persisted game state
+const STORAGE_KEY_PREFIX = 'duel-tracker-game-'
 
 // Persisted game state interface
 interface PersistedGameState {
@@ -136,10 +136,26 @@ const defaultGameState: PersistedGameState = {
   },
 }
 
+// Get all saved game keys
+export function getSavedGameKeys(): string[] {
+  const savedGames: string[] = []
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)
+    if (key && key.startsWith(STORAGE_KEY_PREFIX)) {
+      const modeId = key.replace(STORAGE_KEY_PREFIX, '')
+      savedGames.push(modeId)
+    }
+  }
+  return savedGames
+}
+
 // Main game state composable
-export function useGameState(i18nInstance?: { t: Composer['t'] }) {
+export function useGameState(i18nInstance?: { t: Composer['t'] }, modeId?: string) {
+  // Use mode-specific storage key, or default for backwards compatibility
+  const storageKey = modeId ? `${STORAGE_KEY_PREFIX}${modeId}` : 'duel-tracker-game-state'
+  
   // Use useStorage for automatic persistence with deep reactivity
-  const persistedState = useStorage<PersistedGameState>(STORAGE_KEY, defaultGameState, undefined, {
+  const persistedState = useStorage<PersistedGameState>(storageKey, defaultGameState, undefined, {
     deep: true,
     listenToStorageChanges: true,
   })
@@ -313,8 +329,10 @@ export function useGameState(i18nInstance?: { t: Composer['t'] }) {
 
   // Clear persisted game state (useful when user wants fresh start)
   function clearSavedGame(): void {
-    persistedState.value = { ...defaultGameState }
+    // Remove from localStorage
+    debugger
     endGame()
+    localStorage.removeItem(storageKey)
   }
 
   function updatePlayerName(playerId: number, newName: string): void {

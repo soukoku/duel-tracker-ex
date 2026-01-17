@@ -19,7 +19,8 @@
     "winner": "{name} Wins!",
     "endedOnTurn": "Game ended on Turn {turn}",
     "selectMode": "Select Game Mode",
-    "customSettings": "Custom Settings"
+    "customSettings": "Custom Settings",
+    "savedProgress": "Saved Progress"
   },
   "modes": {
     "standard": {
