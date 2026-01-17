@@ -1,4 +1,5 @@
 import { ref, reactive, computed, watch, type Ref, type ComputedRef } from 'vue'
+import { useStorage } from '@vueuse/core'
 
 // Type definitions
 export interface GameMode {
@@ -105,19 +106,68 @@ function createPlayer(id: number, name: string, startingLP: number, team: number
   }
 }
 
-// Main game state composable
-export function useGameState() {
-  const gameMode: Ref<GameMode | null> = ref(null)
-  const players: Player[] = reactive([])
-  const gameStarted = ref(false)
-  const gameEnded = ref(false)
-  const winner: Ref<Winner | null> = ref(null)
-  const turnCount = ref(0)
-  const customSettings: CustomSettings = reactive({
+// Storage key for persisted game state
+const STORAGE_KEY = 'duel-tracker-game-state'
+
+// Persisted game state interface
+interface PersistedGameState {
+  gameMode: GameMode | null
+  players: Player[]
+  gameStarted: boolean
+  gameEnded: boolean
+  winner: Winner | null
+  turnCount: number
+  customSettings: CustomSettings
+}
+
+// Default game state
+const defaultGameState: PersistedGameState = {
+  gameMode: null,
+  players: [],
+  gameStarted: false,
+  gameEnded: false,
+  winner: null,
+  turnCount: 0,
+  customSettings: {
     startingLP: 8000,
     playerCount: 2,
     useTeams: false,
+  },
+}
+
+// Main game state composable
+export function useGameState() {
+  // Use useStorage for automatic persistence with deep reactivity
+  const persistedState = useStorage<PersistedGameState>(STORAGE_KEY, defaultGameState, undefined, {
+    deep: true,
+    listenToStorageChanges: true,
   })
+
+  // Create reactive references that sync with persisted state
+  const gameMode: Ref<GameMode | null> = ref(persistedState.value.gameMode)
+  const players: Player[] = reactive(persistedState.value.players)
+  const gameStarted = ref(persistedState.value.gameStarted)
+  const gameEnded = ref(persistedState.value.gameEnded)
+  const winner: Ref<Winner | null> = ref(persistedState.value.winner)
+  const turnCount = ref(persistedState.value.turnCount)
+  const customSettings: CustomSettings = reactive(persistedState.value.customSettings)
+
+  // Watch and sync changes to storage
+  watch(
+    [gameMode, () => [...players], gameStarted, gameEnded, winner, turnCount, () => ({ ...customSettings })],
+    () => {
+      persistedState.value = {
+        gameMode: gameMode.value,
+        players: [...players],
+        gameStarted: gameStarted.value,
+        gameEnded: gameEnded.value,
+        winner: winner.value,
+        turnCount: turnCount.value,
+        customSettings: { ...customSettings },
+      }
+    },
+    { deep: true }
+  )
 
   // Computed properties
   const isTeamGame: ComputedRef<boolean> = computed(() => {
@@ -250,6 +300,16 @@ export function useGameState() {
     players.length = 0
     winner.value = null
     turnCount.value = 0
+    // Reset custom settings to defaults
+    customSettings.startingLP = 8000
+    customSettings.playerCount = 2
+    customSettings.useTeams = false
+  }
+
+  // Clear persisted game state (useful when user wants fresh start)
+  function clearSavedGame(): void {
+    persistedState.value = { ...defaultGameState }
+    endGame()
   }
 
   function updatePlayerName(playerId: number, newName: string): void {
@@ -293,26 +353,18 @@ export function useGameState() {
     nextTurn,
     resetGame,
     endGame,
+    clearSavedGame,
     updatePlayerName,
     updateCustomSettings,
     halveLP,
   }
 }
 
-// Theme composable
+// Legacy theme composable - updated to use useStorage
 export function useTheme() {
-  const isDark = ref(false)
-
-  // Check for saved preference or system preference
-  function initTheme() {
-    const savedTheme = localStorage.getItem('duel-tracker-theme')
-    if (savedTheme) {
-      isDark.value = savedTheme === 'dark'
-    } else {
-      isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
-    }
-    applyTheme()
-  }
+  const isDark = useStorage<boolean>('duel-tracker-theme', 
+    typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches : false
+  )
 
   function applyTheme() {
     if (isDark.value) {
@@ -322,9 +374,14 @@ export function useTheme() {
     }
   }
 
+  function initTheme() {
+    // useStorage already loads saved value, just apply it
+    applyTheme()
+  }
+
   function toggleTheme() {
     isDark.value = !isDark.value
-    localStorage.setItem('duel-tracker-theme', isDark.value ? 'dark' : 'light')
+    // useStorage automatically persists
     applyTheme()
   }
 

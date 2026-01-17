@@ -1,4 +1,5 @@
-import { ref, computed, watch } from 'vue'
+import { computed, watch } from 'vue'
+import { useStorage } from '@vueuse/core'
 
 // Theme definitions
 export interface ThemeColors {
@@ -295,10 +296,13 @@ export const THEMES: Record<string, Theme> = {
   'shadow-realm': shadowRealmTheme,
 }
 
-// Theme composable
+// Theme composable using VueUse's useStorage for persistence
 export function useThemeSystem() {
-  const currentThemeId = ref<string>('egyptian')
-  const isDark = ref(false)
+  // Use useStorage for automatic persistence
+  const currentThemeId = useStorage<string>('duel-tracker-theme-id', 'egyptian')
+  const isDark = useStorage<boolean>('duel-tracker-dark-mode', 
+    typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches : false
+  )
   
   const currentTheme = computed(() => THEMES[currentThemeId.value] || THEMES.egyptian)
   const colors = computed(() => isDark.value ? currentTheme.value.dark : currentTheme.value.light)
@@ -352,40 +356,27 @@ export function useThemeSystem() {
   }
 
   function initTheme(): void {
-    // Load saved theme
-    const savedThemeId = localStorage.getItem('duel-tracker-theme-id')
-    const savedDarkMode = localStorage.getItem('duel-tracker-dark-mode')
-    
-    if (savedThemeId && THEMES[savedThemeId]) {
-      currentThemeId.value = savedThemeId
-    }
-    
-    if (savedDarkMode !== null) {
-      isDark.value = savedDarkMode === 'true'
-    } else {
-      isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
-    }
-    
+    // useStorage already loads saved values, just apply them
     applyThemeColors()
   }
 
   function setTheme(themeId: string): void {
     if (THEMES[themeId]) {
       currentThemeId.value = themeId
-      localStorage.setItem('duel-tracker-theme-id', themeId)
+      // useStorage automatically persists
       applyThemeColors()
     }
   }
 
   function toggleDarkMode(): void {
     isDark.value = !isDark.value
-    localStorage.setItem('duel-tracker-dark-mode', String(isDark.value))
+    // useStorage automatically persists
     applyThemeColors()
   }
 
   function setDarkMode(dark: boolean): void {
     isDark.value = dark
-    localStorage.setItem('duel-tracker-dark-mode', String(isDark.value))
+    // useStorage automatically persists
     applyThemeColors()
   }
 
