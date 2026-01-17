@@ -65,13 +65,16 @@ Dropdown component for language selection:
 ### 5. **Integration Points**
 
 Updated components to use `useI18n()`:
-- `App.vue` - Header, footer
+- `App.vue` - Header, footer, shared layout
+- `HomePage.vue` - Game mode selection, custom settings
+- `GamePage.vue` - Game session
 - `GameBoard.vue` - Winner, teams
 - `GameInfoBar.vue` - Turn, buttons
-- `GameModeSelector.vue` - Modes, settings
+- `PlayerCard.vue` - Player names
 - `LPHistory.vue` - History toggle
 - `LPCalculator.vue` - Buttons, placeholder
 - `QuickAdjustButtons.vue` - Button text
+- `ThemeSelector.vue` - Theme names and descriptions
 - `BackgroundMusicPlayer.vue` - Title, attribution
 
 ### 6. **Usage Examples**

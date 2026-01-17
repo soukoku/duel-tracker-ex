@@ -3,24 +3,30 @@
 ## Visual Dependency Tree
 
 ```
-App.vue (Root)
+App.vue (Root Layout)
 ├── ThemeSelector.vue
 │   └── useTheme composable
-├── GameModeSelector.vue
-│   └── useGame composable
-├── GameBoard.vue
-│   ├── GameInfoBar.vue
-│   └── PlayerCard.vue
-│       ├── LPDisplay.vue
-│       ├── QuickAdjustButtons.vue
-│       ├── LPCalculator.vue
-│       └── LPHistory.vue
-├── GameToolsDialog.vue
-│   ├── CoinFlipTool.vue
-│   │   └── CoinFace.vue
-│   ├── DiceRollTool.vue
-│   │   └── DiceFace.vue
-│   └── ToolHistory.vue
-└── BackgroundMusicPlayer.vue
-    └── useBackgroundMusic composable
+├── LanguageSelector.vue
+│   └── useI18n composable (vue-i18n)
+├── BackgroundMusicPlayer.vue
+│   └── useBackgroundMusic composable
+└── RouterView
+    ├── HomePage.vue (Route: /)
+    │   └── useGame composable (getSavedGameKeys)
+    │
+    └── GamePage.vue (Route: /game/:modeId)
+        ├── useGame composable (per-route state)
+        ├── GameBoard.vue
+        │   ├── GameInfoBar.vue
+        │   └── PlayerCard.vue
+        │       ├── LPDisplay.vue
+        │       ├── QuickAdjustButtons.vue
+        │       ├── LPCalculator.vue
+        │       └── LPHistory.vue
+        └── GameToolsDialog.vue
+            ├── CoinFlipTool.vue
+            │   └── CoinFace.vue
+            ├── DiceRollTool.vue
+            │   └── DiceFace.vue
+            └── ToolHistory.vue
 ```

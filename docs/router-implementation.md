@@ -13,11 +13,17 @@ Implemented vue-router 4.5.0 to enable each game mode to have its own route with
 
 ### 2. View Components
 
-#### HomePage (`src/views/HomePage.vue`)
-- Displays game mode selector with saved progress indicators
-- Shows header with branding, language selector, and theme selector
+#### App.vue (Root Layout)
+- Shared header with branding, language selector, and theme selector
+- Clickable logo/title that navigates to home
 - Footer with GitHub link
 - Background music player
+- RouterView for page content
+- Initializes theme system on mount
+
+#### HomePage (`src/views/HomePage.vue`)
+- Displays game mode selection cards with saved progress indicators (💾)
+- Shows custom settings panel when custom mode selected
 - Navigates to game route when mode is selected
 - Custom game settings stored in temporary localStorage before navigation
 
@@ -25,8 +31,8 @@ Implemented vue-router 4.5.0 to enable each game mode to have its own route with
 - Displays active game board for specific mode
 - Accepts `modeId` as route parameter
 - Initializes game with mode-specific storage
-- Shows header with back-to-home functionality
 - Includes game tools dialog
+- Clears saved state and navigates to home on End Game / New Game
 - Redirects to home if invalid mode ID provided
 
 ### 3. Game State Management (`src/composables/useGame.ts`)
@@ -52,15 +58,17 @@ export function getSavedGameKeys(): string[]
 
 ### 4. Updated Components
 
-#### GameModeSelector (`src/components/GameModeSelector.vue`)
-- Added `savedGames` optional prop (string array)
-- Shows 💾 badge on modes with saved progress
-- New `hasSavedGame()` method checks if mode has saved state
+#### App.vue (Layout Component)
+- Contains shared header, footer, and background music player
+- RouterView for page content
+- Manages theme initialization and page title translations
+- Header is clickable and navigates to home route
 
-#### App.vue (Simplified)
-- Now only contains `<RouterView />` and page title management
-- All layout moved to view components
-- Maintains translation-based page title with `useTitle()`
+#### HomePage.vue
+- Game mode selection functionality merged directly into HomePage
+- Shows 💾 badge on modes with saved progress
+- Inline custom game settings panel
+- Uses `getSavedGameKeys()` to display saved progress indicators
 
 ### 5. Main Entry Point (`src/main.ts`)
 - Registers router before i18n
@@ -186,13 +194,12 @@ const { ... } = useGameState({ t }, props.modeId)
 
 ### Created:
 - `src/router/index.ts` - Router configuration
-- `src/views/HomePage.vue` - Home page view
+- `src/views/HomePage.vue` - Home page view with inline game mode selection
 - `src/views/GamePage.vue` - Game page view
 
 ### Modified:
 - `src/composables/useGame.ts` - Added modeId parameter and getSavedGameKeys()
-- `src/components/GameModeSelector.vue` - Added saved progress indicators
-- `src/App.vue` - Simplified to RouterView only
+- `src/App.vue` - Converted to layout component with shared header/footer/music
 - `src/main.ts` - Added router registration
 - `src/locales/en.json` - Added savedProgress translation
 - `src/locales/zh-CN.json` - Added savedProgress translation
