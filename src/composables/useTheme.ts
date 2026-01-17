@@ -139,196 +139,80 @@ const egyptianTheme: Theme = {
     glowIntensity: '15px',
   },
   light: {
-    primary: '#C5A028',        // Gold
-    primaryHover: '#A88A20',
-    primaryLight: '#F5E6A3',
-    primaryDark: '#8B7355',
+    primary: '#B8860B',        // Darker gold for better contrast
+    primaryHover: '#996F0A',
+    primaryLight: '#FDF3D0',   // Lighter background for badges
+    primaryDark: '#705A10',    // Darker for text on light badges
     
     secondary: '#1E3A5F',      // Deep blue
     secondaryHover: '#152C4A',
-    accent: '#D4AF37',         // Bright gold
-    accentHover: '#B8972F',
+    accent: '#B8860B',         // Match primary for consistency
+    accentHover: '#996F0A',
     
     gradientFrom: '#C5A028',
     gradientTo: '#8B6914',
     
-    textPrimary: '#1A1A2E',
-    textSecondary: '#4A4A5A',
-    textMuted: '#7A7A8A',
+    textPrimary: '#1A1408',    // Very dark brown-black for max contrast
+    textSecondary: '#3D3520',  // Dark brown
+    textMuted: '#5C5240',      // Medium brown (still readable)
     
     bgPrimary: '#FDF8E8',      // Warm sand
     bgSecondary: '#F5EED6',
     bgCard: '#FFFEF9',
     bgHover: '#F0E8D0',
     
-    border: '#E0D5B8',
-    borderHover: '#C5A028',
+    border: '#D4C9A8',         // Slightly darker border
+    borderHover: '#B8860B',
     
-    success: '#2D6A4F',
-    danger: '#9B2C2C',
-    warning: '#B7791F',
+    success: '#1D5A3F',        // Darker green
+    danger: '#8B1A1A',         // Darker red
+    warning: '#8B5A00',        // Darker orange
     
     player1: '#1E3A5F',        // Deep blue
-    player2: '#9B2C2C',        // Dark red
-    player3: '#2D6A4F',        // Forest green
-    player4: '#744210',        // Brown
+    player2: '#8B1A1A',        // Dark red
+    player3: '#1D5A3F',        // Forest green
+    player4: '#5C3510',        // Darker brown
   },
   dark: {
-    primary: '#D4AF37',        // Bright gold
-    primaryHover: '#E5C158',
-    primaryLight: '#5C4A1F',
-    primaryDark: '#A88A20',
+    primary: '#E5C158',        // Brighter gold for dark mode
+    primaryHover: '#F0D06A',
+    primaryLight: '#3D3520',   // Dark gold-brown for badge backgrounds
+    primaryDark: '#E5C158',    // Bright gold for text on dark badges
     
-    secondary: '#3B5998',      // Lighter blue for dark mode
-    secondaryHover: '#4A6BB5',
-    accent: '#F5D742',         // Brighter gold
+    secondary: '#5B8BD0',      // Brighter blue for dark mode
+    secondaryHover: '#6E9CE0',
+    accent: '#F5D742',         // Bright gold
     accentHover: '#FFE55C',
     
-    gradientFrom: '#D4AF37',
+    gradientFrom: '#E5C158',
     gradientTo: '#C5A028',
     
-    textPrimary: '#FDF8E8',
-    textSecondary: '#D4C5A0',
-    textMuted: '#A89880',
+    textPrimary: '#FDF8E8',    // Warm white
+    textSecondary: '#E0D5B8',  // Brighter secondary text
+    textMuted: '#B8A880',      // Brighter muted text
     
     bgPrimary: '#1A1A2E',      // Dark navy
     bgSecondary: '#252540',
     bgCard: '#2A2A45',
     bgHover: '#35355A',
     
-    border: '#3D3D5C',
-    borderHover: '#D4AF37',
+    border: '#454560',         // Brighter border
+    borderHover: '#E5C158',
     
-    success: '#48BB78',
-    danger: '#FC8181',
-    warning: '#F6AD55',
+    success: '#5DD99A',        // Brighter green
+    danger: '#FF8A8A',         // Brighter red
+    warning: '#FFB84D',        // Brighter orange
     
-    player1: '#63B3ED',        // Light blue
-    player2: '#FC8181',        // Light red
-    player3: '#68D391',        // Light green
-    player4: '#F6AD55',        // Orange
-  },
-}
-
-// Shadow Realm Theme (Dark, mysterious)
-const shadowRealmTheme: Theme = {
-  id: 'shadow-realm',
-  name: 'Shadow Realm',
-  description: 'Dark & Mysterious',
-  icon: '🌑',
-  styles: {
-    // Soft, ethereal corners
-    radiusSmall: '8px',
-    radiusMedium: '12px',
-    radiusLarge: '20px',
-    radiusCard: '16px',
-    
-    // Mysterious purple glow
-    shadowCard: '0 4px 25px -5px rgba(147, 51, 234, 0.2), 0 2px 10px -2px rgba(0, 0, 0, 0.3)',
-    shadowElevated: '0 10px 40px -8px rgba(147, 51, 234, 0.35), 0 4px 15px -3px rgba(0, 0, 0, 0.25)',
-    shadowGlow: '0 0 30px rgba(147, 51, 234, 0.5)',
-    
-    // Compact, mysterious spacing
-    cardPadding: '1.25rem',
-    cardGap: '1rem',
-    
-    // Mystical typography
-    fontFamily: '"Philosopher", "Georgia", serif',
-    fontFamilyDisplay: '"Creepster", "Philosopher", cursive',
-    titleWeight: '600',
-    
-    // Rounded buttons
-    buttonRadius: '12px',
-    buttonPadding: '0.625rem 1.25rem',
-    
-    // Intense, swirling animations
-    transitionSpeed: '0.4s',
-    animationIntensity: 'intense',
-    
-    // Swirling shadow pattern
-    bgPattern: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='25' cy='25' r='20' fill='none' stroke='%239333EA' stroke-opacity='0.03' stroke-width='1'/%3E%3Ccircle cx='75' cy='75' r='25' fill='none' stroke='%239333EA' stroke-opacity='0.02' stroke-width='1'/%3E%3Ccircle cx='50' cy='50' r='35' fill='none' stroke='%234F46E5' stroke-opacity='0.02' stroke-width='1'/%3E%3C/svg%3E")`,
-    bgOverlay: 'radial-gradient(ellipse at 50% 0%, rgba(147, 51, 234, 0.08) 0%, transparent 70%)',
-    
-    // Purple ethereal glow
-    glowColor: 'rgba(147, 51, 234, 0.6)',
-    glowIntensity: '25px',
-  },
-  light: {
-    primary: '#4A0E4E',
-    primaryHover: '#3D0B40',
-    primaryLight: '#E9D5EA',
-    primaryDark: '#2D0630',
-    
-    secondary: '#1A1A2E',
-    secondaryHover: '#0F0F1A',
-    accent: '#9333EA',
-    accentHover: '#7E22CE',
-    
-    gradientFrom: '#4A0E4E',
-    gradientTo: '#1A1A2E',
-    
-    textPrimary: '#1A1A2E',
-    textSecondary: '#4A4A5A',
-    textMuted: '#7A7A8A',
-    
-    bgPrimary: '#F5F3F7',
-    bgSecondary: '#EBE8EE',
-    bgCard: '#FFFFFF',
-    bgHover: '#E0DCE5',
-    
-    border: '#D5D0DC',
-    borderHover: '#4A0E4E',
-    
-    success: '#059669',
-    danger: '#DC2626',
-    warning: '#D97706',
-    
-    player1: '#4A0E4E',
-    player2: '#DC2626',
-    player3: '#059669',
-    player4: '#7C3AED',
-  },
-  dark: {
-    primary: '#9333EA',
-    primaryHover: '#A855F7',
-    primaryLight: '#3B0764',
-    primaryDark: '#7E22CE',
-    
-    secondary: '#6366F1',
-    secondaryHover: '#818CF8',
-    accent: '#C084FC',
-    accentHover: '#D8B4FE',
-    
-    gradientFrom: '#9333EA',
-    gradientTo: '#4F46E5',
-    
-    textPrimary: '#F3E8FF',
-    textSecondary: '#C4B5FD',
-    textMuted: '#8B5CF6',
-    
-    bgPrimary: '#0A0A0F',
-    bgSecondary: '#12121A',
-    bgCard: '#1A1A25',
-    bgHover: '#252530',
-    
-    border: '#2D2D3A',
-    borderHover: '#9333EA',
-    
-    success: '#10B981',
-    danger: '#F87171',
-    warning: '#FBBF24',
-    
-    player1: '#A855F7',
-    player2: '#F87171',
-    player3: '#34D399',
-    player4: '#60A5FA',
+    player1: '#7DC4FF',        // Brighter light blue
+    player2: '#FF8A8A',        // Brighter light red
+    player3: '#5DD99A',        // Brighter light green
+    player4: '#FFB84D',        // Brighter orange
   },
 }
 
 // All available themes
 export const THEMES: Record<string, Theme> = {
   egyptian: egyptianTheme,
-  'shadow-realm': shadowRealmTheme,
 }
 
 // Theme composable using VueUse's useStorage for persistence
