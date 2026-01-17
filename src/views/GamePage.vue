@@ -94,10 +94,10 @@ onMounted(() => {
   if (mode) {
     selectGameMode(mode)
   } else if (props.modeId === 'custom') {
-    // Load custom settings from temporary storage
-    const tempSettings = localStorage.getItem('duel-tracker-custom-settings-temp')
-    if (tempSettings) {
-      const settings = JSON.parse(tempSettings)
+    // Load custom settings from router state
+    const state = history.state as { customSettings?: { startingLP: number; playerCount: number; useTeams: boolean } }
+    if (state.customSettings) {
+      const settings = state.customSettings
       selectGameMode({
         id: 'custom',
         name: 'Custom Game',
@@ -106,7 +106,6 @@ onMounted(() => {
         playerCount: settings.playerCount,
         teams: settings.useTeams ? 2 : 1,
       })
-      localStorage.removeItem('duel-tracker-custom-settings-temp')
     }
   }
   

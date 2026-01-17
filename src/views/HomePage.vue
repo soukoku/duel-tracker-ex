@@ -142,9 +142,12 @@ function selectGameMode(mode: GameMode): void {
 }
 
 function startCustomGame(): void {
-  // Store custom settings to localStorage temporarily
-  localStorage.setItem('duel-tracker-custom-settings-temp', JSON.stringify(customSettings.value))
-  router.push({ name: 'game', params: { modeId: 'custom' } })
+  // Pass custom settings via router state
+  router.push({ 
+    name: 'game', 
+    params: { modeId: 'custom' },
+    state: { customSettings: customSettings.value }
+  })
 }
 
 function hasSavedGame(modeId: string): boolean {
