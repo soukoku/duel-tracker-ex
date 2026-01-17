@@ -42,7 +42,7 @@ export function useBackgroundMusic() {
 
   // Generate YouTube embed URL
   const embedUrl = computed(() => {
-    const videoId = currentTrack.value.youtubeId
+    const videoId = currentTrack.value?.youtubeId
     return `https://www.youtube.com/embed/${videoId}?si=1&rel=0&modestbranding=1`
   })
 

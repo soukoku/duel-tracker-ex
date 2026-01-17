@@ -74,7 +74,7 @@ const nameInput = ref<HTMLInputElement | null>(null)
 
 const playerColorClass = computed((): string => {
   const colors = ['player-1', 'player-2', 'player-3', 'player-4']
-  return colors[(props.playerIndex ?? 0) % colors.length]
+  return colors[(props.playerIndex ?? 0) % colors.length] ?? 'player-1'
 })
 
 function adjustLP(amount: number): void {

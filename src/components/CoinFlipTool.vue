@@ -156,7 +156,7 @@ const isFlipping = ref(false)
 function cryptoRandomBool(): boolean {
   const array = new Uint8Array(1)
   crypto.getRandomValues(array)
-  return array[0] < 128
+  return array[0]! < 128
 }
 
 async function flipCoins(): Promise<void> {

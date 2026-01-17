@@ -158,10 +158,10 @@ function cryptoRandomInt(max: number): number {
   const array = new Uint32Array(1)
   crypto.getRandomValues(array)
   const maxValid = Math.floor(0xFFFFFFFF / max) * max
-  let value = array[0]
+  let value = array[0]!
   while (value >= maxValid) {
     crypto.getRandomValues(array)
-    value = array[0]
+    value = array[0]!
   }
   return value % max
 }

@@ -32,7 +32,7 @@ export function useThemeSystem() {
   })
 
   const currentTheme = computed(
-    () => THEMES.find((t) => t.id === currentThemeId.value) || THEMES[0]
+    () => (THEMES.find(t => t.id === currentThemeId.value) || THEMES[0])!
   )
   const availableThemes = computed(() => THEMES)
 
@@ -40,13 +40,13 @@ export function useThemeSystem() {
     const root = document.documentElement
 
     // Remove all theme classes
-    THEMES.forEach((theme) => {
+    THEMES.forEach(theme => {
       root.classList.remove(`theme-${theme.id}`)
     })
 
     // Add current theme class
     root.classList.add(`theme-${currentThemeId.value}`)
-    
+
     // Dark mode class is automatically handled by useDark()
   }
 
@@ -55,7 +55,7 @@ export function useThemeSystem() {
   }
 
   function setTheme(themeId: string): void {
-    const themeExists = THEMES.some((t) => t.id === themeId)
+    const themeExists = THEMES.some(t => t.id === themeId)
     if (themeExists) {
       currentThemeId.value = themeId
       applyThemeClasses()
