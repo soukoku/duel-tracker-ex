@@ -91,8 +91,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useTitle } from '@vueuse/core'
 import ThemeSelector from './components/ThemeSelector.vue'
 import LanguageSelector from './components/LanguageSelector.vue'
 import GameToolsDialog from './components/GameToolsDialog.vue'
@@ -103,7 +104,13 @@ import { useGameState, GAME_MODES, type GameMode, type CustomSettings } from './
 import { useThemeSystem } from './composables/useTheme'
 
 // Internationalization
-const { t } = useI18n()
+const { t, locale } = useI18n()
+
+// Page title with translation
+const title = useTitle()
+watch([locale, () => t('app.title')], () => {
+  title.value = `${t('app.title')} - ${t('app.subtitle')}`
+}, { immediate: true })
 
 // Game state
 const {
