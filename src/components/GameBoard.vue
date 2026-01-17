@@ -1,5 +1,15 @@
 <template>
   <div class="space-y-4">
+    <!-- Game Info Bar -->
+    <GameInfoBar
+      :mode-name="gameMode?.name ?? 'Game'"
+      :turn-count="turnCount"
+      @open-tools="$emit('open-tools')"
+      @next-turn="$emit('next-turn')"
+      @reset="$emit('reset-game')"
+      @end="$emit('end-game')"
+    />
+
     <!-- Winner Announcement -->
     <transition
       enter-active-class="transition-all duration-500 ease-out"
@@ -14,10 +24,10 @@
         <h2 class="text-2xl font-bold">{{ winner.name }} Wins!</h2>
         <p class="text-sm opacity-75 mt-1">Game ended on Turn {{ turnCount }}</p>
         <div class="flex justify-center gap-3 mt-4">
-          <button @click="$emit('reset')" class="btn bg-white text-gray-900 hover:bg-gray-100">
+          <button @click="$emit('reset-game')" class="btn bg-white text-gray-900 hover:bg-gray-100">
             Rematch
           </button>
-          <button @click="$emit('end')" class="btn btn-secondary">
+          <button @click="$emit('end-game')" class="btn btn-secondary">
             New Game
           </button>
         </div>
@@ -89,9 +99,11 @@
 
 <script setup lang="ts">
 import PlayerCard from './PlayerCard.vue'
-import type { Player, Winner, Teams } from '../composables/useGame'
+import GameInfoBar from './GameInfoBar.vue'
+import type { Player, Winner, Teams, GameMode } from '../composables/useGame'
 
 defineProps<{
+  gameMode: GameMode | null
   players: Player[]
   isTeamGame: boolean
   teams: Teams | null
@@ -105,7 +117,9 @@ defineEmits<{
   'set-lp': [playerId: number, newLP: number]
   'update-name': [playerId: number, newName: string]
   'halve-lp': [playerId: number]
-  'reset': []
-  'end': []
+  'open-tools': []
+  'next-turn': []
+  'reset-game': []
+  'end-game': []
 }>()
 </script>
