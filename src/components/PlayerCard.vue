@@ -47,8 +47,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue'
-import type { Player } from '../composables/useGame'
+import { ref, computed, nextTick, inject } from 'vue'
+import { GAME_ACTIONS_KEY, type Player } from '../composables/useGame'
 import LPDisplay from './LPDisplay.vue'
 import QuickAdjustButtons from './QuickAdjustButtons.vue'
 import LPCalculator from './LPCalculator.vue'
@@ -59,12 +59,8 @@ const props = defineProps<{
   playerIndex?: number
 }>()
 
-const emit = defineEmits<{
-  'update-lp': [playerId: number, amount: number]
-  'set-lp': [playerId: number, newLP: number]
-  'update-name': [playerId: number, newName: string]
-  'halve-lp': [playerId: number]
-}>()
+// Inject game actions from parent (GamePage)
+const gameActions = inject(GAME_ACTIONS_KEY)!
 
 // UI state
 const showCalculator = ref(false)
@@ -78,15 +74,15 @@ const playerColorClass = computed((): string => {
 })
 
 function adjustLP(amount: number): void {
-  emit('update-lp', props.player.id, amount)
+  gameActions.updatePlayerLP(props.player.id, amount)
 }
 
 function halveLP(): void {
-  emit('halve-lp', props.player.id)
+  gameActions.halveLP(props.player.id)
 }
 
 function setExactLP(value: number): void {
-  emit('set-lp', props.player.id, value)
+  gameActions.setPlayerLP(props.player.id, value)
 }
 
 function startEditingName(): void {
@@ -100,7 +96,7 @@ function startEditingName(): void {
 
 function saveName(): void {
   if (localName.value.trim()) {
-    emit('update-name', props.player.id, localName.value.trim())
+    gameActions.updatePlayerName(props.player.id, localName.value.trim())
   }
   isEditingName.value = false
 }

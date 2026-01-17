@@ -12,10 +12,6 @@
     @next-turn="nextTurn"
     @reset-game="resetGame"
     @end-game="endGame"
-    @update-lp="updatePlayerLP"
-    @set-lp="setPlayerLP"
-    @update-name="updatePlayerName"
-    @halve-lp="halveLP"
   />
 
   <!-- Game Tools Dialog -->
@@ -27,12 +23,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, provide, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import GameToolsDialog from '../components/GameToolsDialog.vue'
 import GameBoard from '../components/GameBoard.vue'
-import { useGameState, GAME_MODES, type GameMode } from '../composables/useGame'
+import { useGameState, GAME_MODES, type GameMode, GAME_ACTIONS_KEY } from '../composables/useGame'
 
 const props = defineProps<{
   modeId: string
@@ -70,6 +66,14 @@ const {
   updatePlayerName,
   halveLP,
 } = useGameState({ t }, props.modeId)
+
+// Provide game actions to child components (avoids prop drilling)
+provide(GAME_ACTIONS_KEY, {
+  updatePlayerLP,
+  setPlayerLP,
+  updatePlayerName,
+  halveLP,
+})
 
 // Tools dialog
 const showToolsDialog = ref(false)

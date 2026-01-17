@@ -17,8 +17,7 @@
 
       <div class="flex items-center gap-2">
         <LanguageSelector />
-        <ThemeSelector :current-theme-id="currentThemeId" :current-theme="currentTheme" :is-dark="isDark"
-          :available-themes="availableThemes" @set-theme="setTheme" @toggle-dark-mode="toggleDarkMode" />
+        <ThemeSelector />
       </div>
     </header>
 
@@ -56,16 +55,8 @@ import BackgroundMusicPlayer from './components/BackgroundMusicPlayer.vue'
 
 const { t } = useI18n()
 
-// Theme
-const {
-  currentThemeId,
-  currentTheme,
-  isDark,
-  availableThemes,
-  initTheme,
-  setTheme,
-  toggleDarkMode,
-} = useThemeSystem()
+// Theme - only need initTheme at app level
+const { initTheme } = useThemeSystem()
 
 // Initialize theme system
 onMounted(() => {

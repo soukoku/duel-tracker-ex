@@ -1,4 +1,4 @@
-import { ref, reactive, computed, watch, type Ref, type ComputedRef } from 'vue'
+import { ref, reactive, computed, watch, type Ref, type ComputedRef, type InjectionKey } from 'vue'
 import { useStorage } from '@vueuse/core'
 import type { Composer } from 'vue-i18n'
 
@@ -50,6 +50,17 @@ export interface CustomSettings {
   playerCount: number
   useTeams: boolean
 }
+
+// Game actions interface for provide/inject
+export interface GameActions {
+  updatePlayerLP: (playerId: number, amount: number) => void
+  setPlayerLP: (playerId: number, newLP: number) => void
+  updatePlayerName: (playerId: number, newName: string) => void
+  halveLP: (playerId: number) => void
+}
+
+// Injection key for game actions
+export const GAME_ACTIONS_KEY: InjectionKey<GameActions> = Symbol('gameActions')
 
 // Game mode configurations
 export const GAME_MODES: Record<string, GameMode> = {
@@ -330,7 +341,6 @@ export function useGameState(i18nInstance?: { t: Composer['t'] }, modeId?: strin
   // Clear persisted game state (useful when user wants fresh start)
   function clearSavedGame(): void {
     // Remove from localStorage
-    debugger
     endGame()
     localStorage.removeItem(storageKey)
   }

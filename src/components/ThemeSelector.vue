@@ -108,31 +108,24 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { ThemeInfo } from '../composables/useTheme'
+import { useThemeSystem } from '../composables/useTheme'
 
 const { t } = useI18n()
 
-const props = defineProps<{
-  currentThemeId: string
-  currentTheme: ThemeInfo
-  isDark: boolean
-  availableThemes: ThemeInfo[]
-}>()
-
-const emit = defineEmits<{
-  'set-theme': [themeId: string]
-  'toggle-dark-mode': []
-}>()
+const {
+  currentThemeId,
+  currentTheme,
+  isDark,
+  availableThemes,
+  setTheme,
+  toggleDarkMode,
+} = useThemeSystem()
 
 const isOpen = ref(false)
 
 function selectTheme(themeId: string): void {
-  emit('set-theme', themeId)
+  setTheme(themeId)
   isOpen.value = false
-}
-
-function toggleDarkMode(): void {
-  emit('toggle-dark-mode')
 }
 
 function getThemeName(themeId: string): string {

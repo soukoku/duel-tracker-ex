@@ -48,10 +48,6 @@
             :key="player.id"
             :player="player"
             :player-index="index"
-            @update-lp="(id, amount) => $emit('update-lp', id, amount)"
-            @set-lp="(id, lp) => $emit('set-lp', id, lp)"
-            @update-name="(id, name) => $emit('update-name', id, name)"
-            @halve-lp="(id) => $emit('halve-lp', id)"
           />
         </div>
       </div>
@@ -68,10 +64,6 @@
             :key="player.id"
             :player="player"
             :player-index="index + 2"
-            @update-lp="(id, amount) => $emit('update-lp', id, amount)"
-            @set-lp="(id, lp) => $emit('set-lp', id, lp)"
-            @update-name="(id, name) => $emit('update-name', id, name)"
-            @halve-lp="(id) => $emit('halve-lp', id)"
           />
         </div>
       </div>
@@ -88,10 +80,6 @@
         :key="player.id"
         :player="player"
         :player-index="index"
-        @update-lp="(id, amount) => $emit('update-lp', id, amount)"
-        @set-lp="(id, lp) => $emit('set-lp', id, lp)"
-        @update-name="(id, name) => $emit('update-name', id, name)"
-        @halve-lp="(id) => $emit('halve-lp', id)"
       />
     </div>
   </div>
@@ -125,10 +113,6 @@ defineProps<{
 }>()
 
 defineEmits<{
-  'update-lp': [playerId: number, amount: number]
-  'set-lp': [playerId: number, newLP: number]
-  'update-name': [playerId: number, newName: string]
-  'halve-lp': [playerId: number]
   'open-tools': []
   'next-turn': []
   'reset-game': []
