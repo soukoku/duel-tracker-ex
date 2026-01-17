@@ -135,6 +135,13 @@
         </div>
         
         <div class="flex gap-2">
+          <button 
+            @click="showToolsDialog = true" 
+            class="btn btn-secondary text-sm"
+            title="Dice & Coin Tools"
+          >
+            🎲 Tools
+          </button>
           <button @click="nextTurn" class="btn btn-secondary text-sm">
             Next Turn
           </button>
@@ -237,13 +244,21 @@
     <footer class="text-center text-sm text-themed-muted pt-4">
       <p>Yu-Gi-Oh! Duel Tracker • Track your duels with ease</p>
     </footer>
+
+    <!-- Game Tools Dialog -->
+    <GameToolsDialog
+      :is-open="showToolsDialog"
+      :current-turn="turnCount"
+      @close="showToolsDialog = false"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import PlayerCard from './components/PlayerCard.vue'
 import ThemeSelector from './components/ThemeSelector.vue'
+import GameToolsDialog from './components/GameToolsDialog.vue'
 import { useGameState, GAME_MODES, type GameMode } from './composables/useGame'
 import { useThemeSystem } from './composables/useTheme'
 
@@ -279,6 +294,9 @@ const {
   setTheme,
   toggleDarkMode 
 } = useThemeSystem()
+
+// Game tools dialog
+const showToolsDialog = ref(false)
 
 // Game modes array for iteration
 const gameModes = Object.values(GAME_MODES)

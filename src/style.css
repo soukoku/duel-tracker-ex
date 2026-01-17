@@ -1,7 +1,7 @@
-@import "tailwindcss";
-
 /* Google Fonts for themes */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Philosopher:ital,wght@0,400;0,700;1,400&family=Creepster&display=swap');
+
+@import "tailwindcss";
 
 /* Dark mode using class selector */
 @custom-variant dark (&:where(.dark, .dark *));
