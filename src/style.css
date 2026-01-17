@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Google Fonts for themes */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Philosopher:ital,wght@0,400;0,700;1,400&family=Creepster&display=swap');
+
 /* Dark mode using class selector */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -46,6 +49,31 @@
   --color-player-2: var(--color-player-2, #9B2C2C);
   --color-player-3: var(--color-player-3, #2D6A4F);
   --color-player-4: var(--color-player-4, #744210);
+  
+  /* Style variables */
+  --radius-small: var(--radius-small, 2px);
+  --radius-medium: var(--radius-medium, 4px);
+  --radius-large: var(--radius-large, 8px);
+  --radius-card: var(--radius-card, 4px);
+  
+  --shadow-card: var(--shadow-card, 0 4px 20px -2px rgba(0, 0, 0, 0.1));
+  --shadow-elevated: var(--shadow-elevated, 0 8px 30px -4px rgba(0, 0, 0, 0.15));
+  --shadow-glow: var(--shadow-glow, 0 0 20px rgba(212, 175, 55, 0.4));
+  
+  --card-padding: var(--card-padding, 1.5rem);
+  --card-gap: var(--card-gap, 1.25rem);
+  
+  --font-family: var(--font-family, 'Cinzel', serif);
+  --font-family-display: var(--font-family-display, 'Cinzel Decorative', serif);
+  --title-weight: var(--title-weight, 700);
+  
+  --button-radius: var(--button-radius, 2px);
+  --button-padding: var(--button-padding, 0.75rem 1.5rem);
+  
+  --transition-speed: var(--transition-speed, 0.3s);
+  
+  --glow-color: var(--glow-color, rgba(212, 175, 55, 0.5));
+  --glow-intensity: var(--glow-intensity, 15px);
 }
 
 /* Base styles */
@@ -58,43 +86,94 @@ body {
   min-height: 100vh;
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-family);
+  transition: background-color var(--transition-speed) ease, 
+              color var(--transition-speed) ease,
+              font-family var(--transition-speed) ease;
+  position: relative;
+}
+
+/* Background pattern overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: var(--bg-pattern);
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  pointer-events: none;
+  z-index: 0;
 }
 
 #app {
   height: 100%;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 /* Component styles */
 .btn {
-  @apply px-4 py-2 rounded-lg font-semibold transition-all duration-200 
-         focus:outline-none focus:ring-2 focus:ring-offset-2
-         active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  padding: var(--button-padding);
+  border-radius: var(--button-radius);
+  font-weight: 600;
+  font-family: var(--font-family);
+  letter-spacing: 0.025em;
+  transition: all var(--transition-speed) ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .btn-primary {
-  background: linear-gradient(to right, var(--color-gradient-from), var(--color-gradient-to));
+  background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to));
   color: white;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border: 1px solid transparent;
 }
 
 .btn-primary:hover {
   filter: brightness(1.1);
+  box-shadow: var(--shadow-glow);
 }
 
 .btn-secondary {
   background-color: var(--color-bg-secondary);
   color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
 }
 
 .btn-secondary:hover {
   background-color: var(--color-bg-hover);
+  border-color: var(--color-border-hover);
 }
 
 .btn-danger {
   background-color: var(--color-danger);
   color: white;
+  border: 1px solid transparent;
 }
 
 .btn-danger:hover {
@@ -104,6 +183,7 @@ body {
 .btn-success {
   background-color: var(--color-success);
   color: white;
+  border: 1px solid transparent;
 }
 
 .btn-success:hover {
@@ -112,24 +192,27 @@ body {
 
 .card {
   background-color: var(--color-bg-card);
-  border-radius: 1rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   border: 1px solid var(--color-border);
-  transition: all 0.3s ease;
+  transition: all var(--transition-speed) ease;
+  position: relative;
 }
 
 .card:hover {
   border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-elevated);
 }
 
 .input {
   width: 100%;
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-medium);
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-card);
   color: var(--color-text-primary);
-  transition: all 0.2s ease;
+  font-family: var(--font-family);
+  transition: all var(--transition-speed) ease;
 }
 
 .input:focus {
@@ -140,11 +223,14 @@ body {
 
 .life-points {
   font-size: 2.25rem;
-  font-weight: 700;
-  background: linear-gradient(to right, var(--color-gradient-from), var(--color-gradient-to));
+  font-weight: var(--title-weight);
+  font-family: var(--font-family-display);
+  background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 @media (min-width: 640px) {
@@ -161,20 +247,36 @@ body {
 
 .player-card {
   background-color: var(--color-bg-card);
-  border-radius: 1rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   border: 1px solid var(--color-border);
-  transition: all 0.3s ease;
-  padding: 1rem;
+  transition: all var(--transition-speed) ease;
+  padding: var(--card-padding);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: var(--card-gap);
+  position: relative;
+  overflow: hidden;
+}
+
+.player-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--bg-overlay);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.player-card:hover {
+  box-shadow: var(--shadow-elevated);
+  transform: translateY(-2px);
 }
 
 @media (min-width: 640px) {
   .player-card {
-    padding: 1.5rem;
+    padding: calc(var(--card-padding) * 1.25);
   }
 }
 
@@ -326,4 +428,257 @@ body {
 
 .progress-bar-fill.low {
   background: linear-gradient(to right, var(--color-danger), var(--color-danger));
+}
+
+/* ============================================
+   EGYPTIAN THEME SPECIFIC STYLES
+   ============================================ */
+
+.theme-egyptian {
+  /* Angular, pharaoh-inspired aesthetic */
+}
+
+.theme-egyptian .title,
+.theme-egyptian h1,
+.theme-egyptian h2,
+.theme-egyptian h3 {
+  font-family: var(--font-family-display);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Golden shimmer animation for Egyptian theme */
+@keyframes egyptian-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.theme-egyptian .life-points {
+  background: linear-gradient(
+    90deg,
+    var(--color-gradient-from) 0%,
+    var(--color-accent) 25%,
+    #FFD700 50%,
+    var(--color-accent) 75%,
+    var(--color-gradient-to) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: egyptian-shimmer 3s linear infinite;
+}
+
+/* Hieroglyphic border decoration */
+.theme-egyptian .player-card {
+  border-width: 2px;
+  border-style: solid;
+  border-image: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 50%,
+    var(--color-primary) 100%
+  ) 1;
+}
+
+.theme-egyptian .player-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent),
+    transparent
+  );
+}
+
+/* Egyptian button hover glow */
+.theme-egyptian .btn-primary:hover {
+  box-shadow: 
+    0 0 10px var(--glow-color),
+    0 0 20px var(--glow-color),
+    0 0 30px rgba(212, 175, 55, 0.2);
+}
+
+/* Golden accent lines */
+.theme-egyptian .card::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+}
+
+/* Pyramid corner decorations */
+.theme-egyptian .gradient-border::before {
+  border-radius: var(--radius-card);
+}
+
+/* Sand particle animation */
+@keyframes sand-drift {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   SHADOW REALM THEME SPECIFIC STYLES  
+   ============================================ */
+
+.theme-shadow-realm {
+  /* Ethereal, mystical aesthetic */
+}
+
+.theme-shadow-realm .title,
+.theme-shadow-realm h1,
+.theme-shadow-realm h2,
+.theme-shadow-realm h3 {
+  font-family: var(--font-family-display);
+  letter-spacing: 0.1em;
+}
+
+/* Purple ethereal glow animation */
+@keyframes shadow-pulse {
+  0%, 100% {
+    box-shadow: var(--shadow-card);
+  }
+  50% {
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+.theme-shadow-realm .player-card {
+  animation: shadow-pulse 4s ease-in-out infinite;
+  border: 1px solid rgba(147, 51, 234, 0.3);
+}
+
+.theme-shadow-realm .player-card:hover {
+  animation: none;
+  box-shadow: var(--shadow-glow);
+}
+
+/* Swirling vortex effect */
+@keyframes shadow-swirl {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.theme-shadow-realm .life-points {
+  background: linear-gradient(
+    270deg,
+    var(--color-gradient-from),
+    var(--color-accent),
+    #8B5CF6,
+    var(--color-gradient-to),
+    var(--color-gradient-from)
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shadow-swirl 8s ease infinite;
+}
+
+/* Mystical floating particles */
+@keyframes float-up {
+  0% {
+    transform: translateY(100%) scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1);
+    opacity: 0;
+  }
+}
+
+.theme-shadow-realm body::before {
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+    var(--bg-pattern);
+}
+
+/* Ethereal border glow */
+.theme-shadow-realm .btn-primary {
+  position: relative;
+}
+
+.theme-shadow-realm .btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, var(--color-primary), var(--color-accent), var(--color-secondary));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.theme-shadow-realm .btn-primary:hover::before {
+  opacity: 1;
+  animation: shadow-swirl 3s ease infinite;
+}
+
+/* Dark mist overlay */
+.theme-shadow-realm .card {
+  backdrop-filter: blur(10px);
+  background: rgba(26, 26, 37, 0.8);
+}
+
+.theme-shadow-realm.dark .card {
+  background: rgba(10, 10, 15, 0.9);
+}
+
+/* ============================================
+   RESPONSIVE THEME ADJUSTMENTS
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-egyptian .life-points,
+  .theme-shadow-realm .life-points,
+  .theme-shadow-realm .player-card {
+    animation: none;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  body {
+    --card-padding: 1rem;
+    --card-gap: 0.75rem;
+  }
+  
+  .theme-egyptian .title,
+  .theme-shadow-realm .title {
+    letter-spacing: 0.02em;
+  }
 }
