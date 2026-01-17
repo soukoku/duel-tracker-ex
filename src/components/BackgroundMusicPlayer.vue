@@ -10,7 +10,7 @@
     </button>
 
     <!-- Expanded View -->
-    <div v-show="!isMinimized" class="bg-themed-card border border-themed rounded-xl shadow-xl w-100 overflow-hidden">
+    <div v-show="!isMinimized" class="bg-themed-card border border-themed rounded-xl shadow-xl w-92 overflow-hidden">
       <!-- Header -->
       <div class="bg-themed-primary/10 px-4 py-3 flex items-center justify-between border-b border-themed">
         <div class="flex items-center gap-2">
