@@ -100,10 +100,12 @@
                       <div
                         v-for="n in coinCount"
                         :key="'placeholder-' + n"
-                        class="coin-result coin-placeholder"
+                        class="coin-visual coin-placeholder"
                       >
-                        <span class="text-3xl opacity-30">🪙</span>
-                        <span class="text-xs font-bold mt-1 opacity-30">?</span>
+                        <svg viewBox="0 0 64 64" class="w-full h-full opacity-30">
+                          <circle cx="32" cy="32" r="30" fill="#888" stroke="#666" stroke-width="2"/>
+                          <text x="32" y="40" text-anchor="middle" fill="#444" font-size="24" font-weight="bold">?</text>
+                        </svg>
                       </div>
                     </template>
                     
@@ -112,9 +114,18 @@
                       <div
                         v-for="n in coinCount"
                         :key="'spinning-' + n"
-                        class="coin-result coin-spinning"
+                        class="coin-visual coin-spinning"
                       >
-                        <span class="text-3xl animate-flip">🪙</span>
+                        <svg viewBox="0 0 64 64" class="w-full h-full animate-flip">
+                          <circle cx="32" cy="32" r="30" fill="url(#coinGradient)" stroke="#B8860B" stroke-width="2"/>
+                          <defs>
+                            <linearGradient id="coinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stop-color="#FFD700"/>
+                              <stop offset="50%" stop-color="#FFA500"/>
+                              <stop offset="100%" stop-color="#FFD700"/>
+                            </linearGradient>
+                          </defs>
+                        </svg>
                       </div>
                     </template>
                     
@@ -128,11 +139,43 @@
                         <div
                           v-for="(result, index) in visibleCoinResults"
                           :key="'result-' + index"
-                          class="coin-result"
+                          class="coin-visual"
                           :class="result === 'heads' ? 'coin-heads' : 'coin-tails'"
                         >
-                          <span class="text-3xl">{{ result === 'heads' ? '👑' : '🦅' }}</span>
-                          <span class="text-xs font-bold mt-1 uppercase">{{ result }}</span>
+                          <!-- Heads: Crown/Pharaoh design -->
+                          <svg v-if="result === 'heads'" viewBox="0 0 64 64" class="w-full h-full">
+                            <defs>
+                              <linearGradient id="headsGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#FFD700"/>
+                                <stop offset="50%" stop-color="#FFA500"/>
+                                <stop offset="100%" stop-color="#FFD700"/>
+                              </linearGradient>
+                            </defs>
+                            <circle cx="32" cy="32" r="30" fill="url(#headsGold)" stroke="#B8860B" stroke-width="2"/>
+                            <circle cx="32" cy="32" r="26" fill="none" stroke="#B8860B" stroke-width="1" opacity="0.5"/>
+                            <!-- Crown/Star design -->
+                            <path d="M32 12 L36 22 L47 22 L38 29 L42 40 L32 33 L22 40 L26 29 L17 22 L28 22 Z" 
+                                  fill="#8B4513" stroke="#5D2906" stroke-width="1"/>
+                            <circle cx="32" cy="26" r="3" fill="#FFD700"/>
+                            <text x="32" y="56" text-anchor="middle" fill="#5D2906" font-size="8" font-weight="bold">HEADS</text>
+                          </svg>
+                          <!-- Tails: Eagle/Serpent design -->
+                          <svg v-else viewBox="0 0 64 64" class="w-full h-full">
+                            <defs>
+                              <linearGradient id="tailsSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#E8E8E8"/>
+                                <stop offset="50%" stop-color="#A0A0A0"/>
+                                <stop offset="100%" stop-color="#C0C0C0"/>
+                              </linearGradient>
+                            </defs>
+                            <circle cx="32" cy="32" r="30" fill="url(#tailsSilver)" stroke="#707070" stroke-width="2"/>
+                            <circle cx="32" cy="32" r="26" fill="none" stroke="#808080" stroke-width="1" opacity="0.5"/>
+                            <!-- Serpent/Snake design -->
+                            <path d="M20 35 Q25 20 32 25 Q39 30 38 40 Q37 48 30 45 Q24 42 26 35 Q28 28 35 32" 
+                                  fill="none" stroke="#404040" stroke-width="3" stroke-linecap="round"/>
+                            <circle cx="22" cy="33" r="2" fill="#404040"/>
+                            <text x="32" y="56" text-anchor="middle" fill="#404040" font-size="8" font-weight="bold">TAILS</text>
+                          </svg>
                         </div>
                       </TransitionGroup>
                       
@@ -140,10 +183,12 @@
                       <div
                         v-for="n in (coinCount - visibleCoinResults.length)"
                         :key="'remaining-' + n"
-                        class="coin-result coin-placeholder"
+                        class="coin-visual coin-placeholder"
                       >
-                        <span class="text-3xl opacity-30">🪙</span>
-                        <span class="text-xs font-bold mt-1 opacity-30">?</span>
+                        <svg viewBox="0 0 64 64" class="w-full h-full opacity-30">
+                          <circle cx="32" cy="32" r="30" fill="#888" stroke="#666" stroke-width="2"/>
+                          <text x="32" y="40" text-anchor="middle" fill="#444" font-size="24" font-weight="bold">?</text>
+                        </svg>
                       </div>
                     </template>
                   </div>
@@ -205,10 +250,12 @@
                       <div
                         v-for="n in diceCount"
                         :key="'placeholder-' + n"
-                        class="dice-result dice-placeholder"
+                        class="dice-visual dice-placeholder"
                       >
-                        <span class="text-2xl opacity-30">🎲</span>
-                        <span class="text-lg font-bold opacity-30">?</span>
+                        <svg viewBox="0 0 50 50" class="w-full h-full opacity-30">
+                          <rect x="2" y="2" width="46" height="46" rx="8" fill="#f5f5f5" stroke="#ccc" stroke-width="2"/>
+                          <text x="25" y="33" text-anchor="middle" fill="#999" font-size="20" font-weight="bold">?</text>
+                        </svg>
                       </div>
                     </template>
                     
@@ -217,9 +264,12 @@
                       <div
                         v-for="n in diceCount"
                         :key="'spinning-' + n"
-                        class="dice-result dice-spinning"
+                        class="dice-visual dice-spinning"
                       >
-                        <span class="text-2xl animate-dice-roll">🎲</span>
+                        <svg viewBox="0 0 50 50" class="w-full h-full animate-dice-roll">
+                          <rect x="2" y="2" width="46" height="46" rx="8" fill="#fff" stroke="#333" stroke-width="2"/>
+                          <circle cx="25" cy="25" r="5" fill="#333"/>
+                        </svg>
                       </div>
                     </template>
                     
@@ -233,10 +283,9 @@
                         <div
                           v-for="(result, index) in visibleDiceResults"
                           :key="'result-' + index"
-                          class="dice-result dice-revealed"
+                          class="dice-visual dice-revealed"
                         >
-                          <span class="text-2xl">{{ getDiceEmoji(result) }}</span>
-                          <span class="text-lg font-bold">{{ result }}</span>
+                          <DiceFace :value="result" />
                         </div>
                       </TransitionGroup>
                       
@@ -244,10 +293,12 @@
                       <div
                         v-for="n in (diceCount - visibleDiceResults.length)"
                         :key="'remaining-' + n"
-                        class="dice-result dice-placeholder"
+                        class="dice-visual dice-placeholder"
                       >
-                        <span class="text-2xl opacity-30">🎲</span>
-                        <span class="text-lg font-bold opacity-30">?</span>
+                        <svg viewBox="0 0 50 50" class="w-full h-full opacity-30">
+                          <rect x="2" y="2" width="46" height="46" rx="8" fill="#f5f5f5" stroke="#ccc" stroke-width="2"/>
+                          <text x="25" y="33" text-anchor="middle" fill="#999" font-size="20" font-weight="bold">?</text>
+                        </svg>
                       </div>
                     </template>
                   </div>
@@ -313,6 +364,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useStorage } from '@vueuse/core'
+import DiceFace from './DiceFace.vue'
 
 export interface ToolHistoryEntry {
   type: 'coin' | 'dice'
@@ -458,11 +510,6 @@ async function rollDice(): Promise<void> {
   emit('result', entry)
 }
 
-function getDiceEmoji(value: number): string {
-  const diceEmojis = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅']
-  return diceEmojis[value - 1] || '🎲'
-}
-
 function formatHistoryResult(entry: ToolHistoryEntry): string {
   if (entry.type === 'coin') {
     const heads = (entry.results as string[]).filter(r => r === 'heads').length
@@ -476,15 +523,16 @@ function formatHistoryResult(entry: ToolHistoryEntry): string {
 </script>
 
 <style scoped>
-.coin-result {
+/* Coin Visual Styles */
+.coin-visual {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 4.5rem;
   height: 4.5rem;
-  border-radius: var(--radius-large);
+  border-radius: 50%;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .coin-placeholder {
@@ -498,42 +546,39 @@ function formatHistoryResult(entry: ToolHistoryEntry): string {
 }
 
 .coin-heads {
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  color: #1a1a2e;
+  background: transparent;
   box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
 }
 
 .coin-tails {
-  background: linear-gradient(135deg, #C0C0C0, #808080);
-  color: #1a1a2e;
+  background: transparent;
   box-shadow: 0 4px 15px rgba(192, 192, 192, 0.4);
 }
 
-.dice-result {
+/* Dice Visual Styles */
+.dice-visual {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 3.5rem;
   height: 3.5rem;
-  border-radius: var(--radius-medium);
   transition: all 0.3s ease;
 }
 
 .dice-placeholder {
   background: var(--color-bg-hover);
   border: 2px dashed var(--color-border);
+  border-radius: var(--radius-medium);
 }
 
 .dice-spinning {
   background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-bg-hover));
   border: 2px solid var(--color-border);
+  border-radius: var(--radius-medium);
 }
 
 .dice-revealed {
-  background: linear-gradient(135deg, var(--color-bg-card), var(--color-bg-secondary));
-  border: 2px solid var(--color-border);
-  box-shadow: var(--shadow-card);
+  background: transparent;
 }
 
 /* Coin flip animation */
