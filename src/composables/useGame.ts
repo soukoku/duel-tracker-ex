@@ -1,7 +1,56 @@
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, reactive, computed, watch, type Ref, type ComputedRef } from 'vue'
+
+// Type definitions
+export interface GameMode {
+  id: string
+  name: string
+  description: string
+  startingLP: number
+  playerCount: number
+  teams: number
+}
+
+export interface HistoryEntry {
+  turn: number
+  previousLP: number
+  change: number
+  newLP: number
+  timestamp: string
+}
+
+export interface Player {
+  id: number
+  name: string
+  lifePoints: number
+  startingLP: number
+  team: number | null
+  history: HistoryEntry[]
+}
+
+export interface Winner {
+  type: 'player' | 'team'
+  id: number
+  name: string
+}
+
+export interface TeamInfo {
+  players: Player[]
+  totalLP: number
+}
+
+export interface Teams {
+  team1: TeamInfo
+  team2: TeamInfo
+}
+
+export interface CustomSettings {
+  startingLP: number
+  playerCount: number
+  useTeams: boolean
+}
 
 // Game mode configurations
-export const GAME_MODES = {
+export const GAME_MODES: Record<string, GameMode> = {
   STANDARD_1V1: {
     id: 'standard_1v1',
     name: 'Standard 1v1',
@@ -45,7 +94,7 @@ export const GAME_MODES = {
 }
 
 // Create a player object
-function createPlayer(id, name, startingLP, team = null) {
+function createPlayer(id: number, name: string, startingLP: number, team: number | null = null): Player {
   return {
     id,
     name,
@@ -58,25 +107,25 @@ function createPlayer(id, name, startingLP, team = null) {
 
 // Main game state composable
 export function useGameState() {
-  const gameMode = ref(null)
-  const players = reactive([])
+  const gameMode: Ref<GameMode | null> = ref(null)
+  const players: Player[] = reactive([])
   const gameStarted = ref(false)
   const gameEnded = ref(false)
-  const winner = ref(null)
+  const winner: Ref<Winner | null> = ref(null)
   const turnCount = ref(0)
-  const customSettings = reactive({
+  const customSettings: CustomSettings = reactive({
     startingLP: 8000,
     playerCount: 2,
     useTeams: false,
   })
 
   // Computed properties
-  const isTeamGame = computed(() => {
+  const isTeamGame: ComputedRef<boolean> = computed(() => {
     if (!gameMode.value) return false
     return gameMode.value.teams === 2 || customSettings.useTeams
   })
 
-  const teams = computed(() => {
+  const teams: ComputedRef<Teams | null> = computed(() => {
     if (!isTeamGame.value) return null
     const team1 = players.filter(p => p.team === 1)
     const team2 = players.filter(p => p.team === 2)
@@ -93,13 +142,13 @@ export function useGameState() {
   })
 
   // Methods
-  function selectGameMode(mode) {
+  function selectGameMode(mode: GameMode): void {
     gameMode.value = mode
   }
 
-  function initializeGame() {
+  function initializeGame(): void {
     players.length = 0
-    const mode = gameMode.value
+    const mode = gameMode.value!
     const startingLP = mode.id === 'custom' ? customSettings.startingLP : mode.startingLP
     const playerCount = mode.id === 'custom' ? customSettings.playerCount : mode.playerCount
     const useTeams = mode.teams === 2 || (mode.id === 'custom' && customSettings.useTeams)
@@ -118,7 +167,7 @@ export function useGameState() {
     turnCount.value = 1
   }
 
-  function updatePlayerLP(playerId, amount) {
+  function updatePlayerLP(playerId: number, amount: number): void {
     const player = players.find(p => p.id === playerId)
     if (!player || gameEnded.value) return
 
@@ -136,7 +185,7 @@ export function useGameState() {
     checkWinCondition()
   }
 
-  function setPlayerLP(playerId, newLP) {
+  function setPlayerLP(playerId: number, newLP: number): void {
     const player = players.find(p => p.id === playerId)
     if (!player || gameEnded.value) return
 
@@ -154,8 +203,8 @@ export function useGameState() {
     checkWinCondition()
   }
 
-  function checkWinCondition() {
-    if (isTeamGame.value) {
+  function checkWinCondition(): void {
+    if (isTeamGame.value && teams.value) {
       // Team game: check if all players on a team are at 0
       const team1AllOut = teams.value.team1.players.every(p => p.lifePoints <= 0)
       const team2AllOut = teams.value.team2.players.every(p => p.lifePoints <= 0)
@@ -180,11 +229,11 @@ export function useGameState() {
     }
   }
 
-  function nextTurn() {
+  function nextTurn(): void {
     turnCount.value++
   }
 
-  function resetGame() {
+  function resetGame(): void {
     players.forEach(player => {
       player.lifePoints = player.startingLP
       player.history = []
@@ -194,7 +243,7 @@ export function useGameState() {
     turnCount.value = 1
   }
 
-  function endGame() {
+  function endGame(): void {
     gameStarted.value = false
     gameEnded.value = false
     gameMode.value = null
@@ -203,18 +252,18 @@ export function useGameState() {
     turnCount.value = 0
   }
 
-  function updatePlayerName(playerId, newName) {
+  function updatePlayerName(playerId: number, newName: string): void {
     const player = players.find(p => p.id === playerId)
     if (player) {
       player.name = newName
     }
   }
 
-  function updateCustomSettings(settings) {
+  function updateCustomSettings(settings: Partial<CustomSettings>): void {
     Object.assign(customSettings, settings)
   }
 
-  function halveLP(playerId) {
+  function halveLP(playerId: number): void {
     const player = players.find(p => p.id === playerId)
     if (!player || gameEnded.value) return
     

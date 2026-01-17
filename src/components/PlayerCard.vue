@@ -140,86 +140,86 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, nextTick } from 'vue'
+import type { Player, HistoryEntry } from '../composables/useGame'
 
-const props = defineProps({
-  player: {
-    type: Object,
-    required: true,
-  },
-  playerIndex: {
-    type: Number,
-    default: 0,
-  },
-})
+const props = defineProps<{
+  player: Player
+  playerIndex?: number
+}>()
 
-const emit = defineEmits(['update-lp', 'set-lp', 'update-name', 'halve-lp'])
+const emit = defineEmits<{
+  'update-lp': [playerId: number, amount: number]
+  'set-lp': [playerId: number, newLP: number]
+  'update-name': [playerId: number, newName: string]
+  'halve-lp': [playerId: number]
+}>()
 
 const showCalculator = ref(false)
 const showHistory = ref(false)
-const customAmount = ref(null)
+const customAmount = ref<number | null>(null)
 const isEditingName = ref(false)
 const localName = ref(props.player.name)
-const nameInput = ref(null)
+const nameInput = ref<HTMLInputElement | null>(null)
 
-const lpPercentage = computed(() => {
+const lpPercentage = computed((): number => {
   return Math.max(0, (props.player.lifePoints / props.player.startingLP) * 100)
 })
 
-const reversedHistory = computed(() => {
+const reversedHistory = computed((): HistoryEntry[] => {
   return [...props.player.history].reverse()
 })
 
-const playerColorClass = computed(() => {
+const playerColorClass = computed((): string => {
   const colors = [
     'border-l-4 border-l-blue-500',
     'border-l-4 border-l-red-500',
     'border-l-4 border-l-green-500',
     'border-l-4 border-l-yellow-500',
   ]
-  return colors[props.playerIndex % colors.length]
+  return colors[(props.playerIndex ?? 0) % colors.length]
 })
 
-const textColorClass = computed(() => {
+const textColorClass = computed((): string => {
   const colors = [
     'text-blue-600 dark:text-blue-400',
     'text-red-600 dark:text-red-400',
     'text-green-600 dark:text-green-400',
     'text-yellow-600 dark:text-yellow-400',
   ]
-  return colors[props.playerIndex % colors.length]
+  return colors[(props.playerIndex ?? 0) % colors.length]
 })
 
-const progressBarClass = computed(() => {
+const progressBarClass = computed((): string => {
   if (lpPercentage.value > 50) return 'bg-gradient-to-r from-green-400 to-green-500'
   if (lpPercentage.value > 25) return 'bg-gradient-to-r from-yellow-400 to-yellow-500'
   return 'bg-gradient-to-r from-red-400 to-red-500'
 })
 
-function adjustLP(amount) {
+function adjustLP(amount: number): void {
   emit('update-lp', props.player.id, amount)
 }
 
-function halveLP() {
+function halveLP(): void {
   emit('halve-lp', props.player.id)
 }
 
-function applyCustomAmount(multiplier) {
+function applyCustomAmount(multiplier: number): void {
   if (customAmount.value) {
     emit('update-lp', props.player.id, customAmount.value * multiplier)
     customAmount.value = null
   }
 }
 
-function setExactLP() {
+function setExactLP(): void {
   if (customAmount.value !== null) {
     emit('set-lp', props.player.id, customAmount.value)
     customAmount.value = null
   }
 }
 
-function startEditingName() {
+function startEditingName(): void {
   localName.value = props.player.name
   isEditingName.value = true
   nextTick(() => {
@@ -228,7 +228,7 @@ function startEditingName() {
   })
 }
 
-function saveName() {
+function saveName(): void {
   if (localName.value.trim()) {
     emit('update-name', props.player.id, localName.value.trim())
   }

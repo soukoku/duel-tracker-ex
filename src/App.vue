@@ -126,7 +126,7 @@
       <div class="card p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium">
-            {{ gameMode.name }}
+            {{ gameMode?.name }}
           </span>
           <span class="text-gray-600 dark:text-gray-400 text-sm">
             Turn {{ turnCount }}
@@ -239,10 +239,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
 import PlayerCard from './components/PlayerCard.vue'
-import { useGameState, useTheme, GAME_MODES } from './composables/useGame.js'
+import { useGameState, useTheme, GAME_MODES, type GameMode } from './composables/useGame'
 
 // Game state
 const {
@@ -278,8 +278,8 @@ onMounted(() => {
 })
 
 // Helper functions
-function getModeIcon(modeId) {
-  const icons = {
+function getModeIcon(modeId: string): string {
+  const icons: Record<string, string> = {
     standard_1v1: '⚔️',
     speed_1v1: '⚡',
     tag_2v2: '👥',
@@ -289,7 +289,7 @@ function getModeIcon(modeId) {
   return icons[modeId] || '🎮'
 }
 
-function selectAndInitGame(mode) {
+function selectAndInitGame(mode: GameMode): void {
   selectGameMode(mode)
   if (mode.id !== 'custom') {
     initializeGame()
