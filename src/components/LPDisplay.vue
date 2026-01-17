@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative w-full flex flex-col items-center">
     <div 
       class="life-points tabular-nums transition-all duration-300"
       :class="{ 
@@ -11,13 +11,13 @@
     </div>
     
     <!-- LP Progress Bar -->
-    <div class="w-full h-2 bg-themed-secondary rounded-full mt-2 overflow-hidden">
+    <!-- <div class="w-2/3 h-2 bg-themed-secondary rounded-full mt-2 overflow-hidden">
       <div 
         class="h-full rounded-full transition-all duration-500 ease-out"
         :class="progressBarClass"
         :style="{ width: `${lpPercentage}%` }"
       ></div>
-    </div>
+    </div> -->
   </div>
 </template>
 
