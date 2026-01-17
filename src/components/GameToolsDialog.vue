@@ -438,6 +438,26 @@ const reversedHistory = computed(() => [...toolHistory.value].reverse().slice(0,
 // Sequential reveal delay in ms
 const revealDelay = 400
 
+// Cryptographically secure random number generation
+function cryptoRandomInt(max: number): number {
+  const array = new Uint32Array(1)
+  crypto.getRandomValues(array)
+  // Use rejection sampling to avoid modulo bias
+  const maxValid = Math.floor(0xFFFFFFFF / max) * max
+  let value = array[0]
+  while (value >= maxValid) {
+    crypto.getRandomValues(array)
+    value = array[0]
+  }
+  return value % max
+}
+
+function cryptoRandomBool(): boolean {
+  const array = new Uint8Array(1)
+  crypto.getRandomValues(array)
+  return array[0] < 128
+}
+
 // Coin flip logic with sequential reveal
 async function flipCoins(): Promise<void> {
   isFlipping.value = true
@@ -447,10 +467,10 @@ async function flipCoins(): Promise<void> {
   // Initial animation delay
   await new Promise(resolve => setTimeout(resolve, 600))
   
-  // Generate all results
+  // Generate all results using cryptographically secure random
   const results: ('heads' | 'tails')[] = []
   for (let i = 0; i < coinCount.value; i++) {
-    results.push(Math.random() < 0.5 ? 'heads' : 'tails')
+    results.push(cryptoRandomBool() ? 'heads' : 'tails')
   }
   
   coinResults.value = results
@@ -483,10 +503,10 @@ async function rollDice(): Promise<void> {
   // Initial animation delay
   await new Promise(resolve => setTimeout(resolve, 500))
   
-  // Generate all results
+  // Generate all results using cryptographically secure random
   const results: number[] = []
   for (let i = 0; i < diceCount.value; i++) {
-    results.push(Math.floor(Math.random() * diceSides) + 1)
+    results.push(cryptoRandomInt(diceSides) + 1)
   }
   
   diceResults.value = results
