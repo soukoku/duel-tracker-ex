@@ -1,5 +1,5 @@
 /* Google Fonts for themes */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Philosopher:ital,wght@0,400;0,700;1,400&family=Creepster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Philosopher:ital,wght@0,400;0,700;1,400&family=Creepster&family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
@@ -542,14 +542,358 @@ body::after {
 }
 
 /* ============================================
+   KAIBA CORP THEME SPECIFIC STYLES
+   ============================================ */
+
+.theme-kaiba-corp .title,
+.theme-kaiba-corp h1,
+.theme-kaiba-corp h2,
+.theme-kaiba-corp h3 {
+  font-family: var(--font-family-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Slanted/skewed card effect for Kaiba Corp */
+.theme-kaiba-corp .player-card {
+  position: relative;
+  border: 2px solid var(--color-border);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+}
+
+.theme-kaiba-corp .player-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+}
+
+.theme-kaiba-corp .player-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  background: linear-gradient(135deg, transparent 50%, var(--color-primary) 50%);
+  opacity: 0.5;
+}
+
+/* Slanted cards */
+.theme-kaiba-corp .card {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  border-left: 3px solid var(--color-primary);
+}
+
+.theme-kaiba-corp .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), transparent);
+}
+
+/* Tech scan line animation */
+@keyframes kaiba-scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.theme-kaiba-corp .player-card .life-points {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Digital flicker effect for life points */
+@keyframes kaiba-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.8;
+  }
+  94% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 0.9;
+  }
+  97% {
+    opacity: 1;
+  }
+}
+
+.theme-kaiba-corp .life-points {
+  background: linear-gradient(
+    180deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: kaiba-flicker 10s linear infinite;
+  text-shadow: 0 0 10px var(--glow-color);
+  filter: drop-shadow(0 0 5px var(--glow-color));
+}
+
+/* Angular buttons */
+.theme-kaiba-corp .btn {
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  position: relative;
+}
+
+.theme-kaiba-corp .btn-primary {
+  border: none;
+  background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to));
+}
+
+.theme-kaiba-corp .btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.theme-kaiba-corp .btn-primary:hover::before {
+  transform: translateX(100%);
+}
+
+.theme-kaiba-corp .btn-primary:hover {
+  box-shadow: 
+    0 0 15px var(--glow-color),
+    0 0 30px rgba(0, 150, 255, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Angular inputs */
+.theme-kaiba-corp .input {
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  border-left: 2px solid var(--color-primary);
+}
+
+.theme-kaiba-corp .input:focus {
+  box-shadow: 0 0 10px var(--glow-color);
+}
+
+/* Tech border effect */
+.theme-kaiba-corp .gradient-border::before {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+
+/* Border light animation - light travels along the border */
+@keyframes kaiba-border-rotate {
+  0% {
+    --border-angle: 0deg;
+  }
+  100% {
+    --border-angle: 360deg;
+  }
+}
+
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* Player cards with animated border light */
+.theme-kaiba-corp .player-card {
+  position: relative;
+  border: 2px solid transparent;
+  background: 
+    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+    conic-gradient(
+      from var(--border-angle),
+      var(--color-border) 0deg,
+      var(--color-border) 60deg,
+      var(--color-accent) 90deg,
+      var(--color-primary) 120deg,
+      var(--color-border) 150deg,
+      var(--color-border) 360deg
+    ) border-box;
+  animation: kaiba-border-rotate 4s linear infinite;
+  animation-play-state: paused;
+}
+
+/* Trigger animation with delays - creates random-feeling pattern */
+.theme-kaiba-corp .player-card:nth-child(1) {
+  animation: kaiba-border-rotate 4s linear 0s infinite, kaiba-border-pause 18s ease 0s infinite;
+}
+
+.theme-kaiba-corp .player-card:nth-child(2) {
+  animation: kaiba-border-rotate 4s linear 0s infinite, kaiba-border-pause 22s ease 5.3s infinite;
+}
+
+.theme-kaiba-corp .player-card:nth-child(3) {
+  animation: kaiba-border-rotate 4s linear 0s infinite, kaiba-border-pause 20s ease 11.7s infinite;
+}
+
+.theme-kaiba-corp .player-card:nth-child(4) {
+  animation: kaiba-border-rotate 4s linear 0s infinite, kaiba-border-pause 24s ease 8.1s infinite;
+}
+
+/* Pause animation - border only glows for part of the cycle */
+@keyframes kaiba-border-pause {
+  0%, 75%, 100% {
+    filter: brightness(1);
+    --border-angle: 0deg;
+  }
+  80% {
+    filter: brightness(1.2);
+  }
+  85% {
+    --border-angle: 180deg;
+  }
+  90% {
+    --border-angle: 360deg;
+    filter: brightness(1.2);
+  }
+  95% {
+    filter: brightness(1);
+  }
+}
+
+/* Cards and dialogs with border shimmer */
+.theme-kaiba-corp .card,
+.theme-kaiba-corp .dialog-content {
+  position: relative;
+}
+
+/* Border shimmer pseudo-element for cards */
+.theme-kaiba-corp .card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid transparent;
+  border-radius: inherit;
+  background: 
+    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+    conic-gradient(
+      from var(--border-angle),
+      var(--color-border) 0deg,
+      var(--color-accent) 60deg,
+      var(--color-primary) 90deg,
+      var(--color-accent) 120deg,
+      var(--color-border) 180deg,
+      var(--color-border) 360deg
+    ) border-box;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  animation: kaiba-border-rotate 3s linear infinite;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Stagger when cards shimmer with different timing */
+.theme-kaiba-corp .card:nth-child(1)::after {
+  animation: kaiba-border-rotate 3s linear infinite, kaiba-card-shimmer 15s ease 0s infinite;
+}
+
+.theme-kaiba-corp .card:nth-child(2)::after {
+  animation: kaiba-border-rotate 3s linear infinite, kaiba-card-shimmer 17s ease 4.2s infinite;
+}
+
+.theme-kaiba-corp .card:nth-child(3)::after {
+  animation: kaiba-border-rotate 3s linear infinite, kaiba-card-shimmer 19s ease 9.8s infinite;
+}
+
+.theme-kaiba-corp .card:nth-child(4)::after {
+  animation: kaiba-border-rotate 3s linear infinite, kaiba-card-shimmer 16s ease 7.1s infinite;
+}
+
+.theme-kaiba-corp .card:nth-child(5)::after {
+  animation: kaiba-border-rotate 3s linear infinite, kaiba-card-shimmer 18s ease 2.9s infinite;
+}
+
+.theme-kaiba-corp .card:nth-child(6)::after {
+  animation: kaiba-border-rotate 3s linear infinite, kaiba-card-shimmer 14s ease 12.3s infinite;
+}
+
+@keyframes kaiba-card-shimmer {
+  0%, 80%, 100% {
+    opacity: 0;
+  }
+  85%, 95% {
+    opacity: 1;
+  }
+}
+
+/* Dialog border shimmer */
+.theme-kaiba-corp .dialog-content::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid transparent;
+  border-radius: inherit;
+  background: 
+    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+    conic-gradient(
+      from var(--border-angle),
+      var(--color-border) 0deg,
+      var(--color-accent) 45deg,
+      var(--color-primary) 90deg,
+      var(--color-accent) 135deg,
+      var(--color-border) 180deg,
+      var(--color-border) 360deg
+    ) border-box;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  animation: kaiba-border-rotate 3s linear infinite, kaiba-dialog-shimmer 12s ease 2s infinite;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes kaiba-dialog-shimmer {
+  0%, 70%, 100% {
+    opacity: 0;
+  }
+  75%, 90% {
+    opacity: 1;
+  }
+}
+
+/* Holographic data lines */
+@keyframes data-stream {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100px;
+  }
+}
+
+/* ============================================
    RESPONSIVE THEME ADJUSTMENTS
    ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
   .theme-egyptian .life-points,
+  .theme-kaiba-corp .life-points,
+  .theme-kaiba-corp .player-card,
+  .theme-kaiba-corp .card::after,
+  .theme-kaiba-corp .dialog-content::after,
   .theme-shadow-realm .life-points,
   .theme-shadow-realm .player-card {
-    animation: none;
+    animation: none !important;
   }
 }
 
@@ -561,6 +905,7 @@ body::after {
   }
   
   .theme-egyptian .title,
+  .theme-kaiba-corp .title,
   .theme-shadow-realm .title {
     letter-spacing: 0.02em;
   }

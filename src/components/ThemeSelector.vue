@@ -34,7 +34,7 @@
         style="background-color: var(--color-bg-card); border: 1px solid var(--color-border);"
       >
         <!-- Header -->
-        <div class="p-3 border-b" style="border-color: var(--color-border);">
+        <div class="p-3 pl-8 border-b" style="border-color: var(--color-border);">
           <h3 class="font-semibold text-themed">Choose Theme</h3>
         </div>
 

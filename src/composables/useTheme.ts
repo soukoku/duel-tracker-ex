@@ -99,8 +99,8 @@ export interface Theme {
 const egyptianTheme: Theme = {
   id: 'egyptian',
   name: 'Egyptian',
-  description: 'Ancient Egypt - Season 1',
-  icon: '🏛️',
+  description: 'Ancient Egypt',
+  icon: '',
   styles: {
     // Angular, hieroglyphic-inspired corners
     radiusSmall: '2px',
@@ -210,9 +210,125 @@ const egyptianTheme: Theme = {
   },
 }
 
+// Kaiba Corp Theme - Futuristic technology (Blue/White)
+const kaibaCorpTheme: Theme = {
+  id: 'kaiba-corp',
+  name: 'Kaiba Corp',
+  description: 'Futuristic Technology',
+  icon: '',
+  styles: {
+    // Sharp, angular corners for tech look
+    radiusSmall: '0px',
+    radiusMedium: '0px',
+    radiusLarge: '0px',
+    radiusCard: '0px',
+    
+    // Blue tech glow shadows
+    shadowCard: '0 4px 20px -2px rgba(0, 100, 200, 0.2), 0 2px 8px -2px rgba(0, 0, 0, 0.15)',
+    shadowElevated: '0 8px 30px -4px rgba(0, 150, 255, 0.3), 0 4px 12px -2px rgba(0, 0, 0, 0.2)',
+    shadowGlow: '0 0 25px rgba(0, 150, 255, 0.5)',
+    
+    // Compact, efficient spacing
+    cardPadding: '1.25rem',
+    cardGap: '1rem',
+    
+    // Modern tech typography
+    fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
+    fontFamilyDisplay: '"Orbitron", "Rajdhani", sans-serif',
+    titleWeight: '700',
+    
+    // Sharp angular buttons
+    buttonRadius: '0px',
+    buttonPadding: '0.625rem 1.5rem',
+    
+    // Fast, snappy animations
+    transitionSpeed: '0.2s',
+    animationIntensity: 'moderate',
+    
+    // Circuit board / tech grid pattern
+    bgPattern: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3E.c{stroke:%230066CC;stroke-opacity:0.06;fill:none;stroke-width:1}%3C/style%3E%3C/defs%3E%3Cpath class='c' d='M0 50h40M60 50h40M50 0v40M50 60v40'/%3E%3Ccircle class='c' cx='50' cy='50' r='3'/%3E%3Cpath class='c' d='M20 20h10v10M70 20h10v10M20 70h10v10M70 70h10v10'/%3E%3Cpath class='c' d='M0 25h15l10 10M0 75h15l10-10M100 25h-15l-10 10M100 75h-15l-10-10'/%3E%3C/svg%3E")`,
+    bgOverlay: 'linear-gradient(135deg, rgba(0, 100, 200, 0.02) 0%, transparent 50%, rgba(0, 150, 255, 0.03) 100%)',
+    
+    // Blue tech glow effects
+    glowColor: 'rgba(0, 150, 255, 0.6)',
+    glowIntensity: '20px',
+  },
+  light: {
+    primary: '#0066CC',        // Kaiba Corp blue
+    primaryHover: '#0052A3',
+    primaryLight: '#E6F2FF',   // Light blue for badges
+    primaryDark: '#004080',    // Dark blue for text
+    
+    secondary: '#2D3748',      // Dark slate
+    secondaryHover: '#1A202C',
+    accent: '#00A3FF',         // Bright cyan accent
+    accentHover: '#0080CC',
+    
+    gradientFrom: '#0066CC',
+    gradientTo: '#00A3FF',
+    
+    textPrimary: '#1A202C',    // Near black
+    textSecondary: '#2D3748',  // Dark slate
+    textMuted: '#4A5568',      // Medium gray
+    
+    bgPrimary: '#F7FAFC',      // Cool white
+    bgSecondary: '#EDF2F7',    // Light gray
+    bgCard: '#FFFFFF',
+    bgHover: '#E2E8F0',
+    
+    border: '#CBD5E0',         // Cool gray border
+    borderHover: '#0066CC',
+    
+    success: '#059669',        // Tech green
+    danger: '#DC2626',         // Alert red
+    warning: '#D97706',        // Warning amber
+    
+    player1: '#0066CC',        // Blue
+    player2: '#DC2626',        // Red
+    player3: '#059669',        // Green
+    player4: '#7C3AED',        // Purple
+  },
+  dark: {
+    primary: '#00A3FF',        // Bright cyan
+    primaryHover: '#33B5FF',
+    primaryLight: '#1A3A5C',   // Dark blue for badge backgrounds
+    primaryDark: '#66CCFF',    // Light cyan for text on dark badges
+    
+    secondary: '#64B5F6',      // Light blue
+    secondaryHover: '#90CAF9',
+    accent: '#00E5FF',         // Bright cyan accent
+    accentHover: '#33EBFF',
+    
+    gradientFrom: '#0066CC',
+    gradientTo: '#00A3FF',
+    
+    textPrimary: '#F7FAFC',    // Cool white
+    textSecondary: '#E2E8F0',  // Light gray
+    textMuted: '#A0AEC0',      // Medium gray
+    
+    bgPrimary: '#0D1117',      // Deep dark blue-black
+    bgSecondary: '#161B22',    // Slightly lighter
+    bgCard: '#1C2128',         // Card dark
+    bgHover: '#252D38',
+    
+    border: '#30363D',         // Dark border
+    borderHover: '#00A3FF',
+    
+    success: '#10B981',        // Bright green
+    danger: '#F87171',         // Bright red
+    warning: '#FBBF24',        // Bright amber
+    
+    player1: '#00A3FF',        // Cyan
+    player2: '#F87171',        // Red
+    player3: '#10B981',        // Green
+    player4: '#A78BFA',        // Purple
+  },
+}
+
 // All available themes
 export const THEMES: Record<string, Theme> = {
   egyptian: egyptianTheme,
+  'kaiba-corp': kaibaCorpTheme,
 }
 
 // Theme composable using VueUse's useStorage for persistence
