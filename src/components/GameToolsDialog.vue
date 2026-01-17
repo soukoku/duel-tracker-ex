@@ -40,7 +40,7 @@
 
             <!-- Title -->
             <h2 class="text-xl font-bold text-themed mb-6 pr-8">
-              🎲 Duel Tools
+              🎲 {{ t('tools.title') }}
             </h2>
 
             <!-- Tool Tabs -->
@@ -54,7 +54,7 @@
                   ? 'gradient-primary text-white shadow-lg' 
                   : 'bg-themed-secondary text-themed-secondary hover:bg-themed-hover'"
               >
-                {{ tool.icon }} {{ tool.name }}
+                {{ tool.icon }} {{ t(`tools.${tool.id}`) }}
               </button>
             </div>
 
@@ -84,6 +84,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useStorage } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import CoinFlipTool from './CoinFlipTool.vue'
 import DiceRollTool from './DiceRollTool.vue'
 import ToolHistory, { type ToolHistoryEntry } from './ToolHistory.vue'
@@ -98,9 +99,11 @@ const emit = defineEmits<{
   result: [entry: ToolHistoryEntry]
 }>()
 
+const { t } = useI18n()
+
 const tools = [
-  { id: 'coin', name: 'Coins', icon: '🪙' },
-  { id: 'dice', name: 'Dice', icon: '🎲' },
+  { id: 'coin', icon: '🪙' },
+  { id: 'dice', icon: '🎲' },
 ]
 
 const activeTool = ref<'coin' | 'dice'>('coin')

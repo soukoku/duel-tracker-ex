@@ -2,7 +2,7 @@
   <div class="space-y-4">
     <!-- Game Info Bar -->
     <GameInfoBar
-      :mode-name="gameMode?.name ?? 'Game'"
+      :mode-name="getModeName(gameMode)"
       :turn-count="turnCount"
       @open-tools="$emit('open-tools')"
       @next-turn="$emit('next-turn')"
@@ -104,6 +104,15 @@ import GameInfoBar from './GameInfoBar.vue'
 import type { Player, Winner, Teams, GameMode } from '../composables/useGame'
 
 const { t } = useI18n()
+
+function getModeName(mode: GameMode | null): string {
+  if (!mode) return 'Game'
+  const modeKey = mode.id === 'standard_1v1' ? 'standard' : 
+                  mode.id === 'speed_1v1' ? 'speed' :
+                  mode.id.startsWith('tag_') ? 'tag' : 
+                  'custom'
+  return t(`modes.${modeKey}.name`)
+}
 
 defineProps<{
   gameMode: GameMode | null

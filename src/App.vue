@@ -125,7 +125,7 @@ const {
   endGame,
   updatePlayerName,
   halveLP,
-} = useGameState()
+} = useGameState({ t })
 
 // Theme
 const { 

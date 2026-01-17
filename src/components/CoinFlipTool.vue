@@ -2,7 +2,7 @@
   <div class="space-y-4">
     <div class="text-center">
       <p class="text-themed-secondary mb-4">
-        Select how many coins to flip (max {{ maxCoins }})
+        {{ t('tools.selectCoins', { max: maxCoins }) }}
       </p>
       
       <!-- Coin Count Selector -->
@@ -26,9 +26,9 @@
         :disabled="isFlipping"
         class="btn btn-primary w-full py-4 text-lg relative overflow-hidden"
       >
-        <span v-if="!isFlipping">🪙 Flip {{ coinCount }} Coin{{ coinCount > 1 ? 's' : '' }}</span>
+        <span v-if="!isFlipping">🪙 {{ t('tools.flip', { count: coinCount, plural: coinCount > 1 ? 's' : '' }) }}</span>
         <span v-else class="flex items-center justify-center gap-2">
-          <span class="animate-spin">🪙</span> Flipping...
+          <span class="animate-spin">🪙</span> {{ t('tools.flipping') }}
         </span>
       </button>
 
@@ -97,12 +97,12 @@
         <!-- Summary -->
         <div class="text-center text-themed-secondary text-sm h-5">
           <template v-if="visibleCoinResults.length === coinResults.length && coinResults.length > 0">
-            <span class="font-medium">Heads:</span> {{ coinResults.filter(r => r === 'heads').length }}
+            <span class="font-medium">{{ t('tools.heads') }}:</span> {{ coinResults.filter(r => r === 'heads').length }}
             <span class="mx-2">|</span>
-            <span class="font-medium">Tails:</span> {{ coinResults.filter(r => r === 'tails').length }}
+            <span class="font-medium">{{ t('tools.tails') }}:</span> {{ coinResults.filter(r => r === 'tails').length }}
           </template>
           <template v-else-if="isFlipping || visibleCoinResults.length < coinResults.length">
-            <span class="opacity-50">Revealing results...</span>
+            <span class="opacity-50">{{ t('tools.revealingResults') }}</span>
           </template>
         </div>
       </div>
@@ -112,7 +112,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import CoinFace from './CoinFace.vue'
+
+const { t } = useI18n()
 
 export interface CoinFlipResult {
   type: 'coin'

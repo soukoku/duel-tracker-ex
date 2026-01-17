@@ -9,7 +9,7 @@
       <svg class="w-5 h-5 text-themed-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
       </svg>
-      <span class="hidden sm:inline text-sm font-medium text-themed">{{ currentTheme.name }}</span>
+      <span class="hidden sm:inline text-sm font-medium text-themed">{{ getThemeName(currentTheme.id) }}</span>
       <svg 
         class="w-4 h-4 text-themed-muted transition-transform" 
         :class="{ 'rotate-180': isOpen }"
@@ -37,7 +37,7 @@
       >
         <!-- Header -->
         <div class="p-3 pl-8 border-b" style="border-color: var(--color-border);">
-          <h3 class="font-semibold text-themed">Choose Theme</h3>
+          <h3 class="font-semibold text-themed">{{ t('theme.chooseTheme') }}</h3>
         </div>
 
         <!-- Theme Options -->
@@ -57,8 +57,8 @@
               <span class="text-xs font-bold">{{ theme.name.charAt(0) }}</span>
             </div>
             <div class="flex-1">
-              <div class="font-medium text-themed">{{ theme.name }}</div>
-              <div class="text-xs text-themed-muted">{{ theme.description }}</div>
+              <div class="font-medium text-themed">{{ getThemeName(theme.id) }}</div>
+              <div class="text-xs text-themed-muted">{{ getThemeDescription(theme.id) }}</div>
             </div>
             <svg 
               v-if="currentThemeId === theme.id"
@@ -80,7 +80,7 @@
           >
             <div class="flex items-center gap-2">
               <span class="text-xl">{{ isDark ? '🌙' : '☀️' }}</span>
-              <span class="text-sm font-medium text-themed">{{ isDark ? 'Dark Mode' : 'Light Mode' }}</span>
+              <span class="text-sm font-medium text-themed">{{ isDark ? t('theme.darkMode') : t('theme.lightMode') }}</span>
             </div>
             <div 
               class="relative w-11 h-6 rounded-full transition-colors"
@@ -107,7 +107,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { ThemeInfo } from '../composables/useTheme'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   currentThemeId: string
@@ -130,5 +133,15 @@ function selectTheme(themeId: string): void {
 
 function toggleDarkMode(): void {
   emit('toggle-dark-mode')
+}
+
+function getThemeName(themeId: string): string {
+  const key = themeId === 'kaiba-corp' ? 'kaibaCorp' : themeId
+  return t(`theme.${key}.name`)
+}
+
+function getThemeDescription(themeId: string): string {
+  const key = themeId === 'kaiba-corp' ? 'kaibaCorp' : themeId
+  return t(`theme.${key}.description`)
 }
 </script>

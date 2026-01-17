@@ -78,7 +78,15 @@
   "theme": {
     "chooseTheme": "Choose Theme",
     "darkMode": "Dark Mode",
-    "lightMode": "Light Mode"
+    "lightMode": "Light Mode",
+    "egyptian": {
+      "name": "Egyptian",
+      "description": "Ancient Egypt"
+    },
+    "kaibaCorp": {
+      "name": "Kaiba Corp",
+      "description": "Futuristic Technology"
+    }
   },
   "music": {
     "title": "Duel Music",

@@ -1,5 +1,6 @@
 import { ref, reactive, computed, watch, type Ref, type ComputedRef } from 'vue'
 import { useStorage } from '@vueuse/core'
+import type { Composer } from 'vue-i18n'
 
 // Type definitions
 export interface GameMode {
@@ -136,7 +137,7 @@ const defaultGameState: PersistedGameState = {
 }
 
 // Main game state composable
-export function useGameState() {
+export function useGameState(i18nInstance?: { t: Composer['t'] }) {
   // Use useStorage for automatic persistence with deep reactivity
   const persistedState = useStorage<PersistedGameState>(STORAGE_KEY, defaultGameState, undefined, {
     deep: true,
@@ -206,8 +207,8 @@ export function useGameState() {
     for (let i = 0; i < playerCount; i++) {
       const team = useTeams ? (i < playerCount / 2 ? 1 : 2) : null
       const playerName = useTeams 
-        ? `Team ${team} - Player ${(i % (playerCount / 2)) + 1}`
-        : `Player ${i + 1}`
+        ? `${i18nInstance?.t('player.team', { n: team }) ?? `Team ${team}`} - ${i18nInstance?.t('player.name', { n: (i % (playerCount / 2)) + 1 }) ?? `Player ${(i % (playerCount / 2)) + 1}`}`
+        : i18nInstance?.t('player.name', { n: i + 1 }) ?? `Player ${i + 1}`
       players.push(createPlayer(i + 1, playerName, startingLP, team))
     }
 

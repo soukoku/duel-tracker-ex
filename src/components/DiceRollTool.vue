@@ -2,7 +2,7 @@
   <div class="space-y-4">
     <div class="text-center">
       <p class="text-themed-secondary mb-4">
-        Select how many dice to roll (max {{ maxDice }})
+        {{ t('tools.selectDice', { max: maxDice }) }}
       </p>
       
       <!-- Dice Count Selector -->
@@ -26,9 +26,9 @@
         :disabled="isRolling"
         class="btn btn-primary w-full py-4 text-lg relative overflow-hidden"
       >
-        <span v-if="!isRolling">🎲 Roll {{ diceCount }} D{{ diceSides }}</span>
+        <span v-if="!isRolling">🎲 {{ t('tools.roll', { count: diceCount, sides: diceSides }) }}</span>
         <span v-else class="flex items-center justify-center gap-2">
-          <span class="animate-bounce">🎲</span> Rolling...
+          <span class="animate-bounce">🎲</span> {{ t('tools.rolling') }}
         </span>
       </button>
 
@@ -96,13 +96,13 @@
         <!-- Summary -->
         <div class="text-center text-themed-secondary h-7">
           <template v-if="visibleDiceResults.length === diceResults.length && diceResults.length > 0">
-            <span class="font-medium">Total:</span> 
+            <span class="font-medium">{{ t('tools.total') }}:</span> 
             <span class="text-xl font-bold text-themed-primary ml-2">
               {{ diceResults.reduce((a, b) => a + b, 0) }}
             </span>
           </template>
           <template v-else-if="isRolling || visibleDiceResults.length < diceResults.length">
-            <span class="opacity-50">Revealing results...</span>
+            <span class="opacity-50">{{ t('tools.revealingResults') }}</span>
           </template>
         </div>
       </div>
@@ -112,7 +112,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import DiceFace from './DiceFace.vue'
+
+const { t } = useI18n()
 
 export interface DiceRollResult {
   type: 'dice'

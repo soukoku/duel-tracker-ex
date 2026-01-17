@@ -1,0 +1,99 @@
+{
+  "app": {
+    "title": "决斗追踪器",
+    "subtitle": "游戏王生命值计数器",
+    "footer": "轻松追踪你的决斗"
+  },
+  "player": {
+    "name": "玩家 {n}",
+    "lifePoints": "生命值",
+    "history": "历史记录",
+    "showHistory": "显示历史记录 ({count})",
+    "hideHistory": "隐藏历史记录 ({count})",
+    "noChanges": "暂无变化",
+    "team": "队伍 {n}",
+    "totalLP": "总计：{lp} LP"
+  },
+  "game": {
+    "turn": "回合 {count}",
+    "winner": "{name} 获胜！",
+    "endedOnTurn": "游戏在第 {turn} 回合结束",
+    "selectMode": "选择游戏模式",
+    "customSettings": "自定义设置"
+  },
+  "modes": {
+    "standard": {
+      "name": "标准决斗",
+      "description": "经典1v1决斗，8000 LP"
+    },
+    "speed": {
+      "name": "速度决斗",
+      "description": "快节奏决斗，4000 LP"
+    },
+    "tag": {
+      "name": "双打决斗",
+      "description": "2v2团队战，每人8000 LP"
+    },
+    "custom": {
+      "name": "自定义游戏",
+      "description": "创建自己的规则"
+    }
+  },
+  "settings": {
+    "startingLP": "起始生命值",
+    "playerCount": "玩家数量",
+    "players": "{count} 名玩家",
+    "teamMode": "团队模式",
+    "teamsEnabled": "已启用团队",
+    "noTeams": "无团队"
+  },
+  "actions": {
+    "startGame": "开始自定义游戏",
+    "endGame": "结束游戏",
+    "reset": "重置",
+    "nextTurn": "下一回合",
+    "rematch": "再来一局",
+    "newGame": "新游戏",
+    "subtract": "减少",
+    "add": "增加",
+    "set": "设置",
+    "halve": "1/2"
+  },
+  "tools": {
+    "title": "决斗工具",
+    "coin": "硬币",
+    "dice": "骰子",
+    "flip": "投掷 {count} 枚硬币",
+    "roll": "投掷 {count} 个D{sides}",
+    "flipping": "投掷中...",
+    "rolling": "投掷中...",
+    "heads": "正面",
+    "tails": "反面",
+    "total": "总计",
+    "recentResults": "最近结果 ({count})",
+    "selectCoins": "选择要投掷的硬币数量（最多 {max}）",
+    "selectDice": "选择要投掷的骰子数量（最多 {max}）",
+    "revealingResults": "结果显示中..."
+  },
+  "theme": {
+    "chooseTheme": "选择主题",
+    "darkMode": "深色模式",
+    "lightMode": "浅色模式",
+    "egyptian": {
+      "name": "埃及",
+      "description": "古埃及风格"
+    },
+    "kaibaCorp": {
+      "name": "海马集团",
+      "description": "未来科技风格"
+    }
+  },
+  "music": {
+    "title": "决斗音乐",
+    "poweredBy": "由 YouTube 提供",
+    "openPlayer": "打开音乐播放器"
+  },
+  "calculator": {
+    "amount": "数值"
+  }
+}
