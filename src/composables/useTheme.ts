@@ -1,5 +1,5 @@
 import { computed, watch } from 'vue'
-import { useStorage } from '@vueuse/core'
+import { useStorage, useDark, usePreferredDark } from '@vueuse/core'
 
 // Simple theme metadata (colors and styles are defined in CSS)
 export interface ThemeInfo {
@@ -25,12 +25,11 @@ export const THEMES: ThemeInfo[] = [
 // Theme composable - manages theme ID and dark mode, applies classes to root
 export function useThemeSystem() {
   const currentThemeId = useStorage<string>('duel-tracker-theme-id', 'egyptian')
-  const isDark = useStorage<boolean>(
-    'duel-tracker-dark-mode',
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-color-scheme: dark)').matches
-      : false
-  )
+  const preferredDark = usePreferredDark()
+  const isDark = useDark({
+    storageKey: 'duel-tracker-dark-mode',
+    initialValue: preferredDark.value ? 'dark' : 'light'
+  })
 
   const currentTheme = computed(
     () => THEMES.find((t) => t.id === currentThemeId.value) || THEMES[0]
@@ -47,13 +46,8 @@ export function useThemeSystem() {
 
     // Add current theme class
     root.classList.add(`theme-${currentThemeId.value}`)
-
-    // Apply dark/light mode
-    if (isDark.value) {
-      root.classList.add('dark')
-    } else {
-      root.classList.remove('dark')
-    }
+    
+    // Dark mode class is automatically handled by useDark()
   }
 
   function initTheme(): void {
@@ -70,16 +64,14 @@ export function useThemeSystem() {
 
   function toggleDarkMode(): void {
     isDark.value = !isDark.value
-    applyThemeClasses()
   }
 
   function setDarkMode(dark: boolean): void {
     isDark.value = dark
-    applyThemeClasses()
   }
 
-  // Watch for changes
-  watch([currentThemeId, isDark], applyThemeClasses)
+  // Watch for theme changes (dark mode is handled by useDark)
+  watch(currentThemeId, applyThemeClasses)
 
   return {
     currentThemeId,

@@ -360,36 +360,4 @@ export function useGameState() {
   }
 }
 
-// Legacy theme composable - updated to use useStorage
-export function useTheme() {
-  const isDark = useStorage<boolean>('duel-tracker-theme', 
-    typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches : false
-  )
 
-  function applyTheme() {
-    if (isDark.value) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }
-
-  function initTheme() {
-    // useStorage already loads saved value, just apply it
-    applyTheme()
-  }
-
-  function toggleTheme() {
-    isDark.value = !isDark.value
-    // useStorage automatically persists
-    applyTheme()
-  }
-
-  watch(isDark, applyTheme)
-
-  return {
-    isDark,
-    initTheme,
-    toggleTheme,
-  }
-}

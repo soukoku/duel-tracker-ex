@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
+import { useRafFn } from '@vueuse/core'
 
 const props = defineProps<{
   lifePoints: number
@@ -36,7 +37,30 @@ const lifeZeroSfx = ref<HTMLAudioElement | null>(null)
 // Animation state
 const isAnimating = ref(false)
 const displayedLP = ref(props.lifePoints)
-let animationFrameId: number | null = null
+
+// Animation control
+let animationStartTime = 0
+let animationFromLP = 0
+let animationToLP = 0
+let animationDuration = 0
+
+const { pause: pauseAnimation, resume: resumeAnimation } = useRafFn(() => {
+  const currentTime = performance.now()
+  const elapsed = currentTime - animationStartTime
+  const progress = Math.min(elapsed / animationDuration, 1)
+  
+  if (progress < 1) {
+    const range = Math.abs(animationToLP - animationFromLP)
+    const jitter = range * (1 - progress) * 0.3
+    const baseValue = animationFromLP + (animationToLP - animationFromLP) * progress
+    const randomOffset = (Math.random() - 0.5) * 2 * jitter
+    displayedLP.value = Math.max(0, Math.round(baseValue + randomOffset))
+  } else {
+    displayedLP.value = animationToLP
+    isAnimating.value = false
+    pauseAnimation()
+  }
+}, { immediate: false })
 
 onMounted(() => {
   lifeChangeSfx.value = new Audio('/assets/sfx/life-change.ogg')
@@ -52,11 +76,11 @@ watch(() => props.lifePoints, (newLP, oldLP) => {
 })
 
 function animateLPChange(fromLP: number, toLP: number): void {
-  if (animationFrameId !== null) {
-    cancelAnimationFrame(animationFrameId)
-  }
+  pauseAnimation()
   
   isAnimating.value = true
+  animationFromLP = fromLP
+  animationToLP = toLP
   
   const willBeZero = toLP <= 0
   const sfx = willBeZero ? lifeZeroSfx.value : lifeChangeSfx.value
@@ -66,28 +90,10 @@ function animateLPChange(fromLP: number, toLP: number): void {
     sfx.play().catch(() => {})
   }
   
-  const animationDuration = willBeZero ? 1500 : 1000
-  const startTime = performance.now()
+  animationDuration = willBeZero ? 1500 : 1000
+  animationStartTime = performance.now()
   
-  function animate(currentTime: number): void {
-    const elapsed = currentTime - startTime
-    const progress = Math.min(elapsed / animationDuration, 1)
-    
-    if (progress < 1) {
-      const range = Math.abs(toLP - fromLP)
-      const jitter = range * (1 - progress) * 0.3
-      const baseValue = fromLP + (toLP - fromLP) * progress
-      const randomOffset = (Math.random() - 0.5) * 2 * jitter
-      displayedLP.value = Math.max(0, Math.round(baseValue + randomOffset))
-      animationFrameId = requestAnimationFrame(animate)
-    } else {
-      displayedLP.value = toLP
-      isAnimating.value = false
-      animationFrameId = null
-    }
-  }
-  
-  animationFrameId = requestAnimationFrame(animate)
+  resumeAnimation()
 }
 
 const lpPercentage = computed((): number => {
