@@ -2,7 +2,7 @@
   <div class="space-y-6">
     <div class="card p-4 sm:p-6">
       <h2 class="text-lg sm:text-xl font-bold text-themed mb-4">
-        Select Game Mode
+        {{ t('game.selectMode') }}
       </h2>
       
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -16,10 +16,10 @@
           <div class="flex items-start justify-between">
             <div>
               <h3 class="font-bold text-themed group-hover:text-themed-primary transition-colors">
-                {{ mode.name }}
+                {{ getModeName(mode.id) }}
               </h3>
               <p class="text-sm text-themed-muted mt-1">
-                {{ mode.description }}
+                {{ getModeDescription(mode.id) }}
               </p>
             </div>
             <div class="text-2xl">
@@ -41,13 +41,13 @@
     <!-- Custom Settings -->
     <div v-if="selectedModeId === 'custom'" class="card p-4 sm:p-6">
       <h2 class="text-lg sm:text-xl font-bold text-themed mb-4">
-        Custom Settings
+        {{ t('game.customSettings') }}
       </h2>
       
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <label class="block text-sm font-medium text-themed-secondary mb-2">
-            Starting Life Points
+            {{ t('settings.startingLP') }}
           </label>
           <input
             :value="customSettings.startingLP"
@@ -61,29 +61,29 @@
         
         <div>
           <label class="block text-sm font-medium text-themed-secondary mb-2">
-            Number of Players
+            {{ t('settings.playerCount') }}
           </label>
           <select 
             :value="customSettings.playerCount"
             @change="updateCustomSetting('playerCount', Number(($event.target as HTMLSelectElement).value))"
             class="input"
           >
-            <option :value="2">2 Players</option>
-            <option :value="3">3 Players</option>
-            <option :value="4">4 Players</option>
+            <option :value="2">{{ t('settings.players', { count: 2 }) }}</option>
+            <option :value="3">{{ t('settings.players', { count: 3 }) }}</option>
+            <option :value="4">{{ t('settings.players', { count: 4 }) }}</option>
           </select>
         </div>
         
         <div>
           <label class="block text-sm font-medium text-themed-secondary mb-2">
-            Team Mode
+            {{ t('settings.teamMode') }}
           </label>
           <button
             @click="updateCustomSetting('useTeams', !customSettings.useTeams)"
             class="w-full input flex items-center justify-between"
             :disabled="customSettings.playerCount < 4"
           >
-            <span>{{ customSettings.useTeams ? 'Teams Enabled' : 'No Teams' }}</span>
+            <span>{{ customSettings.useTeams ? t('settings.teamsEnabled') : t('settings.noTeams') }}</span>
             <span :class="customSettings.useTeams ? 'text-success' : 'text-themed-muted'">
               {{ customSettings.useTeams ? '✓' : '✗' }}
             </span>
@@ -95,14 +95,17 @@
         @click="$emit('start-custom')"
         class="btn btn-primary w-full mt-4"
       >
-        Start Custom Game
+        {{ t('actions.startGame') }}
       </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import type { GameMode, CustomSettings } from '../composables/useGame'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   gameModes: GameMode[]
@@ -133,5 +136,21 @@ function getModeIcon(modeId: string): string {
     custom: '⚙️',
   }
   return icons[modeId] || '🎮'
+}
+
+function getModeName(modeId: string): string {
+  const modeKey = modeId === 'standard_1v1' ? 'standard' : 
+                  modeId === 'speed_1v1' ? 'speed' :
+                  modeId.startsWith('tag_') ? 'tag' : 
+                  'custom'
+  return t(`modes.${modeKey}.name`)
+}
+
+function getModeDescription(modeId: string): string {
+  const modeKey = modeId === 'standard_1v1' ? 'standard' : 
+                  modeId === 'speed_1v1' ? 'speed' :
+                  modeId.startsWith('tag_') ? 'tag' : 
+                  'custom'
+  return t(`modes.${modeKey}.description`)
 }
 </script>

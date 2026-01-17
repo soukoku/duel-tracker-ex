@@ -4,7 +4,7 @@
       @click="showHistory = !showHistory"
       class="text-sm text-themed-muted hover:text-themed transition-colors"
     >
-      {{ showHistory ? 'Hide' : 'Show' }} History ({{ history.length }})
+      {{ showHistory ? t('player.hideHistory', { count: history.length }) : t('player.showHistory', { count: history.length }) }}
     </button>
 
     <transition
@@ -29,7 +29,7 @@
             <span class="text-themed">{{ entry.newLP.toLocaleString() }}</span>
           </div>
           <div v-if="history.length === 0" class="text-center text-themed-muted py-2">
-            No changes yet
+            {{ t('player.noChanges') }}
           </div>
         </div>
       </div>
@@ -39,7 +39,10 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { HistoryEntry } from '../composables/useGame'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   history: HistoryEntry[]

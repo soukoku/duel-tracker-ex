@@ -21,14 +21,14 @@
         class="card p-6 text-center gradient-primary text-white"
       >
         <div class="text-4xl mb-2">🏆</div>
-        <h2 class="text-2xl font-bold">{{ winner.name }} Wins!</h2>
-        <p class="text-sm opacity-75 mt-1">Game ended on Turn {{ turnCount }}</p>
+        <h2 class="text-2xl font-bold">{{ t('game.winner', { name: winner.name }) }}</h2>
+        <p class="text-sm opacity-75 mt-1">{{ t('game.endedOnTurn', { turn: turnCount }) }}</p>
         <div class="flex justify-center gap-3 mt-4">
           <button @click="$emit('reset-game')" class="btn bg-white text-gray-900 hover:bg-gray-100">
-            Rematch
+            {{ t('actions.rematch') }}
           </button>
           <button @click="$emit('end-game')" class="btn btn-secondary">
-            New Game
+            {{ t('actions.newGame') }}
           </button>
         </div>
       </div>
@@ -39,7 +39,7 @@
       <div class="space-y-4">
         <div class="card p-3 border-l-4 border-player-1" style="background-color: var(--color-bg-secondary);">
           <h3 class="font-bold player-1 text-center">
-            Team 1 - Total: {{ teams.team1.totalLP.toLocaleString() }} LP
+            {{ t('player.team', { n: 1 }) }} - {{ t('player.totalLP', { lp: teams.team1.totalLP.toLocaleString() }) }}
           </h3>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -59,7 +59,7 @@
       <div class="space-y-4">
         <div class="card p-3 border-l-4 border-player-2" style="background-color: var(--color-bg-secondary);">
           <h3 class="font-bold player-2 text-center">
-            Team 2 - Total: {{ teams.team2.totalLP.toLocaleString() }} LP
+            {{ t('player.team', { n: 2 }) }} - {{ t('player.totalLP', { lp: teams.team2.totalLP.toLocaleString() }) }}
           </h3>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -98,9 +98,12 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import PlayerCard from './PlayerCard.vue'
 import GameInfoBar from './GameInfoBar.vue'
 import type { Player, Winner, Teams, GameMode } from '../composables/useGame'
+
+const { t } = useI18n()
 
 defineProps<{
   gameMode: GameMode | null

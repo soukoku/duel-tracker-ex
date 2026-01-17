@@ -5,10 +5,10 @@
         {{ modeName }}
       </span>
       <span class="text-themed-muted text-sm">
-        Turn {{ turnCount }}
+        {{ t('game.turn', { count: turnCount }) }}
       </span>
       <button @click="$emit('end')" class="btn btn-danger ml-auto py-0 px-3">
-        End Game
+        {{ t('actions.endGame') }}
       </button>
     </div>
     
@@ -16,21 +16,25 @@
       <button 
         @click="$emit('open-tools')" 
         class="btn btn-secondary text-sm mr-auto"
-        title="Dice & Coin Tools"
+        :title="t('tools.title')"
       >
-        🎲 Tools
+        🎲 {{ t('tools.title') }}
       </button>
       <button @click="$emit('next-turn')" class="btn btn-secondary text-sm">
-        Next Turn
+        {{ t('actions.nextTurn') }}
       </button>
       <button @click="$emit('reset')" class="btn btn-secondary text-sm">
-        Reset
+        {{ t('actions.reset') }}
       </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 defineProps<{
   modeName: string
   turnCount: number

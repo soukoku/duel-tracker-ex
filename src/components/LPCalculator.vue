@@ -12,7 +12,7 @@
         <input
           v-model.number="amount"
           type="number"
-          placeholder="Amount"
+          :placeholder="t('calculator.amount')"
           class="input flex-1"
           min="0"
         />
@@ -23,21 +23,21 @@
           class="btn btn-danger flex-1"
           :disabled="!amount"
         >
-          Subtract
+          {{ t('actions.subtract') }}
         </button>
         <button 
           @click="handleAdd" 
           class="btn btn-success flex-1"
           :disabled="!amount"
         >
-          Add
+          {{ t('actions.add') }}
         </button>
         <button 
           @click="handleSet" 
           class="btn btn-secondary flex-1"
           :disabled="amount === null"
         >
-          Set
+          {{ t('actions.set') }}
         </button>
       </div>
     </div>
@@ -46,6 +46,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 defineProps<{
   show: boolean

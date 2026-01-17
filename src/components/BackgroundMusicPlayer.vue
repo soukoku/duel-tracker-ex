@@ -3,7 +3,7 @@
     <!-- Minimized View -->
     <button v-if="isMinimized"
       class="bg-themed-card border border-themed rounded-full p-3 shadow-lg cursor-pointer hover:scale-105 transition-transform"
-      @click="toggleMinimized" title="Open Music Player">
+      @click="toggleMinimized" :title="t('music.openPlayer')">
       <svg class="w-8 h-8 text-themed-primary" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
       </svg>
@@ -17,7 +17,7 @@
           <svg class="w-5 h-5 text-themed-primary" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
           </svg>
-          <span class="font-semibold text-themed">Duel Music</span>
+          <span class="font-semibold text-themed">{{ t('music.title') }}</span>
         </div>
         <button @click="toggleMinimized" class="text-themed-muted hover:text-themed transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,7 +53,7 @@
       <!-- YouTube Attribution -->
       <div class="px-4 py-2 bg-themed-secondary/30 border-t border-themed">
         <p class="text-xs text-themed-muted text-center">
-          Powered by YouTube
+          {{ t('music.poweredBy') }}
         </p>
       </div>
     </div>
@@ -61,7 +61,10 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useBackgroundMusic } from '../composables/useBackgroundMusic'
+
+const { t } = useI18n()
 
 const {
   currentTrackIndex,

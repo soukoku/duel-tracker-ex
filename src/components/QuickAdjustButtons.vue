@@ -3,7 +3,7 @@
     <button @click="$emit('adjust', -1000)" class="btn btn-danger py-2">-1000</button>
     <button @click="$emit('adjust', -500)" class="btn btn-danger py-2">-500</button>
     <button @click="$emit('adjust', -100)" class="btn btn-danger py-2">-100</button>
-    <button @click="$emit('halve')" class="btn btn-danger py-2">1/2</button>
+    <button @click="$emit('halve')" class="btn btn-danger py-2">{{ t('actions.halve') }}</button>
     
     <button @click="$emit('adjust', 1000)" class="btn btn-success py-2">+1000</button>
     <button @click="$emit('adjust', 500)" class="btn btn-success py-2">+500</button>
@@ -15,6 +15,10 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 defineProps<{
   showCalculator: boolean
 }>()

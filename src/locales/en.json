@@ -1,0 +1,91 @@
+{
+  "app": {
+    "title": "Duel Tracker",
+    "subtitle": "Yu-Gi-Oh! Life Point Counter",
+    "footer": "Track your duels with ease"
+  },
+  "player": {
+    "name": "Player {n}",
+    "lifePoints": "Life Points",
+    "history": "History",
+    "showHistory": "Show History ({count})",
+    "hideHistory": "Hide History ({count})",
+    "noChanges": "No changes yet",
+    "team": "Team {n}",
+    "totalLP": "Total: {lp} LP"
+  },
+  "game": {
+    "turn": "Turn {count}",
+    "winner": "{name} Wins!",
+    "endedOnTurn": "Game ended on Turn {turn}",
+    "selectMode": "Select Game Mode",
+    "customSettings": "Custom Settings"
+  },
+  "modes": {
+    "standard": {
+      "name": "Standard Duel",
+      "description": "Classic 1v1 duel with 8000 LP"
+    },
+    "speed": {
+      "name": "Speed Duel",
+      "description": "Fast-paced duel with 4000 LP"
+    },
+    "tag": {
+      "name": "Tag Duel",
+      "description": "2v2 team battle with 8000 LP each"
+    },
+    "custom": {
+      "name": "Custom Game",
+      "description": "Create your own rules"
+    }
+  },
+  "settings": {
+    "startingLP": "Starting Life Points",
+    "playerCount": "Number of Players",
+    "players": "{count} Players",
+    "teamMode": "Team Mode",
+    "teamsEnabled": "Teams Enabled",
+    "noTeams": "No Teams"
+  },
+  "actions": {
+    "startGame": "Start Custom Game",
+    "endGame": "End Game",
+    "reset": "Reset",
+    "nextTurn": "Next Turn",
+    "rematch": "Rematch",
+    "newGame": "New Game",
+    "subtract": "Subtract",
+    "add": "Add",
+    "set": "Set",
+    "halve": "1/2"
+  },
+  "tools": {
+    "title": "Duel Tools",
+    "coin": "Coin",
+    "dice": "Dice",
+    "flip": "Flip {count} Coin{plural}",
+    "roll": "Roll {count} D{sides}",
+    "flipping": "Flipping...",
+    "rolling": "Rolling...",
+    "heads": "Heads",
+    "tails": "Tails",
+    "total": "Total",
+    "recentResults": "Recent Results ({count})",
+    "selectCoins": "Select how many coins to flip (max {max})",
+    "selectDice": "Select how many dice to roll (max {max})",
+    "revealingResults": "Revealing results..."
+  },
+  "theme": {
+    "chooseTheme": "Choose Theme",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode"
+  },
+  "music": {
+    "title": "Duel Music",
+    "poweredBy": "Powered by YouTube",
+    "openPlayer": "Open Music Player"
+  },
+  "calculator": {
+    "amount": "Amount"
+  }
+}

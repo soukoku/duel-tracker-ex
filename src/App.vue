@@ -10,13 +10,15 @@
         />
         <div>
           <h1 class="text-xl sm:text-2xl font-bold text-themed">
-            Duel Tracker
+            {{ t('app.title') }}
           </h1>
-          <p class="text-xs sm:text-sm text-themed-muted">Yu-Gi-Oh! Life Point Counter</p>
+          <p class="text-xs sm:text-sm text-themed-muted">{{ t('app.subtitle') }}</p>
         </div>
       </div>
       
-      <ThemeSelector
+      <div class="flex items-center gap-2">
+        <LanguageSelector />
+        <ThemeSelector
         :current-theme-id="currentThemeId"
         :current-theme="currentTheme"
         :is-dark="isDark"
@@ -24,6 +26,7 @@
         @set-theme="setTheme"
         @toggle-dark-mode="toggleDarkMode"
       />
+      </div>
     </header>
 
     <!-- Game Mode Selection -->
@@ -60,7 +63,7 @@
     <!-- Footer -->
     <footer class="text-center text-sm text-themed-muted pt-4">
       <div class="flex items-center justify-center gap-2">
-        <p>Track your duels with ease</p>
+        <p>{{ t('app.footer') }}</p>
         <a 
           href="https://github.com/soukoku/duel-tracker-ex" 
           target="_blank" 
@@ -89,13 +92,18 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import ThemeSelector from './components/ThemeSelector.vue'
+import LanguageSelector from './components/LanguageSelector.vue'
 import GameToolsDialog from './components/GameToolsDialog.vue'
 import GameModeSelector from './components/GameModeSelector.vue'
 import GameBoard from './components/GameBoard.vue'
 import BackgroundMusicPlayer from './components/BackgroundMusicPlayer.vue'
 import { useGameState, GAME_MODES, type GameMode, type CustomSettings } from './composables/useGame'
 import { useThemeSystem } from './composables/useTheme'
+
+// Internationalization
+const { t } = useI18n()
 
 // Game state
 const {
