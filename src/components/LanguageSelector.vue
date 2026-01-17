@@ -32,25 +32,31 @@
         class="absolute right-0 mt-2 w-72 rounded-xl shadow-xl z-50 overflow-hidden"
         style="background-color: var(--color-bg-card); border: 1px solid var(--color-border);"
       >
-        <button
-          v-for="lang in availableLocales"
-          :key="lang.code"
-          @click="changeLanguage(lang.code)"
-          class="w-full flex items-center gap-3 px-4 py-2 hover:bg-themed-hover transition-colors text-left"
-          :class="{ 'bg-themed-primary/10': currentLocale === lang.code }"
-        >
-          <span class="text-xl -my-1">{{ lang.flag }}</span>
-          <span class="font-medium text-themed">{{ lang.name }}</span>
-          <svg 
-            v-if="currentLocale === lang.code"
-            class="w-5 h-5 ml-auto" 
-            style="color: var(--color-primary);"
-            fill="currentColor" 
-            viewBox="0 0 20 20"
+        <div class="p-2 space-y-2">
+          <button
+            v-for="lang in availableLocales"
+            :key="lang.code"
+            @click="changeLanguage(lang.code)"
+            class="w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-colors text-left"
+            :class="[
+              currentLocale === lang.code 
+                ? 'ring-2 ring-primary bg-primary-light' 
+                : 'hover:bg-themed-hover'
+            ]"
           >
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-        </button>
+            <span class="text-xl -my-1">{{ lang.flag }}</span>
+            <span class="font-medium text-themed">{{ lang.name }}</span>
+            <svg 
+              v-if="currentLocale === lang.code"
+              class="w-5 h-5 ml-auto" 
+              style="color: var(--color-primary);"
+              fill="currentColor" 
+              viewBox="0 0 20 20"
+            >
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
       </div>
     </Transition>
 
