@@ -47,7 +47,7 @@
             class="w-full flex items-center gap-3 p-3 rounded-lg transition-all text-left"
             :class="[
               currentThemeId === theme.id 
-                ? 'ring-2 ring-[var(--color-primary)] bg-[var(--color-primary-light)]' 
+                ? 'ring-2 ring-primary bg-primary-light' 
                 : 'hover:bg-themed-hover'
             ]"
           >

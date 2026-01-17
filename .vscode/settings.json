@@ -4,5 +4,6 @@
     "npm uninstall": true,
     "Rename-Item": true,
     "Move-Item": true
-  }
+  },
+  "css.lint.unknownAtRules": "ignore"
 }
