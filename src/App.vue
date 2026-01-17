@@ -68,6 +68,9 @@
       :current-turn="turnCount"
       @close="showToolsDialog = false"
     />
+
+    <!-- Background Music Player -->
+    <BackgroundMusicPlayer />
   </div>
 </template>
 
@@ -77,6 +80,7 @@ import ThemeSelector from './components/ThemeSelector.vue'
 import GameToolsDialog from './components/GameToolsDialog.vue'
 import GameModeSelector from './components/GameModeSelector.vue'
 import GameBoard from './components/GameBoard.vue'
+import BackgroundMusicPlayer from './components/BackgroundMusicPlayer.vue'
 import { useGameState, GAME_MODES, type GameMode, type CustomSettings } from './composables/useGame'
 import { useThemeSystem } from './composables/useTheme'
 
