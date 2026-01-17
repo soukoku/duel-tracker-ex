@@ -1,32 +1,33 @@
 <template>
-  <div class="min-h-screen p-4 sm:p-6 space-y-6">
+  <div class="min-h-screen p-4 sm:p-6 space-y-6 bg-themed">
     <!-- Header -->
     <header class="flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 gradient-primary-br rounded-xl flex items-center justify-center shadow-lg">
           <span class="text-white font-bold text-lg sm:text-xl">LP</span>
         </div>
         <div>
-          <h1 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+          <h1 class="text-xl sm:text-2xl font-bold text-themed">
             Duel Tracker
           </h1>
-          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Yu-Gi-Oh! Life Point Counter</p>
+          <p class="text-xs sm:text-sm text-themed-muted">Yu-Gi-Oh! Life Point Counter</p>
         </div>
       </div>
       
-      <button
-        @click="toggleTheme"
-        class="p-2 sm:p-3 rounded-xl bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-        :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
-      >
-        <span class="text-xl sm:text-2xl">{{ isDark ? '☀️' : '🌙' }}</span>
-      </button>
+      <ThemeSelector
+        :current-theme-id="currentThemeId"
+        :current-theme="currentTheme"
+        :is-dark="isDark"
+        :available-themes="availableThemes"
+        @set-theme="setTheme"
+        @toggle-dark-mode="toggleDarkMode"
+      />
     </header>
 
     <!-- Game Mode Selection -->
     <div v-if="!gameStarted" class="space-y-6">
       <div class="card p-4 sm:p-6">
-        <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 class="text-lg sm:text-xl font-bold text-themed mb-4">
           Select Game Mode
         </h2>
         
@@ -36,14 +37,14 @@
             :key="mode.id"
             @click="selectAndInitGame(mode)"
             class="card p-4 text-left hover:shadow-xl hover:scale-[1.02] transition-all duration-200 cursor-pointer group"
-            :class="{ 'ring-2 ring-purple-500': gameMode?.id === mode.id }"
+            :class="{ 'ring-2 ring-[var(--color-primary)]': gameMode?.id === mode.id }"
           >
             <div class="flex items-start justify-between">
               <div>
-                <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                <h3 class="font-bold text-themed group-hover:text-themed-primary transition-colors">
                   {{ mode.name }}
                 </h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p class="text-sm text-themed-muted mt-1">
                   {{ mode.description }}
                 </p>
               </div>
@@ -52,10 +53,10 @@
               </div>
             </div>
             <div class="mt-3 flex gap-2">
-              <span class="px-2 py-1 text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full">
+              <span class="px-2 py-1 text-xs font-medium rounded-full" style="background-color: var(--color-primary-light); color: var(--color-primary-dark);">
                 {{ mode.startingLP }} LP
               </span>
-              <span class="px-2 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full">
+              <span class="px-2 py-1 text-xs font-medium rounded-full" style="background-color: var(--color-bg-secondary); color: var(--color-secondary);">
                 {{ mode.playerCount }} Players
               </span>
             </div>
@@ -65,13 +66,13 @@
 
       <!-- Custom Settings -->
       <div v-if="gameMode?.id === 'custom'" class="card p-4 sm:p-6">
-        <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 class="text-lg sm:text-xl font-bold text-themed mb-4">
           Custom Settings
         </h2>
         
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label class="block text-sm font-medium text-themed-secondary mb-2">
               Starting Life Points
             </label>
             <input
@@ -84,7 +85,7 @@
           </div>
           
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label class="block text-sm font-medium text-themed-secondary mb-2">
               Number of Players
             </label>
             <select v-model.number="customSettings.playerCount" class="input">
@@ -95,7 +96,7 @@
           </div>
           
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label class="block text-sm font-medium text-themed-secondary mb-2">
               Team Mode
             </label>
             <button
@@ -104,7 +105,7 @@
               :disabled="customSettings.playerCount < 4"
             >
               <span>{{ customSettings.useTeams ? 'Teams Enabled' : 'No Teams' }}</span>
-              <span :class="customSettings.useTeams ? 'text-green-500' : 'text-gray-400'">
+              <span :class="customSettings.useTeams ? 'text-success' : 'text-themed-muted'">
                 {{ customSettings.useTeams ? '✓' : '✗' }}
               </span>
             </button>
@@ -125,10 +126,10 @@
       <!-- Game Info Bar -->
       <div class="card p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3">
-          <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium">
+          <span class="px-3 py-1 rounded-full text-sm font-medium" style="background-color: var(--color-primary-light); color: var(--color-primary-dark);">
             {{ gameMode?.name }}
           </span>
-          <span class="text-gray-600 dark:text-gray-400 text-sm">
+          <span class="text-themed-muted text-sm">
             Turn {{ turnCount }}
           </span>
         </div>
@@ -154,7 +155,7 @@
       >
         <div 
           v-if="gameEnded && winner" 
-          class="card p-6 text-center bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-gray-900"
+          class="card p-6 text-center gradient-primary text-white"
         >
           <div class="text-4xl mb-2">🏆</div>
           <h2 class="text-2xl font-bold">{{ winner.name }} Wins!</h2>
@@ -163,7 +164,7 @@
             <button @click="resetGame" class="btn bg-white text-gray-900 hover:bg-gray-100">
               Rematch
             </button>
-            <button @click="endGame" class="btn bg-gray-900 text-white hover:bg-gray-800">
+            <button @click="endGame" class="btn btn-secondary">
               New Game
             </button>
           </div>
@@ -173,8 +174,8 @@
       <!-- Team Display (for 2v2) -->
       <div v-if="isTeamGame && teams" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div class="space-y-4">
-          <div class="card p-3 bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800">
-            <h3 class="font-bold text-blue-700 dark:text-blue-400 text-center">
+          <div class="card p-3 border-l-4 border-player-1" style="background-color: var(--color-bg-secondary);">
+            <h3 class="font-bold player-1 text-center">
               Team 1 - Total: {{ teams.team1.totalLP.toLocaleString() }} LP
             </h3>
           </div>
@@ -193,8 +194,8 @@
         </div>
         
         <div class="space-y-4">
-          <div class="card p-3 bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800">
-            <h3 class="font-bold text-red-700 dark:text-red-400 text-center">
+          <div class="card p-3 border-l-4 border-player-2" style="background-color: var(--color-bg-secondary);">
+            <h3 class="font-bold player-2 text-center">
               Team 2 - Total: {{ teams.team2.totalLP.toLocaleString() }} LP
             </h3>
           </div>
@@ -233,7 +234,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="text-center text-sm text-gray-500 dark:text-gray-400 pt-4">
+    <footer class="text-center text-sm text-themed-muted pt-4">
       <p>Yu-Gi-Oh! Duel Tracker • Track your duels with ease</p>
     </footer>
   </div>
@@ -242,7 +243,9 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import PlayerCard from './components/PlayerCard.vue'
-import { useGameState, useTheme, GAME_MODES, type GameMode } from './composables/useGame'
+import ThemeSelector from './components/ThemeSelector.vue'
+import { useGameState, GAME_MODES, type GameMode } from './composables/useGame'
+import { useThemeSystem } from './composables/useTheme'
 
 // Game state
 const {
@@ -267,7 +270,15 @@ const {
 } = useGameState()
 
 // Theme
-const { isDark, initTheme, toggleTheme } = useTheme()
+const { 
+  currentThemeId,
+  currentTheme,
+  isDark, 
+  availableThemes,
+  initTheme, 
+  setTheme,
+  toggleDarkMode 
+} = useThemeSystem()
 
 // Game modes array for iteration
 const gameModes = Object.values(GAME_MODES)

@@ -9,13 +9,11 @@
         @blur="saveName"
         @keyup.enter="saveName"
         class="input text-center text-lg font-semibold max-w-[200px]"
-        :class="textColorClass"
       />
       <h3
         v-else
         @click="startEditingName"
         class="text-lg sm:text-xl font-bold cursor-pointer hover:opacity-75 transition-opacity"
-        :class="textColorClass"
       >
         {{ player.name }}
         <span class="text-xs opacity-50 ml-1">✏️</span>
@@ -32,7 +30,7 @@
       </div>
       
       <!-- LP Progress Bar -->
-      <div class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full mt-2 overflow-hidden">
+      <div class="w-full h-2 bg-themed-secondary rounded-full mt-2 overflow-hidden">
         <div 
           class="h-full rounded-full transition-all duration-500 ease-out"
           :class="progressBarClass"
@@ -104,7 +102,7 @@
     <!-- History Toggle -->
     <button 
       @click="showHistory = !showHistory"
-      class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+      class="text-sm text-themed-muted hover:text-themed transition-colors"
     >
       {{ showHistory ? 'Hide' : 'Show' }} History ({{ player.history.length }})
     </button>
@@ -123,15 +121,15 @@
           <div 
             v-for="(entry, index) in reversedHistory" 
             :key="index"
-            class="flex justify-between items-center py-1 px-2 rounded bg-gray-100 dark:bg-gray-700"
+            class="flex justify-between items-center py-1 px-2 rounded bg-themed-secondary"
           >
-            <span class="text-gray-500 dark:text-gray-400">T{{ entry.turn }}</span>
+            <span class="text-themed-muted">T{{ entry.turn }}</span>
             <span :class="entry.change >= 0 ? 'text-green-500' : 'text-red-500'">
               {{ entry.change >= 0 ? '+' : '' }}{{ entry.change.toLocaleString() }}
             </span>
-            <span class="text-gray-700 dark:text-gray-300">{{ entry.newLP.toLocaleString() }}</span>
+            <span class="text-themed">{{ entry.newLP.toLocaleString() }}</span>
           </div>
-          <div v-if="player.history.length === 0" class="text-center text-gray-400 py-2">
+          <div v-if="player.history.length === 0" class="text-center text-themed-muted py-2">
             No changes yet
           </div>
         </div>
@@ -173,22 +171,17 @@ const reversedHistory = computed((): HistoryEntry[] => {
 
 const playerColorClass = computed((): string => {
   const colors = [
-    'border-l-4 border-l-blue-500',
-    'border-l-4 border-l-red-500',
-    'border-l-4 border-l-green-500',
-    'border-l-4 border-l-yellow-500',
+    'player-1',
+    'player-2',
+    'player-3',
+    'player-4',
   ]
   return colors[(props.playerIndex ?? 0) % colors.length]
 })
 
 const textColorClass = computed((): string => {
-  const colors = [
-    'text-blue-600 dark:text-blue-400',
-    'text-red-600 dark:text-red-400',
-    'text-green-600 dark:text-green-400',
-    'text-yellow-600 dark:text-yellow-400',
-  ]
-  return colors[(props.playerIndex ?? 0) % colors.length]
+  // The player-1, player-2, etc classes handle the text color via CSS
+  return ''
 })
 
 const progressBarClass = computed((): string => {

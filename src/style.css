@@ -3,12 +3,49 @@
 /* Dark mode using class selector */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Custom theme colors */
+/* Theme CSS Variables - defaults set by JS */
 @theme {
-  --color-yugioh-gold: #D4AF37;
-  --color-yugioh-purple: #7C3AED;
-  --color-yugioh-blue: #3B82F6;
-  --color-yugioh-red: #EF4444;
+  /* Primary */
+  --color-primary: var(--color-primary, #C5A028);
+  --color-primary-hover: var(--color-primary-hover, #A88A20);
+  --color-primary-light: var(--color-primary-light, #F5E6A3);
+  --color-primary-dark: var(--color-primary-dark, #8B7355);
+  
+  /* Secondary/Accent */
+  --color-secondary: var(--color-secondary, #1E3A5F);
+  --color-secondary-hover: var(--color-secondary-hover, #152C4A);
+  --color-accent: var(--color-accent, #D4AF37);
+  --color-accent-hover: var(--color-accent-hover, #B8972F);
+  
+  /* Gradients */
+  --color-gradient-from: var(--color-gradient-from, #C5A028);
+  --color-gradient-to: var(--color-gradient-to, #8B6914);
+  
+  /* Text */
+  --color-text-primary: var(--color-text-primary, #1A1A2E);
+  --color-text-secondary: var(--color-text-secondary, #4A4A5A);
+  --color-text-muted: var(--color-text-muted, #7A7A8A);
+  
+  /* Backgrounds */
+  --color-bg-primary: var(--color-bg-primary, #FDF8E8);
+  --color-bg-secondary: var(--color-bg-secondary, #F5EED6);
+  --color-bg-card: var(--color-bg-card, #FFFEF9);
+  --color-bg-hover: var(--color-bg-hover, #F0E8D0);
+  
+  /* Borders */
+  --color-border: var(--color-border, #E0D5B8);
+  --color-border-hover: var(--color-border-hover, #C5A028);
+  
+  /* Status */
+  --color-success: var(--color-success, #2D6A4F);
+  --color-danger: var(--color-danger, #9B2C2C);
+  --color-warning: var(--color-warning, #B7791F);
+  
+  /* Player colors */
+  --color-player-1: var(--color-player-1, #1E3A5F);
+  --color-player-2: var(--color-player-2, #9B2C2C);
+  --color-player-3: var(--color-player-3, #2D6A4F);
+  --color-player-4: var(--color-player-4, #744210);
 }
 
 /* Base styles */
@@ -19,6 +56,9 @@ html {
 body {
   height: 100%;
   min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #app {
@@ -34,53 +74,190 @@ body {
 }
 
 .btn-primary {
-  @apply bg-gradient-to-r from-purple-600 to-pink-600 text-white
-         hover:from-purple-700 hover:to-pink-700
-         focus:ring-purple-500;
+  background: linear-gradient(to right, var(--color-gradient-from), var(--color-gradient-to));
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
 }
 
 .btn-secondary {
-  @apply bg-gray-200 text-gray-800 hover:bg-gray-300
-         dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600
-         focus:ring-gray-500;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-bg-hover);
 }
 
 .btn-danger {
-  @apply bg-red-500 text-white hover:bg-red-600
-         focus:ring-red-500;
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  filter: brightness(1.1);
 }
 
 .btn-success {
-  @apply bg-green-500 text-white hover:bg-green-600
-         focus:ring-green-500;
+  background-color: var(--color-success);
+  color: white;
+}
+
+.btn-success:hover {
+  filter: brightness(1.1);
 }
 
 .card {
-  @apply bg-white dark:bg-gray-800 rounded-2xl shadow-lg 
-         border border-gray-200 dark:border-gray-700
-         transition-all duration-300;
+  background-color: var(--color-bg-card);
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--color-border-hover);
 }
 
 .input {
-  @apply w-full px-4 py-2 rounded-lg border border-gray-300 
-         dark:border-gray-600 bg-white dark:bg-gray-700
-         text-gray-900 dark:text-gray-100
-         focus:outline-none focus:ring-2 focus:ring-purple-500
-         transition-colors duration-200;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-card);
+  color: var(--color-text-primary);
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
 }
 
 .life-points {
-  @apply text-4xl sm:text-5xl md:text-6xl font-bold 
-         bg-gradient-to-r from-purple-600 to-pink-600 
-         bg-clip-text text-transparent;
+  font-size: 2.25rem;
+  font-weight: 700;
+  background: linear-gradient(to right, var(--color-gradient-from), var(--color-gradient-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (min-width: 640px) {
+  .life-points {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .life-points {
+    font-size: 3.75rem;
+  }
 }
 
 .player-card {
-  @apply bg-white dark:bg-gray-800 rounded-2xl shadow-lg 
-         border border-gray-200 dark:border-gray-700
-         transition-all duration-300
-         p-4 sm:p-6 flex flex-col items-center gap-4;
+  background-color: var(--color-bg-card);
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
+
+@media (min-width: 640px) {
+  .player-card {
+    padding: 1.5rem;
+  }
+}
+
+/* Themed text utilities */
+.text-themed {
+  color: var(--color-text-primary);
+}
+
+.text-themed-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-themed-muted {
+  color: var(--color-text-muted);
+}
+
+.text-themed-primary {
+  color: var(--color-primary);
+}
+
+.text-themed-accent {
+  color: var(--color-accent);
+}
+
+/* Themed background utilities */
+.bg-themed {
+  background-color: var(--color-bg-primary);
+}
+
+.bg-themed-secondary {
+  background-color: var(--color-bg-secondary);
+}
+
+.bg-themed-card {
+  background-color: var(--color-bg-card);
+}
+
+.bg-themed-hover:hover {
+  background-color: var(--color-bg-hover);
+}
+
+/* Themed border utilities */
+.border-themed {
+  border-color: var(--color-border);
+}
+
+.border-themed-hover:hover {
+  border-color: var(--color-border-hover);
+}
+
+/* Gradient utilities */
+.gradient-primary {
+  background: linear-gradient(to right, var(--color-gradient-from), var(--color-gradient-to));
+}
+
+.gradient-primary-br {
+  background: linear-gradient(to bottom right, var(--color-gradient-from), var(--color-gradient-to));
+}
+
+/* Player color utilities */
+.player-1 { color: var(--color-player-1); }
+.player-2 { color: var(--color-player-2); }
+.player-3 { color: var(--color-player-3); }
+.player-4 { color: var(--color-player-4); }
+
+.border-player-1 { border-color: var(--color-player-1); }
+.border-player-2 { border-color: var(--color-player-2); }
+.border-player-3 { border-color: var(--color-player-3); }
+.border-player-4 { border-color: var(--color-player-4); }
+
+.bg-player-1 { background-color: var(--color-player-1); }
+.bg-player-2 { background-color: var(--color-player-2); }
+.bg-player-3 { background-color: var(--color-player-3); }
+.bg-player-4 { background-color: var(--color-player-4); }
+
+/* Status color utilities */
+.text-success { color: var(--color-success); }
+.text-danger { color: var(--color-danger); }
+.text-warning { color: var(--color-warning); }
+
+.bg-success { background-color: var(--color-success); }
+.bg-danger { background-color: var(--color-danger); }
+.bg-warning { background-color: var(--color-warning); }
 
 /* Utility styles */
 .text-shadow {
@@ -98,9 +275,55 @@ body {
   border-radius: 1rem;
   padding: 2px;
   z-index: -1;
-  background: linear-gradient(135deg, #7c3aed, #db2777);
+  background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
+}
+
+/* Theme selector styles */
+.theme-option {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-bg-card);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-option:hover {
+  border-color: var(--color-primary);
+  transform: scale(1.02);
+}
+
+.theme-option.active {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+/* Progress bar themed */
+.progress-bar {
+  height: 0.5rem;
+  border-radius: 9999px;
+  overflow: hidden;
+  background-color: var(--color-bg-secondary);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s ease-out;
+}
+
+.progress-bar-fill.high {
+  background: linear-gradient(to right, var(--color-success), var(--color-success));
+}
+
+.progress-bar-fill.medium {
+  background: linear-gradient(to right, var(--color-warning), var(--color-warning));
+}
+
+.progress-bar-fill.low {
+  background: linear-gradient(to right, var(--color-danger), var(--color-danger));
 }
