@@ -24,7 +24,6 @@ App.vue (Root Layout)
         └── GameToolsDialog.vue
             ├── CoinFlipTool.vue
             │   └── CoinFace.vue
-            ├── DiceRollTool.vue
-            │   └── DiceFace.vue
-            └── ToolHistory.vue
+            └── DiceRollTool.vue
+                └── DiceFace.vue
 ```
