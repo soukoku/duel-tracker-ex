@@ -39,7 +39,7 @@ async function rollDice(): Promise<void> {
   // reset if already has results
   if (diceResults.value.some(r => !!r)) {
     diceResults.value = Array(diceCount.value).fill(undefined)
-    await nextTick()// new Promise(resolve => setTimeout(resolve, 100))
+    await nextTick()
   }
 
   isRolling.value = true
