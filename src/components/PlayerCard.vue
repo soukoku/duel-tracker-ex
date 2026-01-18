@@ -2,8 +2,7 @@
 import { ref, computed, nextTick, inject } from 'vue'
 import { GAME_ACTIONS_KEY, type Player } from '../composables/useGame'
 import LPDisplay from './LPDisplay.vue'
-import QuickAdjustButtons from './QuickAdjustButtons.vue'
-import LPCalculator from './LPCalculator.vue'
+import LPAdjuster from './LPAdjuster.vue'
 import LPHistory from './LPHistory.vue'
 
 const props = defineProps<{
@@ -15,7 +14,6 @@ const props = defineProps<{
 const gameActions = inject(GAME_ACTIONS_KEY)!
 
 // UI state
-const showCalculator = ref(false)
 const isEditingName = ref(false)
 const localName = ref(props.player.name)
 const nameInput = ref<HTMLInputElement | null>(null)
@@ -82,18 +80,10 @@ function saveName(): void {
       :starting-l-p="player.startingLP"
     />
 
-    <!-- Quick Adjust Buttons -->
-    <QuickAdjustButtons
-      :show-calculator="showCalculator"
+    <!-- LP Adjuster (Quick Buttons + Calculator) -->
+    <LPAdjuster
       @adjust="adjustLP"
       @halve="halveLP"
-      @toggle-calculator="showCalculator = !showCalculator"
-    />
-
-    <!-- Calculator Panel -->
-    <LPCalculator
-      :show="showCalculator"
-      @adjust="adjustLP"
       @set="setExactLP"
     />
 
