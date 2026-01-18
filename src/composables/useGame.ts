@@ -119,10 +119,10 @@ function createPlayer(id: number, name: string, startingLP: number, team: number
 }
 
 // Storage key prefix for persisted game state
-const STORAGE_KEY_PREFIX = 'duel-tracker-game-'
+export const STORAGE_KEY_PREFIX = 'duel-tracker-game-'
 
 // Persisted game state interface
-interface PersistedGameState {
+export interface PersistedGameState {
   gameMode: GameMode | null
   players: Player[]
   gameStarted: boolean
@@ -338,13 +338,6 @@ export function useGameState(i18nInstance?: { t: Composer['t'] }, modeId?: strin
     customSettings.useTeams = false
   }
 
-  // Clear persisted game state (useful when user wants fresh start)
-  function clearSavedGame(): void {
-    // Remove from localStorage
-    endGame()
-    localStorage.removeItem(storageKey)
-  }
-
   function updatePlayerName(playerId: number, newName: string): void {
     const player = players.find(p => p.id === playerId)
     if (player) {
@@ -386,7 +379,6 @@ export function useGameState(i18nInstance?: { t: Composer['t'] }, modeId?: strin
     nextTurn,
     resetGame,
     endGame,
-    clearSavedGame,
     updatePlayerName,
     updateCustomSettings,
     halveLP,
