@@ -89,7 +89,7 @@ function getModeDescription(modeId: string): string {
           :class="{ 'ring-2 ring-primary': selectedModeId === mode.id }">
           <!-- Saved Progress Badge -->
           <div v-if="hasSavedGame(mode.id)"
-            class="absolute top-2 right-2 px-2 py-1 text-xs font-bold rounded-full bg-success text-white shadow-md"
+            class="absolute top-4 right-14 text-lg"
             :title="t('game.savedProgress')">
             💾
           </div>
