@@ -28,19 +28,19 @@ const {
     <!-- Expanded View -->
     <div v-show="!isMinimized" class="bg-themed-card border border-themed rounded-xl shadow-xl w-92 overflow-hidden">
       <!-- Header -->
-      <div class="bg-themed-primary/10 px-4 py-3 flex items-center justify-between border-b border-themed">
+      <button @click="toggleMinimized" class="w-full cursor-pointer bg-themed-primary/10 px-4 py-3 flex items-center justify-between border-b border-themed">
         <div class="flex items-center gap-2">
           <svg class="w-5 h-5 text-themed-primary" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
           </svg>
           <span class="font-semibold text-themed">{{ t('music.title') }}</span>
         </div>
-        <button @click="toggleMinimized" class="text-themed-muted hover:text-themed transition-colors">
+        <div @click="toggleMinimized" class="text-themed-muted hover:text-themed transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
-        </button>
-      </div>
+        </div>
+      </button>
 
       <!-- Embedded YouTube Player (iframe) -->
       <div class="aspect-video bg-black">
