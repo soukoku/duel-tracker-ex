@@ -1,27 +1,3 @@
-<template>
-  <!-- Game Board -->
-  <GameBoard
-    :game-mode="gameMode"
-    :players="players"
-    :turn-count="turnCount"
-    :game-ended="gameEnded"
-    :winner="winner"
-    :is-team-game="isTeamGame"
-    :teams="teams"
-    @open-tools="showToolsDialog = true"
-    @next-turn="nextTurn"
-    @reset-game="resetGame"
-    @end-game="endGame"
-  />
-
-  <!-- Game Tools Dialog -->
-  <GameToolsDialog
-    :is-open="showToolsDialog"
-    :current-turn="turnCount"
-    @close="showToolsDialog = false"
-  />
-</template>
-
 <script setup lang="ts">
 import { ref, provide, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -115,3 +91,27 @@ onMounted(() => {
   }
 })
 </script>
+
+<template>
+  <!-- Game Board -->
+  <GameBoard
+    :game-mode="gameMode"
+    :players="players"
+    :turn-count="turnCount"
+    :game-ended="gameEnded"
+    :winner="winner"
+    :is-team-game="isTeamGame"
+    :teams="teams"
+    @open-tools="showToolsDialog = true"
+    @next-turn="nextTurn"
+    @reset-game="resetGame"
+    @end-game="endGame"
+  />
+
+  <!-- Game Tools Dialog -->
+  <GameToolsDialog
+    :is-open="showToolsDialog"
+    :current-turn="turnCount"
+    @close="showToolsDialog = false"
+  />
+</template>

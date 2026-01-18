@@ -1,26 +1,3 @@
-<template>
-  <div class="relative w-full flex flex-col items-center">
-    <div 
-      class="life-points tabular-nums transition-all duration-300"
-      :class="{ 
-        'animate-pulse text-red-500': lifePoints <= startingLP * 0.25 && !isAnimating,
-        'lp-animating': isAnimating
-      }"
-    >
-      {{ displayedLP.toLocaleString() }}
-    </div>
-    
-    <!-- LP Progress Bar -->
-    <!-- <div class="w-2/3 h-2 bg-themed-secondary rounded-full mt-2 overflow-hidden">
-      <div 
-        class="h-full rounded-full transition-all duration-500 ease-out"
-        :class="progressBarClass"
-        :style="{ width: `${lpPercentage}%` }"
-      ></div>
-    </div> -->
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRafFn } from '@vueuse/core'
@@ -106,6 +83,29 @@ const progressBarClass = computed((): string => {
   return 'bg-gradient-to-r from-red-400 to-red-500'
 })
 </script>
+
+<template>
+  <div class="relative w-full flex flex-col items-center">
+    <div 
+      class="life-points tabular-nums transition-all duration-300"
+      :class="{ 
+        'animate-pulse text-red-500': lifePoints <= startingLP * 0.25 && !isAnimating,
+        'lp-animating': isAnimating
+      }"
+    >
+      {{ displayedLP.toLocaleString() }}
+    </div>
+    
+    <!-- LP Progress Bar -->
+    <!-- <div class="w-2/3 h-2 bg-themed-secondary rounded-full mt-2 overflow-hidden">
+      <div 
+        class="h-full rounded-full transition-all duration-500 ease-out"
+        :class="progressBarClass"
+        :style="{ width: `${lpPercentage}%` }"
+      ></div>
+    </div> -->
+  </div>
+</template>
 
 <style scoped>
 .lp-animating {

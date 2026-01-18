@@ -1,3 +1,37 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useStorage } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
+import CoinFlipTool from './CoinFlipTool.vue'
+import DiceRollTool from './DiceRollTool.vue'
+import ToolHistory, { type ToolHistoryEntry } from './ToolHistory.vue'
+
+defineProps<{
+  isOpen: boolean
+  currentTurn: number
+}>()
+
+const emit = defineEmits<{
+  close: []
+  result: [entry: ToolHistoryEntry]
+}>()
+
+const { t } = useI18n()
+
+const tools = [
+  { id: 'coin', icon: '🪙' },
+  { id: 'dice', icon: '🎲' },
+]
+
+const activeTool = ref<'coin' | 'dice'>('coin')
+const toolHistory = useStorage<ToolHistoryEntry[]>('duel-tracker-tool-history', [])
+
+function handleResult(entry: ToolHistoryEntry): void {
+  toolHistory.value.push(entry)
+  emit('result', entry)
+}
+</script>
+
 <template>
   <Teleport to="body">
     <Transition
@@ -80,37 +114,3 @@
     </Transition>
   </Teleport>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { useStorage } from '@vueuse/core'
-import { useI18n } from 'vue-i18n'
-import CoinFlipTool from './CoinFlipTool.vue'
-import DiceRollTool from './DiceRollTool.vue'
-import ToolHistory, { type ToolHistoryEntry } from './ToolHistory.vue'
-
-defineProps<{
-  isOpen: boolean
-  currentTurn: number
-}>()
-
-const emit = defineEmits<{
-  close: []
-  result: [entry: ToolHistoryEntry]
-}>()
-
-const { t } = useI18n()
-
-const tools = [
-  { id: 'coin', icon: '🪙' },
-  { id: 'dice', icon: '🎲' },
-]
-
-const activeTool = ref<'coin' | 'dice'>('coin')
-const toolHistory = useStorage<ToolHistoryEntry[]>('duel-tracker-tool-history', [])
-
-function handleResult(entry: ToolHistoryEntry): void {
-  toolHistory.value.push(entry)
-  emit('result', entry)
-}
-</script>

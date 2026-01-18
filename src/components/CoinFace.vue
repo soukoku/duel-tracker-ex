@@ -1,3 +1,9 @@
+<script setup lang="ts">
+defineProps<{
+  side: 'heads' | 'tails' | 'placeholder'
+}>()
+</script>
+
 <template>
   <!-- Heads: Crown/Pharaoh design -->
   <svg v-if="side === 'heads'" viewBox="0 0 64 64" class="w-full h-full">
@@ -41,9 +47,3 @@
     <text x="32" y="40" text-anchor="middle" fill="#444" font-size="24" font-weight="bold">?</text>
   </svg>
 </template>
-
-<script setup lang="ts">
-defineProps<{
-  side: 'heads' | 'tails' | 'placeholder'
-}>()
-</script>

@@ -1,3 +1,33 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+
+export interface ToolHistoryEntry {
+  type: 'coin' | 'dice'
+  results: (string | number)[]
+  turn: number
+  timestamp: string
+}
+
+const props = defineProps<{
+  history: ToolHistoryEntry[]
+}>()
+
+const showHistory = ref(false)
+
+const reversedHistory = computed(() => [...props.history].reverse().slice(0, 20))
+
+function formatResult(entry: ToolHistoryEntry): string {
+  if (entry.type === 'coin') {
+    const heads = (entry.results as string[]).filter(r => r === 'heads').length
+    const tails = (entry.results as string[]).filter(r => r === 'tails').length
+    return `${heads}H / ${tails}T`
+  } else {
+    const total = (entry.results as number[]).reduce((a, b) => a + b, 0)
+    return `[${entry.results.join(', ')}] = ${total}`
+  }
+}
+</script>
+
 <template>
   <div v-if="history.length > 0" class="mt-6 pt-6 border-t border-themed">
     <button
@@ -34,33 +64,3 @@
     </Transition>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-
-export interface ToolHistoryEntry {
-  type: 'coin' | 'dice'
-  results: (string | number)[]
-  turn: number
-  timestamp: string
-}
-
-const props = defineProps<{
-  history: ToolHistoryEntry[]
-}>()
-
-const showHistory = ref(false)
-
-const reversedHistory = computed(() => [...props.history].reverse().slice(0, 20))
-
-function formatResult(entry: ToolHistoryEntry): string {
-  if (entry.type === 'coin') {
-    const heads = (entry.results as string[]).filter(r => r === 'heads').length
-    const tails = (entry.results as string[]).filter(r => r === 'tails').length
-    return `${heads}H / ${tails}T`
-  } else {
-    const total = (entry.results as number[]).reduce((a, b) => a + b, 0)
-    return `[${entry.results.join(', ')}] = ${total}`
-  }
-}
-</script>

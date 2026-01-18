@@ -1,3 +1,37 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useThemeSystem } from '../composables/useTheme'
+
+const { t } = useI18n()
+
+const {
+  currentThemeId,
+  currentTheme,
+  isDark,
+  availableThemes,
+  setTheme,
+  toggleDarkMode,
+} = useThemeSystem()
+
+const isOpen = ref(false)
+
+function selectTheme(themeId: string): void {
+  setTheme(themeId)
+  isOpen.value = false
+}
+
+function getThemeName(themeId: string): string {
+  const key = themeId === 'kaiba-corp' ? 'kaibaCorp' : themeId
+  return t(`theme.${key}.name`)
+}
+
+function getThemeDescription(themeId: string): string {
+  const key = themeId === 'kaiba-corp' ? 'kaibaCorp' : themeId
+  return t(`theme.${key}.description`)
+}
+</script>
+
 <template>
   <div class="relative">
     <!-- Theme Toggle Button -->
@@ -104,37 +138,3 @@
     ></div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useThemeSystem } from '../composables/useTheme'
-
-const { t } = useI18n()
-
-const {
-  currentThemeId,
-  currentTheme,
-  isDark,
-  availableThemes,
-  setTheme,
-  toggleDarkMode,
-} = useThemeSystem()
-
-const isOpen = ref(false)
-
-function selectTheme(themeId: string): void {
-  setTheme(themeId)
-  isOpen.value = false
-}
-
-function getThemeName(themeId: string): string {
-  const key = themeId === 'kaiba-corp' ? 'kaibaCorp' : themeId
-  return t(`theme.${key}.name`)
-}
-
-function getThemeDescription(themeId: string): string {
-  const key = themeId === 'kaiba-corp' ? 'kaibaCorp' : themeId
-  return t(`theme.${key}.description`)
-}
-</script>

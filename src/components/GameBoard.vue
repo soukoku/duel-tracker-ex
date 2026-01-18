@@ -1,3 +1,38 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+import PlayerCard from './PlayerCard.vue'
+import GameInfoBar from './GameInfoBar.vue'
+import type { Player, Winner, Teams, GameMode } from '../composables/useGame'
+
+const { t } = useI18n()
+
+function getModeName(mode: GameMode | null): string {
+  if (!mode) return 'Game'
+  const modeKey = mode.id === 'standard_1v1' ? 'standard' : 
+                  mode.id === 'speed_1v1' ? 'speed' :
+                  mode.id.startsWith('tag_') ? 'tag' : 
+                  'custom'
+  return t(`modes.${modeKey}.name`)
+}
+
+defineProps<{
+  gameMode: GameMode | null
+  players: Player[]
+  isTeamGame: boolean
+  teams: Teams | null
+  gameEnded: boolean
+  winner: Winner | null
+  turnCount: number
+}>()
+
+defineEmits<{
+  'open-tools': []
+  'next-turn': []
+  'reset-game': []
+  'end-game': []
+}>()
+</script>
+
 <template>
   <div class="space-y-4">
     <!-- Game Info Bar -->
@@ -84,38 +119,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-import PlayerCard from './PlayerCard.vue'
-import GameInfoBar from './GameInfoBar.vue'
-import type { Player, Winner, Teams, GameMode } from '../composables/useGame'
-
-const { t } = useI18n()
-
-function getModeName(mode: GameMode | null): string {
-  if (!mode) return 'Game'
-  const modeKey = mode.id === 'standard_1v1' ? 'standard' : 
-                  mode.id === 'speed_1v1' ? 'speed' :
-                  mode.id.startsWith('tag_') ? 'tag' : 
-                  'custom'
-  return t(`modes.${modeKey}.name`)
-}
-
-defineProps<{
-  gameMode: GameMode | null
-  players: Player[]
-  isTeamGame: boolean
-  teams: Teams | null
-  gameEnded: boolean
-  winner: Winner | null
-  turnCount: number
-}>()
-
-defineEmits<{
-  'open-tools': []
-  'next-turn': []
-  'reset-game': []
-  'end-game': []
-}>()
-</script>

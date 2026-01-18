@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { availableLocales, setLocale } from '../locales'
+
+const { locale } = useI18n()
+const isOpen = ref(false)
+
+const currentLocale = computed(() => locale.value)
+
+const currentLanguage = computed(() => 
+  availableLocales.find(lang => lang.code === currentLocale.value)
+)
+
+function changeLanguage(langCode: string): void {
+  setLocale(langCode)
+  isOpen.value = false
+}
+</script>
+
 <template>
   <div class="relative" v-if="availableLocales.length > 1">
     <button
@@ -68,23 +88,3 @@
     ></div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { availableLocales, setLocale } from '../locales'
-
-const { locale } = useI18n()
-const isOpen = ref(false)
-
-const currentLocale = computed(() => locale.value)
-
-const currentLanguage = computed(() => 
-  availableLocales.find(lang => lang.code === currentLocale.value)
-)
-
-function changeLanguage(langCode: string): void {
-  setLocale(langCode)
-  isOpen.value = false
-}
-</script>

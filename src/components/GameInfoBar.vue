@@ -1,3 +1,21 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+defineProps<{
+  modeName: string
+  turnCount: number
+}>()
+
+defineEmits<{
+  'open-tools': []
+  'next-turn': []
+  'reset': []
+  'end': []
+}>()
+</script>
+
 <template>
   <div class="card p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
     <div class="flex items-center gap-3 w-full">
@@ -29,21 +47,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
-
-defineProps<{
-  modeName: string
-  turnCount: number
-}>()
-
-defineEmits<{
-  'open-tools': []
-  'next-turn': []
-  'reset': []
-  'end': []
-}>()
-</script>

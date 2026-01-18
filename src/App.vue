@@ -1,3 +1,29 @@
+<script setup lang="ts">
+import { watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useTitle } from '@vueuse/core'
+import { useThemeSystem } from './composables/useTheme'
+import ThemeSelector from './components/ThemeSelector.vue'
+import LanguageSelector from './components/LanguageSelector.vue'
+import BackgroundMusicPlayer from './components/BackgroundMusicPlayer.vue'
+
+const { t } = useI18n()
+
+// Theme - only need initTheme at app level
+const { initTheme } = useThemeSystem()
+
+// Initialize theme system
+onMounted(() => {
+  initTheme()
+})
+
+// Set page title with translations
+const pageTitle = useTitle()
+watch(() => t('app.title'), (newTitle) => {
+  pageTitle.value = newTitle
+}, { immediate: true })
+</script>
+
 <template>
   <div class="min-h-screen p-4 sm:p-6 space-y-6 bg-themed">
     <!-- Header -->
@@ -43,29 +69,3 @@
     <BackgroundMusicPlayer />
   </div>
 </template>
-
-<script setup lang="ts">
-import { watch, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useTitle } from '@vueuse/core'
-import { useThemeSystem } from './composables/useTheme'
-import ThemeSelector from './components/ThemeSelector.vue'
-import LanguageSelector from './components/LanguageSelector.vue'
-import BackgroundMusicPlayer from './components/BackgroundMusicPlayer.vue'
-
-const { t } = useI18n()
-
-// Theme - only need initTheme at app level
-const { initTheme } = useThemeSystem()
-
-// Initialize theme system
-onMounted(() => {
-  initTheme()
-})
-
-// Set page title with translations
-const pageTitle = useTitle()
-watch(() => t('app.title'), (newTitle) => {
-  pageTitle.value = newTitle
-}, { immediate: true })
-</script>

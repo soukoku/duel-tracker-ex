@@ -1,3 +1,42 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+defineProps<{
+  show: boolean
+}>()
+
+const emit = defineEmits<{
+  adjust: [amount: number]
+  set: [value: number]
+}>()
+
+const amount = ref<number | null>(null)
+
+function handleSubtract(): void {
+  if (amount.value) {
+    emit('adjust', -amount.value)
+    amount.value = null
+  }
+}
+
+function handleAdd(): void {
+  if (amount.value) {
+    emit('adjust', amount.value)
+    amount.value = null
+  }
+}
+
+function handleSet(): void {
+  if (amount.value !== null) {
+    emit('set', amount.value)
+    amount.value = null
+  }
+}
+</script>
+
 <template>
   <transition
     enter-active-class="transition-all duration-300 ease-out"
@@ -43,42 +82,3 @@
     </div>
   </transition>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
-
-defineProps<{
-  show: boolean
-}>()
-
-const emit = defineEmits<{
-  adjust: [amount: number]
-  set: [value: number]
-}>()
-
-const amount = ref<number | null>(null)
-
-function handleSubtract(): void {
-  if (amount.value) {
-    emit('adjust', -amount.value)
-    amount.value = null
-  }
-}
-
-function handleAdd(): void {
-  if (amount.value) {
-    emit('adjust', amount.value)
-    amount.value = null
-  }
-}
-
-function handleSet(): void {
-  if (amount.value !== null) {
-    emit('set', amount.value)
-    amount.value = null
-  }
-}
-</script>

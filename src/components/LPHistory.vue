@@ -1,3 +1,21 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import type { HistoryEntry } from '../composables/useGame'
+
+const { t } = useI18n()
+
+const props = defineProps<{
+  history: HistoryEntry[]
+}>()
+
+const showHistory = ref(false)
+
+const reversedHistory = computed((): HistoryEntry[] => {
+  return [...props.history].reverse()
+})
+</script>
+
 <template>
   <div>
     <button 
@@ -36,21 +54,3 @@
     </transition>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import type { HistoryEntry } from '../composables/useGame'
-
-const { t } = useI18n()
-
-const props = defineProps<{
-  history: HistoryEntry[]
-}>()
-
-const showHistory = ref(false)
-
-const reversedHistory = computed((): HistoryEntry[] => {
-  return [...props.history].reverse()
-})
-</script>

@@ -1,3 +1,77 @@
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { GAME_MODES, type GameMode, type CustomSettings, getSavedGameKeys } from '../composables/useGame'
+
+const { t } = useI18n()
+const router = useRouter()
+
+// Game modes
+const gameModes = Object.values(GAME_MODES)
+
+// Selected mode tracking
+const selectedModeId = ref<string | null>(null)
+
+// Custom settings state
+const customSettings = ref<CustomSettings>({
+  startingLP: 8000,
+  playerCount: 2,
+  useTeams: false,
+})
+
+// Get saved games
+const savedGames = computed(() => getSavedGameKeys())
+
+function selectGameMode(mode: GameMode): void {
+  if (mode.id === 'custom') {
+    selectedModeId.value = mode.id
+  } else {
+    router.push({ name: 'game', params: { modeId: mode.id } })
+  }
+}
+
+function startCustomGame(): void {
+  // Pass custom settings via router state
+  router.push({ 
+    name: 'game', 
+    params: { modeId: 'custom' },
+    state: { customSettings: customSettings.value }
+  })
+}
+
+function hasSavedGame(modeId: string): boolean {
+  return savedGames.value.includes(modeId)
+}
+
+function getModeIcon(modeId: string): string {
+  const icons: Record<string, string> = {
+    standard_1v1: '⚔️',
+    speed_1v1: '⚡',
+    tag_2v2: '👥',
+    tag_2v2_speed: '🏃',
+    custom: '⚙️',
+  }
+  return icons[modeId] || '🎮'
+}
+
+function getModeName(modeId: string): string {
+  const modeKey = modeId === 'standard_1v1' ? 'standard' : 
+                  modeId === 'speed_1v1' ? 'speed' :
+                  modeId.startsWith('tag_') ? 'tag' : 
+                  'custom'
+  return t(`modes.${modeKey}.name`)
+}
+
+function getModeDescription(modeId: string): string {
+  const modeKey = modeId === 'standard_1v1' ? 'standard' : 
+                  modeId === 'speed_1v1' ? 'speed' :
+                  modeId.startsWith('tag_') ? 'tag' : 
+                  'custom'
+  return t(`modes.${modeKey}.description`)
+}
+</script>
+
 <template>
   <div class="space-y-6">
     <div class="card p-4 sm:p-6">
@@ -107,77 +181,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import { GAME_MODES, type GameMode, type CustomSettings, getSavedGameKeys } from '../composables/useGame'
-
-const { t } = useI18n()
-const router = useRouter()
-
-// Game modes
-const gameModes = Object.values(GAME_MODES)
-
-// Selected mode tracking
-const selectedModeId = ref<string | null>(null)
-
-// Custom settings state
-const customSettings = ref<CustomSettings>({
-  startingLP: 8000,
-  playerCount: 2,
-  useTeams: false,
-})
-
-// Get saved games
-const savedGames = computed(() => getSavedGameKeys())
-
-function selectGameMode(mode: GameMode): void {
-  if (mode.id === 'custom') {
-    selectedModeId.value = mode.id
-  } else {
-    router.push({ name: 'game', params: { modeId: mode.id } })
-  }
-}
-
-function startCustomGame(): void {
-  // Pass custom settings via router state
-  router.push({ 
-    name: 'game', 
-    params: { modeId: 'custom' },
-    state: { customSettings: customSettings.value }
-  })
-}
-
-function hasSavedGame(modeId: string): boolean {
-  return savedGames.value.includes(modeId)
-}
-
-function getModeIcon(modeId: string): string {
-  const icons: Record<string, string> = {
-    standard_1v1: '⚔️',
-    speed_1v1: '⚡',
-    tag_2v2: '👥',
-    tag_2v2_speed: '🏃',
-    custom: '⚙️',
-  }
-  return icons[modeId] || '🎮'
-}
-
-function getModeName(modeId: string): string {
-  const modeKey = modeId === 'standard_1v1' ? 'standard' : 
-                  modeId === 'speed_1v1' ? 'speed' :
-                  modeId.startsWith('tag_') ? 'tag' : 
-                  'custom'
-  return t(`modes.${modeKey}.name`)
-}
-
-function getModeDescription(modeId: string): string {
-  const modeKey = modeId === 'standard_1v1' ? 'standard' : 
-                  modeId === 'speed_1v1' ? 'speed' :
-                  modeId.startsWith('tag_') ? 'tag' : 
-                  'custom'
-  return t(`modes.${modeKey}.description`)
-}
-</script>

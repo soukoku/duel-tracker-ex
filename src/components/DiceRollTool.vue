@@ -1,3 +1,97 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import DiceFace from './DiceFace.vue'
+
+const { t } = useI18n()
+
+export interface DiceRollResult {
+  type: 'dice'
+  results: number[]
+  turn: number
+  timestamp: string
+}
+
+const props = defineProps<{
+  currentTurn: number
+}>()
+
+const emit = defineEmits<{
+  result: [entry: DiceRollResult]
+}>()
+
+const maxDice = 6
+const diceSides = 6
+const revealDelay = 400
+
+// Sound effect
+const diceSfx = ref<HTMLAudioElement | null>(null)
+
+onMounted(() => {
+  diceSfx.value = new Audio('/assets/sfx/dice.ogg')
+})
+
+function playDiceSound(): void {
+  if (diceSfx.value) {
+    diceSfx.value.currentTime = 0
+    diceSfx.value.play().catch(() => {})
+  }
+}
+
+// State
+const diceCount = ref(1)
+const diceResults = ref<number[]>([])
+const visibleDiceResults = ref<number[]>([])
+const isRolling = ref(false)
+
+// Cryptographically secure random
+function cryptoRandomInt(max: number): number {
+  const array = new Uint32Array(1)
+  crypto.getRandomValues(array)
+  const maxValid = Math.floor(0xFFFFFFFF / max) * max
+  let value = array[0]!
+  while (value >= maxValid) {
+    crypto.getRandomValues(array)
+    value = array[0]!
+  }
+  return value % max
+}
+
+async function rollDice(): Promise<void> {
+  isRolling.value = true
+  diceResults.value = []
+  visibleDiceResults.value = []
+  
+  // Initial animation delay
+  await new Promise(resolve => setTimeout(resolve, 500))
+  
+  // Generate results
+  const results: number[] = []
+  for (let i = 0; i < diceCount.value; i++) {
+    results.push(cryptoRandomInt(diceSides) + 1)
+  }
+  
+  diceResults.value = results
+  isRolling.value = false
+  
+  // Reveal one by one
+  for (let i = 0; i < results.length; i++) {
+    await new Promise(resolve => setTimeout(resolve, revealDelay))
+    playDiceSound()
+    visibleDiceResults.value = results.slice(0, i + 1)
+  }
+  
+  // Emit result
+  const entry: DiceRollResult = {
+    type: 'dice',
+    results: results,
+    turn: props.currentTurn,
+    timestamp: new Date().toISOString(),
+  }
+  emit('result', entry)
+}
+</script>
+
 <template>
   <div class="space-y-4">
     <div class="text-center">
@@ -109,100 +203,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
-import DiceFace from './DiceFace.vue'
-
-const { t } = useI18n()
-
-export interface DiceRollResult {
-  type: 'dice'
-  results: number[]
-  turn: number
-  timestamp: string
-}
-
-const props = defineProps<{
-  currentTurn: number
-}>()
-
-const emit = defineEmits<{
-  result: [entry: DiceRollResult]
-}>()
-
-const maxDice = 6
-const diceSides = 6
-const revealDelay = 400
-
-// Sound effect
-const diceSfx = ref<HTMLAudioElement | null>(null)
-
-onMounted(() => {
-  diceSfx.value = new Audio('/assets/sfx/dice.ogg')
-})
-
-function playDiceSound(): void {
-  if (diceSfx.value) {
-    diceSfx.value.currentTime = 0
-    diceSfx.value.play().catch(() => {})
-  }
-}
-
-// State
-const diceCount = ref(1)
-const diceResults = ref<number[]>([])
-const visibleDiceResults = ref<number[]>([])
-const isRolling = ref(false)
-
-// Cryptographically secure random
-function cryptoRandomInt(max: number): number {
-  const array = new Uint32Array(1)
-  crypto.getRandomValues(array)
-  const maxValid = Math.floor(0xFFFFFFFF / max) * max
-  let value = array[0]!
-  while (value >= maxValid) {
-    crypto.getRandomValues(array)
-    value = array[0]!
-  }
-  return value % max
-}
-
-async function rollDice(): Promise<void> {
-  isRolling.value = true
-  diceResults.value = []
-  visibleDiceResults.value = []
-  
-  // Initial animation delay
-  await new Promise(resolve => setTimeout(resolve, 500))
-  
-  // Generate results
-  const results: number[] = []
-  for (let i = 0; i < diceCount.value; i++) {
-    results.push(cryptoRandomInt(diceSides) + 1)
-  }
-  
-  diceResults.value = results
-  isRolling.value = false
-  
-  // Reveal one by one
-  for (let i = 0; i < results.length; i++) {
-    await new Promise(resolve => setTimeout(resolve, revealDelay))
-    playDiceSound()
-    visibleDiceResults.value = results.slice(0, i + 1)
-  }
-  
-  // Emit result
-  const entry: DiceRollResult = {
-    type: 'dice',
-    results: results,
-    turn: props.currentTurn,
-    timestamp: new Date().toISOString(),
-  }
-  emit('result', entry)
-}
-</script>
 
 <style scoped>
 .dice-visual {

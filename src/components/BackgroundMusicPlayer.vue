@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+import { useBackgroundMusic } from '../composables/useBackgroundMusic'
+
+const { t } = useI18n()
+
+const {
+  currentTrackIndex,
+  tracks,
+  embedUrl,
+  isMinimized,
+  selectTrack,
+  toggleMinimized
+} = useBackgroundMusic()
+</script>
+
 <template>
   <div class="fixed bottom-4 right-4 z-50">
     <!-- Minimized View -->
@@ -59,19 +75,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-import { useBackgroundMusic } from '../composables/useBackgroundMusic'
-
-const { t } = useI18n()
-
-const {
-  currentTrackIndex,
-  tracks,
-  embedUrl,
-  isMinimized,
-  selectTrack,
-  toggleMinimized
-} = useBackgroundMusic()
-</script>

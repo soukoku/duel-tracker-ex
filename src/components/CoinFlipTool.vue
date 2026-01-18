@@ -1,3 +1,90 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import CoinFace from './CoinFace.vue'
+
+const { t } = useI18n()
+
+export interface CoinFlipResult {
+  type: 'coin'
+  results: ('heads' | 'tails')[]
+  turn: number
+  timestamp: string
+}
+
+const props = defineProps<{
+  currentTurn: number
+}>()
+
+const emit = defineEmits<{
+  result: [entry: CoinFlipResult]
+}>()
+
+const maxCoins = 3
+const revealDelay = 400
+
+// Sound effect
+const coinSfx = ref<HTMLAudioElement | null>(null)
+
+onMounted(() => {
+  coinSfx.value = new Audio('/assets/sfx/coin.ogg')
+})
+
+function playCoinSound(): void {
+  if (coinSfx.value) {
+    coinSfx.value.currentTime = 0
+    coinSfx.value.play().catch(() => {})
+  }
+}
+
+// State
+const coinCount = ref(1)
+const coinResults = ref<('heads' | 'tails')[]>([])
+const visibleCoinResults = ref<('heads' | 'tails')[]>([])
+const isFlipping = ref(false)
+
+// Cryptographically secure random
+function cryptoRandomBool(): boolean {
+  const array = new Uint8Array(1)
+  crypto.getRandomValues(array)
+  return array[0]! < 128
+}
+
+async function flipCoins(): Promise<void> {
+  isFlipping.value = true
+  coinResults.value = []
+  visibleCoinResults.value = []
+  
+  // Initial animation delay
+  await new Promise(resolve => setTimeout(resolve, 600))
+  
+  // Generate results
+  const results: ('heads' | 'tails')[] = []
+  for (let i = 0; i < coinCount.value; i++) {
+    results.push(cryptoRandomBool() ? 'heads' : 'tails')
+  }
+  
+  coinResults.value = results
+  isFlipping.value = false
+  
+  // Reveal one by one
+  for (let i = 0; i < results.length; i++) {
+    await new Promise(resolve => setTimeout(resolve, revealDelay))
+    playCoinSound()
+    visibleCoinResults.value = results.slice(0, i + 1)
+  }
+  
+  // Emit result
+  const entry: CoinFlipResult = {
+    type: 'coin',
+    results: results,
+    turn: props.currentTurn,
+    timestamp: new Date().toISOString(),
+  }
+  emit('result', entry)
+}
+</script>
+
 <template>
   <div class="space-y-4">
     <div class="text-center">
@@ -109,93 +196,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
-import CoinFace from './CoinFace.vue'
-
-const { t } = useI18n()
-
-export interface CoinFlipResult {
-  type: 'coin'
-  results: ('heads' | 'tails')[]
-  turn: number
-  timestamp: string
-}
-
-const props = defineProps<{
-  currentTurn: number
-}>()
-
-const emit = defineEmits<{
-  result: [entry: CoinFlipResult]
-}>()
-
-const maxCoins = 3
-const revealDelay = 400
-
-// Sound effect
-const coinSfx = ref<HTMLAudioElement | null>(null)
-
-onMounted(() => {
-  coinSfx.value = new Audio('/assets/sfx/coin.ogg')
-})
-
-function playCoinSound(): void {
-  if (coinSfx.value) {
-    coinSfx.value.currentTime = 0
-    coinSfx.value.play().catch(() => {})
-  }
-}
-
-// State
-const coinCount = ref(1)
-const coinResults = ref<('heads' | 'tails')[]>([])
-const visibleCoinResults = ref<('heads' | 'tails')[]>([])
-const isFlipping = ref(false)
-
-// Cryptographically secure random
-function cryptoRandomBool(): boolean {
-  const array = new Uint8Array(1)
-  crypto.getRandomValues(array)
-  return array[0]! < 128
-}
-
-async function flipCoins(): Promise<void> {
-  isFlipping.value = true
-  coinResults.value = []
-  visibleCoinResults.value = []
-  
-  // Initial animation delay
-  await new Promise(resolve => setTimeout(resolve, 600))
-  
-  // Generate results
-  const results: ('heads' | 'tails')[] = []
-  for (let i = 0; i < coinCount.value; i++) {
-    results.push(cryptoRandomBool() ? 'heads' : 'tails')
-  }
-  
-  coinResults.value = results
-  isFlipping.value = false
-  
-  // Reveal one by one
-  for (let i = 0; i < results.length; i++) {
-    await new Promise(resolve => setTimeout(resolve, revealDelay))
-    playCoinSound()
-    visibleCoinResults.value = results.slice(0, i + 1)
-  }
-  
-  // Emit result
-  const entry: CoinFlipResult = {
-    type: 'coin',
-    results: results,
-    turn: props.currentTurn,
-    timestamp: new Date().toISOString(),
-  }
-  emit('result', entry)
-}
-</script>
 
 <style scoped>
 .coin-visual {

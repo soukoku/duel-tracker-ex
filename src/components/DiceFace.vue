@@ -1,3 +1,9 @@
+<script setup lang="ts">
+defineProps<{
+  value: number
+}>()
+</script>
+
 <template>
   <svg viewBox="0 0 50 50" class="w-full h-full dice-face">
     <!-- Dice body -->
@@ -50,12 +56,6 @@
     </template>
   </svg>
 </template>
-
-<script setup lang="ts">
-defineProps<{
-  value: number
-}>()
-</script>
 
 <style scoped>
 .dice-face {
