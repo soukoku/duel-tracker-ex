@@ -16,13 +16,11 @@ App.vue (Root Layout)
     │
     └── GamePage.vue (Route: /game/:modeId)
         ├── useGame composable (per-route state)
-        ├── GameBoard.vue
-        │   ├── GameInfoBar.vue
-        │   └── PlayerCard.vue
-        │       ├── LPDisplay.vue
-        │       ├── QuickAdjustButtons.vue
-        │       ├── LPCalculator.vue
-        │       └── LPHistory.vue
+        ├── GameInfoBar.vue
+        ├── PlayerCard.vue
+        │   ├── LPDisplay.vue
+        │   ├── LPAdjuster.vue (combines quick buttons + calculator)
+        │   └── LPHistory.vue
         └── GameToolsDialog.vue
             ├── CoinFlipTool.vue
             │   └── CoinFace.vue

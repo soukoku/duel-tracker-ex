@@ -3,7 +3,8 @@ import { ref, provide, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import GameToolsDialog from '../components/GameToolsDialog.vue'
-import GameBoard from '../components/GameBoard.vue'
+import PlayerCard from '../components/PlayerCard.vue'
+import GameInfoBar from '../components/GameInfoBar.vue'
 import { useGameState, GAME_MODES, type GameMode, GAME_ACTIONS_KEY } from '../composables/useGame'
 
 const props = defineProps<{
@@ -12,6 +13,15 @@ const props = defineProps<{
 
 const { t } = useI18n()
 const router = useRouter()
+
+function getModeName(mode: GameMode | null): string {
+  if (!mode) return 'Game'
+  const modeKey = mode.id === 'standard_1v1' ? 'standard' : 
+                  mode.id === 'speed_1v1' ? 'speed' :
+                  mode.id.startsWith('tag_') ? 'tag' : 
+                  'custom'
+  return t(`modes.${modeKey}.name`)
+}
 
 // Find the game mode
 const mode = Object.values(GAME_MODES).find(m => m.id === props.modeId)
@@ -93,20 +103,90 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- Game Board -->
-  <GameBoard
-    :game-mode="gameMode"
-    :players="players"
-    :turn-count="turnCount"
-    :game-ended="gameEnded"
-    :winner="winner"
-    :is-team-game="isTeamGame"
-    :teams="teams"
-    @open-tools="showToolsDialog = true"
-    @next-turn="nextTurn"
-    @reset-game="resetGame"
-    @end-game="endGame"
-  />
+  <div class="space-y-4">
+    <!-- Game Info Bar -->
+    <GameInfoBar
+      :mode-name="getModeName(gameMode)"
+      :turn-count="turnCount"
+      @open-tools="showToolsDialog = true"
+      @next-turn="nextTurn"
+      @reset="resetGame"
+      @end="endGame"
+    />
+
+    <!-- Winner Announcement -->
+    <transition
+      enter-active-class="transition-all duration-500 ease-out"
+      enter-from-class="opacity-0 scale-95"
+      enter-to-class="opacity-100 scale-100"
+    >
+      <div 
+        v-if="gameEnded && winner" 
+        class="card p-6 text-center gradient-primary text-white"
+      >
+        <div class="text-4xl mb-2">🏆</div>
+        <h2 class="text-2xl font-bold">{{ t('game.winner', { name: winner.name }) }}</h2>
+        <p class="text-sm opacity-75 mt-1">{{ t('game.endedOnTurn', { turn: turnCount }) }}</p>
+        <div class="flex justify-center gap-3 mt-4">
+          <button @click="resetGame" class="btn bg-white text-gray-900 hover:bg-gray-100">
+            {{ t('actions.rematch') }}
+          </button>
+          <button @click="endGame" class="btn btn-secondary">
+            {{ t('actions.newGame') }}
+          </button>
+        </div>
+      </div>
+    </transition>
+
+    <!-- Team Display (for 2v2) -->
+    <div v-if="isTeamGame && teams" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="space-y-4">
+        <div class="card p-3 border-l-4 border-player-1" style="background-color: var(--color-bg-secondary);">
+          <h3 class="font-bold player-1 text-center">
+            {{ t('player.team', { n: 1 }) }} - {{ t('player.totalLP', { lp: teams.team1.totalLP.toLocaleString() }) }}
+          </h3>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <PlayerCard
+            v-for="(player, index) in teams.team1.players"
+            :key="player.id"
+            :player="player"
+            :player-index="index"
+          />
+        </div>
+      </div>
+      
+      <div class="space-y-4">
+        <div class="card p-3 border-l-4 border-player-2" style="background-color: var(--color-bg-secondary);">
+          <h3 class="font-bold player-2 text-center">
+            {{ t('player.team', { n: 2 }) }} - {{ t('player.totalLP', { lp: teams.team2.totalLP.toLocaleString() }) }}
+          </h3>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <PlayerCard
+            v-for="(player, index) in teams.team2.players"
+            :key="player.id"
+            :player="player"
+            :player-index="index + 2"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Standard Player Display (for 1v1) -->
+    <div 
+      v-else 
+      class="grid gap-4"
+      :class="players.length === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'"
+    >
+      <PlayerCard
+        v-for="(player, index) in players"
+        :key="player.id"
+        :player="player"
+        :player-index="index"
+      />
+    </div>
+  </div>
 
   <!-- Game Tools Dialog -->
   <GameToolsDialog
