@@ -1,8 +1,7 @@
 {
   "app": {
     "title": "Duel Tracker",
-    "subtitle": "Yu-Gi-Oh! Life Point Counter",
-    "footer": "Track your duels with ease"
+    "subtitle": "Yu-Gi-Oh! Life Point Counter"
   },
   "player": {
     "name": "Player {n}",

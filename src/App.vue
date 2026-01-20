@@ -42,18 +42,6 @@ watch(() => t('app.title'), (newTitle) => {
       </div>
 
       <div class="flex items-center gap-2">
-        <LanguageSelector />
-        <ThemeSelector />
-      </div>
-    </header>
-
-    <!-- Route Content -->
-    <RouterView />
-
-    <!-- Footer -->
-    <footer class="text-center text-sm text-themed-muted pt-4">
-      <div class="flex items-center justify-center gap-2">
-        <p>{{ t('app.footer') }}</p>
         <a href="https://github.com/soukoku/duel-tracker-ex" target="_blank" rel="noopener noreferrer"
           class="inline-flex items-center text-themed-muted hover:text-themed transition-colors" title="View on GitHub">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -62,8 +50,13 @@ watch(() => t('app.title'), (newTitle) => {
               clip-rule="evenodd" />
           </svg>
         </a>
+        <LanguageSelector />
+        <ThemeSelector />
       </div>
-    </footer>
+    </header>
+
+    <!-- Route Content -->
+    <RouterView />
 
     <!-- Background Music Player -->
     <BackgroundMusicPlayer />

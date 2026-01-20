@@ -1,8 +1,7 @@
 {
   "app": {
     "title": "决斗追踪器",
-    "subtitle": "游戏王生命值计数器",
-    "footer": "轻松追踪你的决斗"
+    "subtitle": "游戏王生命值计数器"
   },
   "player": {
     "name": "玩家 {n}",
