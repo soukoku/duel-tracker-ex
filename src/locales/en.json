@@ -32,11 +32,11 @@
     },
     "tag_2v2": {
       "name": "Tag Duel 2v2",
-      "description": "8000 LP per team"
+      "description": "8000 LP per player"
     },
     "tag_2v2_speed": {
       "name": "Speed Tag 2v2",
-      "description": "4000 LP per team"
+      "description": "4000 LP per player"
     },
     "custom": {
       "name": "Custom Game",

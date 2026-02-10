@@ -83,7 +83,7 @@ export const GAME_MODES: Record<string, GameMode> = {
   TAG_2V2: {
     id: 'tag_2v2',
     name: 'Tag Duel 2v2',
-    description: '8000 LP per team',
+    description: '8000 LP per player',
     startingLP: 8000,
     playerCount: 4,
     teams: 2,
@@ -91,7 +91,7 @@ export const GAME_MODES: Record<string, GameMode> = {
   TAG_2V2_SPEED: {
     id: 'tag_2v2_speed',
     name: 'Speed Tag 2v2',
-    description: '4000 LP per team',
+    description: '4000 LP per player',
     startingLP: 4000,
     playerCount: 4,
     teams: 2,

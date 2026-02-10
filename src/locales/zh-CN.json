@@ -32,11 +32,11 @@
     },
     "tag_2v2": {
       "name": "双打决斗 2v2",
-      "description": "每队 8000 LP"
+      "description": "每人 8000 LP"
     },
     "tag_2v2_speed": {
       "name": "速度双打 2v2",
-      "description": "每队 4000 LP"
+      "description": "每人 4000 LP"
     },
     "custom": {
       "name": "自定义游戏",
