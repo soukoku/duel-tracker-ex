@@ -22,21 +22,25 @@
     "savedProgress": "Saved Progress"
   },
   "modes": {
-    "standard": {
-      "name": "Standard Duel",
-      "description": "Classic 1v1 duel with 8000 LP"
+    "standard_1v1": {
+      "name": "Standard 1v1",
+      "description": "8000 LP - Classic Format"
     },
-    "speed": {
-      "name": "Speed Duel",
-      "description": "Fast-paced duel with 4000 LP"
+    "speed_1v1": {
+      "name": "Speed Duel 1v1",
+      "description": "4000 LP - Speed Format"
     },
-    "tag": {
-      "name": "Tag Duel",
-      "description": "2v2 team battle with 8000 LP each"
+    "tag_2v2": {
+      "name": "Tag Duel 2v2",
+      "description": "8000 LP per team"
+    },
+    "tag_2v2_speed": {
+      "name": "Speed Tag 2v2",
+      "description": "4000 LP per team"
     },
     "custom": {
       "name": "Custom Game",
-      "description": "Create your own rules"
+      "description": "Set your own rules"
     }
   },
   "settings": {

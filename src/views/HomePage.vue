@@ -60,19 +60,11 @@ function getModeIcon(modeId: string): string {
 }
 
 function getModeName(modeId: string): string {
-  const modeKey = modeId === 'standard_1v1' ? 'standard' :
-    modeId === 'speed_1v1' ? 'speed' :
-      modeId.startsWith('tag_') ? 'tag' :
-        'custom'
-  return t(`modes.${modeKey}.name`)
+  return t(`modes.${modeId}.name`)
 }
 
 function getModeDescription(modeId: string): string {
-  const modeKey = modeId === 'standard_1v1' ? 'standard' :
-    modeId === 'speed_1v1' ? 'speed' :
-      modeId.startsWith('tag_') ? 'tag' :
-        'custom'
-  return t(`modes.${modeKey}.description`)
+  return t(`modes.${modeId}.description`)
 }
 </script>
 

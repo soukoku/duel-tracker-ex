@@ -22,21 +22,25 @@
     "savedProgress": "已儲存進度"
   },
   "modes": {
-    "standard": {
-      "name": "標準決鬥",
-      "description": "經典1v1決鬥，8000 LP"
+    "standard_1v1": {
+      "name": "標準決鬥 1v1",
+      "description": "8000 LP - 經典賽制"
     },
-    "speed": {
-      "name": "速度決鬥",
-      "description": "快節奏決鬥，4000 LP"
+    "speed_1v1": {
+      "name": "速度決鬥 1v1",
+      "description": "4000 LP - 速度賽制"
     },
-    "tag": {
-      "name": "雙打決鬥",
-      "description": "2v2團隊戰，每人8000 LP"
+    "tag_2v2": {
+      "name": "雙打決鬥 2v2",
+      "description": "每隊 8000 LP"
+    },
+    "tag_2v2_speed": {
+      "name": "速度雙打 2v2",
+      "description": "每隊 4000 LP"
     },
     "custom": {
       "name": "自訂遊戲",
-      "description": "創建自己的規則"
+      "description": "設定自己的規則"
     }
   },
   "settings": {

@@ -16,11 +16,7 @@ const router = useRouter()
 
 function getModeName(mode: GameMode | null): string {
   if (!mode) return 'Game'
-  const modeKey = mode.id === 'standard_1v1' ? 'standard' :
-    mode.id === 'speed_1v1' ? 'speed' :
-      mode.id.startsWith('tag_') ? 'tag' :
-        'custom'
-  return t(`modes.${modeKey}.name`)
+  return t(`modes.${mode.id}.name`)
 }
 
 // Find the game mode
